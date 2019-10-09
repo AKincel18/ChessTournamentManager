@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Chess Tournament Manager</string>
+    <string name="availablePlayersTextView">Dostępni zawodnicy</string>
+    <string name="chosenPlayersTextView">Wybrani zawodnicy</string>
+    <string name="addPlayerButton">Dodaj zawodnika</string>
+    <string name="moveToChosenPlayersButton"><![CDATA[->]]></string>
+    <string name="moveToAvailablePlayersButton"><![CDATA[<-]]></string>
+    <string name="drawButton">Rozpocznij turniej</string>
+    <string name="checked_text_view_example">Checked Text View Example</string>
+</resources>

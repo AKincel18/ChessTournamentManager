@@ -1,5 +1,7 @@
 package com.example.adam.chesstournamentmanager;
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
-import staticdata.Warnings;
+import staticdata.Constans;
 
 public class CreateTournament extends AppCompatActivity {
 
@@ -29,12 +31,20 @@ public class CreateTournament extends AppCompatActivity {
         setContentView(R.layout.activity_create_tournament);
         chosenPlayerListView = findViewById(R.id.chosenPlayersList);
         allPlayersListView = findViewById(R.id.playersList);
-        allPlayers.add("Robert Lewandowski");
+        allPlayers.add("Robert Lewandowski"); //TODO change to data from database
         allPlayers.add("Arkadiusz Milik");
         allPlayers.add("Krzysztof Piatek");
         allPlayers.add("Dawid Kownacki");
         initListView(allPlayersListView, allPlayers, selectedAvailablePlayers);
         initListView(chosenPlayerListView, chosenPlayers, selectedChosenPlayers);
+
+        Intent i = getIntent();
+        if (i.getStringExtra("data") !=  null){
+            allPlayers.add(i.getStringExtra("data"));
+            Toast.makeText(this, Constans.ADDED_NEW_PLAYER, Toast.LENGTH_LONG).show(); //TODO string from string.xml (not easy, maybe not possible :/)
+        }
+
+
 
     }
 
@@ -49,7 +59,7 @@ public class CreateTournament extends AppCompatActivity {
 
     private void movement(ArrayList<String> add, ArrayList<String> remove, ArrayList<String> selected){
         if (selected.isEmpty())
-            Toast.makeText(this, Warnings.NOTHING_SELECTED, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, Constans.NOTHING_SELECTED, Toast.LENGTH_LONG).show();
         else {
             add.addAll(selected);
             remove.removeAll(selected);
@@ -79,5 +89,10 @@ public class CreateTournament extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void addNewPlayer(View view){
+        Intent i = new Intent(getApplicationContext(), AddNewPlayer.class);
+        startActivity(i);
     }
 }

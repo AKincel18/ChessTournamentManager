@@ -7,4 +7,10 @@
     <string name="moveToAvailablePlayersButton"><![CDATA[<-]]></string>
     <string name="drawButton">Rozpocznij turniej</string>
     <string name="checked_text_view_example">Checked Text View Example</string>
+    <string name="nameTextView">Imię</string>
+    <string name="surnameTextView">Nazwisko</string>
+    <string name="dateOfBirthTextView">Data urodzenia</string>
+    <string name="pickDateTextView">Wprowadź datę</string>
+    <string name="confirmNewPlayerButton">Zatwierdź</string>
+    <string name="closeButton">Wyjdź</string>
 </resources>

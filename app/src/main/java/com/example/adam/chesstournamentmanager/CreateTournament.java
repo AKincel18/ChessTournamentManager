@@ -2,8 +2,10 @@ package com.example.adam.chesstournamentmanager;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+import database.DatabaseHelper;
 import staticdata.Constans;
 
 public class CreateTournament extends AppCompatActivity {
@@ -25,27 +28,40 @@ public class CreateTournament extends AppCompatActivity {
     ArrayList<String> allPlayers = new ArrayList<>();
     ArrayList<String> chosenPlayers = new ArrayList<>();
 
+    DatabaseHelper myDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_tournament);
         chosenPlayerListView = findViewById(R.id.chosenPlayersList);
         allPlayersListView = findViewById(R.id.playersList);
-        allPlayers.add("Robert Lewandowski"); //TODO change to data from database
-        allPlayers.add("Arkadiusz Milik");
-        allPlayers.add("Krzysztof Piatek");
-        allPlayers.add("Dawid Kownacki");
-        initListView(allPlayersListView, allPlayers, selectedAvailablePlayers);
-        initListView(chosenPlayerListView, chosenPlayers, selectedChosenPlayers);
+        myDb = new DatabaseHelper(this); //TODO no create new database instance after launch activity
+
+        initPlayers();
+
+
 
         Intent i = getIntent();
-        if (i.getStringExtra("data") !=  null){
-            allPlayers.add(i.getStringExtra("data"));
+        if (i.getStringArrayListExtra("allPlayers") !=  null){
+            allPlayers = i.getStringArrayListExtra("allPlayers");
             Toast.makeText(this, Constans.ADDED_NEW_PLAYER, Toast.LENGTH_LONG).show(); //TODO string from string.xml (not easy, maybe not possible :/)
         }
 
+        initListView(allPlayersListView, allPlayers, selectedAvailablePlayers); //TODO chosen player disappear after add new player from popup
+        initListView(chosenPlayerListView, chosenPlayers, selectedChosenPlayers);
 
+    }
 
+    private void initPlayers(){
+
+        Cursor result = myDb.getData();
+        while (result.moveToNext()){
+            StringBuffer name = new StringBuffer();
+            name.append(result.getString(1) + " ");
+            name.append(result.getString(2));
+            allPlayers.add(name.toString());
+        }
     }
 
     public void moveToChosenPlayers(View view){ //'->' button
@@ -93,6 +109,7 @@ public class CreateTournament extends AppCompatActivity {
 
     public void addNewPlayer(View view){
         Intent i = new Intent(getApplicationContext(), AddNewPlayer.class);
+        i.putExtra("allPlayers", allPlayers);
         startActivity(i);
     }
 }

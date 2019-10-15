@@ -11,9 +11,15 @@ import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.EventListener;
 import java.util.Locale;
 
+import database.DatabaseHelper;
 import staticdata.Constans;
 import staticdata.DialogBox;
 
@@ -21,6 +27,10 @@ public class AddNewPlayer extends FragmentActivity {
 
     private TextView pickDateTextView;
     private DatePickerDialog.OnDateSetListener dateSetListener;
+
+    private ArrayList<String> allPlayers;
+
+    DatabaseHelper myDb;
 
 
     @Override
@@ -41,6 +51,8 @@ public class AddNewPlayer extends FragmentActivity {
         params.y = 0;
 
         getWindow().setAttributes(params);
+
+        myDb = new DatabaseHelper(this);
 
         pickDateTextView = findViewById(R.id.pickDateTextView);
         Locale locale = new Locale("pl");
@@ -72,15 +84,29 @@ public class AddNewPlayer extends FragmentActivity {
             }
         };
 
+        Intent i = getIntent();
+        allPlayers = i.getStringArrayListExtra("allPlayers");
+
 
     }
 
     public void confirmNewPlayer(View view){
         EditText name =  findViewById(R.id.nameEditText);
         EditText surname = findViewById(R.id.surnameEditText);
+        TextView date = findViewById(R.id.pickDateTextView);
 
         Intent i = new Intent(this, CreateTournament.class);
-        i.putExtra("data", name.getText() + " " + surname.getText());
+        if (allPlayers == null)
+            allPlayers = new ArrayList<>();
+
+        allPlayers.add(name.getText() + " " + surname.getText());
+        boolean isInserted =  myDb.insertData(name.getText().toString(), surname.getText().toString(), 1.0, 2.0, date.getText().toString());
+        if (isInserted)
+            System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOK");
+        else
+            System.out.println("NIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+
+        i.putStringArrayListExtra("allPlayers", allPlayers);
         startActivity(i);
 
 

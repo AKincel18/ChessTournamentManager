@@ -1,4 +1,4 @@
-package com.example.adam.chesstournamentmanager;
+package com.example.adam.chesstournamentmanager.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -12,16 +12,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.EventListener;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 
-import database.DatabaseHelper;
-import staticdata.Constans;
-import staticdata.DialogBox;
+import com.example.adam.chesstournamentmanager.R;
+import com.example.adam.chesstournamentmanager.database.Database;
+import com.example.adam.chesstournamentmanager.model.Players;
+import com.example.adam.chesstournamentmanager.staticdata.Constans;
+import com.example.adam.chesstournamentmanager.staticdata.DialogBox;
 
 public class AddNewPlayer extends FragmentActivity {
 
@@ -30,7 +30,9 @@ public class AddNewPlayer extends FragmentActivity {
 
     private ArrayList<String> allPlayers;
 
-    DatabaseHelper myDb;
+    //DatabaseHelper myDb;
+
+    Database database;
 
 
     @Override
@@ -52,7 +54,8 @@ public class AddNewPlayer extends FragmentActivity {
 
         getWindow().setAttributes(params);
 
-        myDb = new DatabaseHelper(this);
+        //myDb = new DatabaseHelper(this);
+        database = Database.getInstance(this);
 
         pickDateTextView = findViewById(R.id.pickDateTextView);
         Locale locale = new Locale("pl");
@@ -91,8 +94,8 @@ public class AddNewPlayer extends FragmentActivity {
     }
 
     public void confirmNewPlayer(View view){
-        EditText name =  findViewById(R.id.nameEditText);
-        EditText surname = findViewById(R.id.surnameEditText);
+        final EditText name =  findViewById(R.id.nameEditText);
+        final EditText surname = findViewById(R.id.surnameEditText);
         TextView date = findViewById(R.id.pickDateTextView);
 
         Intent i = new Intent(this, CreateTournament.class);
@@ -100,11 +103,13 @@ public class AddNewPlayer extends FragmentActivity {
             allPlayers = new ArrayList<>();
 
         allPlayers.add(name.getText() + " " + surname.getText());
-        boolean isInserted =  myDb.insertData(name.getText().toString(), surname.getText().toString(), 1.0, 2.0, date.getText().toString());
-        if (isInserted)
-            System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOK");
-        else
-            System.out.println("NIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                database.playersDao().insertPlayer(new Players(name.getText().toString(), surname.getText().toString()));
+            }
+        });
 
         i.putStringArrayListExtra("allPlayers", allPlayers);
         startActivity(i);

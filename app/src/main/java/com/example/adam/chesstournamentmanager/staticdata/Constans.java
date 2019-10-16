@@ -1,4 +1,4 @@
-package staticdata;
+package com.example.adam.chesstournamentmanager.staticdata;
 
 public class Constans {
     public static String NOTHING_SELECTED = "Nie zaznaczono zawodnika";

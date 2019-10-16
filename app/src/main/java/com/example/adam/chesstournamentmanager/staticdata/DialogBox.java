@@ -1,4 +1,4 @@
-package staticdata;
+package com.example.adam.chesstournamentmanager.staticdata;
 
 
 import android.app.AlertDialog;
@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
 
-import com.example.adam.chesstournamentmanager.CreateTournament;
+import com.example.adam.chesstournamentmanager.activities.CreateTournament;
 import com.example.adam.chesstournamentmanager.R;
 
 public class DialogBox extends AppCompatDialogFragment {

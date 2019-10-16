@@ -1,11 +1,8 @@
-package com.example.adam.chesstournamentmanager;
+package com.example.adam.chesstournamentmanager.activities;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,9 +10,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
-import database.DatabaseHelper;
-import staticdata.Constans;
+import com.example.adam.chesstournamentmanager.R;
+import com.example.adam.chesstournamentmanager.database.Database;
+import com.example.adam.chesstournamentmanager.model.Players;
+import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
 public class CreateTournament extends AppCompatActivity {
 
@@ -28,7 +28,9 @@ public class CreateTournament extends AppCompatActivity {
     ArrayList<String> allPlayers = new ArrayList<>();
     ArrayList<String> chosenPlayers = new ArrayList<>();
 
-    DatabaseHelper myDb;
+    //DatabaseHelper myDb;
+
+    Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,8 @@ public class CreateTournament extends AppCompatActivity {
         setContentView(R.layout.activity_create_tournament);
         chosenPlayerListView = findViewById(R.id.chosenPlayersList);
         allPlayersListView = findViewById(R.id.playersList);
-        myDb = new DatabaseHelper(this); //TODO no create new database instance after launch activity
+        //myDb = new DatabaseHelper(this); //TODO no create new database instance after launch activity
+        database = Database.getInstance(this);
 
         initPlayers();
 
@@ -55,13 +58,13 @@ public class CreateTournament extends AppCompatActivity {
 
     private void initPlayers(){
 
-        Cursor result = myDb.getData();
-        while (result.moveToNext()){
-            StringBuffer name = new StringBuffer();
-            name.append(result.getString(1) + " ");
-            name.append(result.getString(2));
-            allPlayers.add(name.toString());
-        }
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                for (Players p : database.playersDao().getAllPlayers())
+                    allPlayers.add(p.getName() + " " + p.getSurname()); //TODO write two times to listview
+            }
+        });
     }
 
     public void moveToChosenPlayers(View view){ //'->' button

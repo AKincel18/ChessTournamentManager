@@ -19,61 +19,70 @@ import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
 public class CreateTournament extends AppCompatActivity {
 
-    ArrayList<String> selectedAvailablePlayers = new ArrayList<>();
-    ArrayList<String> selectedChosenPlayers = new ArrayList<>();
+    private ArrayList<String> selectedAvailablePlayers = new ArrayList<>();
+    private ArrayList<String> selectedChosenPlayers = new ArrayList<>();
 
-    ListView chosenPlayerListView;
-    ListView allPlayersListView;
+    private ListView chosenPlayerListView;
+    private ListView allPlayersListView;
 
-    ArrayList<String> allPlayers = new ArrayList<>();
-    ArrayList<String> chosenPlayers = new ArrayList<>();
+    private ArrayList<String> availablePlayers = new ArrayList<>();
+    static private ArrayList<String> chosenPlayers = new ArrayList<>();
 
-    //DatabaseHelper myDb;
+    static boolean isInitPlayers = true;
 
-    Database database;
+    private Database database;
 
+    //TODO code refator -> date, hardcode string, warnings -> informations
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_tournament);
         chosenPlayerListView = findViewById(R.id.chosenPlayersList);
         allPlayersListView = findViewById(R.id.playersList);
-        //myDb = new DatabaseHelper(this); //TODO no create new database instance after launch activity
+
         database = Database.getInstance(this);
 
-        initPlayers();
-
-
-
         Intent i = getIntent();
-        if (i.getStringArrayListExtra("allPlayers") !=  null){
-            allPlayers = i.getStringArrayListExtra("allPlayers");
+        if (i.getStringArrayListExtra("availablePlayers") !=  null){
+            availablePlayers = i.getStringArrayListExtra("availablePlayers");
             Toast.makeText(this, Constans.ADDED_NEW_PLAYER, Toast.LENGTH_LONG).show(); //TODO string from string.xml (not easy, maybe not possible :/)
         }
 
-        initListView(allPlayersListView, allPlayers, selectedAvailablePlayers); //TODO chosen player disappear after add new player from popup
+
         initListView(chosenPlayerListView, chosenPlayers, selectedChosenPlayers);
 
-    }
+        if (isInitPlayers)
+            initPlayers();
 
+        initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
+
+   }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        isInitPlayers = false;
+    }
     private void initPlayers(){
 
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
-                for (Players p : database.playersDao().getAllPlayers())
-                    allPlayers.add(p.getName() + " " + p.getSurname()); //TODO write two times to listview
+                for (Players p : database.playersDao().getAllPlayers()) {
+                    availablePlayers.add(p.getName() + " " + p.getSurname());
+                    System.out.println(p.getName() + " " + p.getSurname() + " " + p.getDateOfBirth());
+                }
             }
         });
     }
 
     public void moveToChosenPlayers(View view){ //'->' button
-        movement(chosenPlayers, allPlayers, selectedAvailablePlayers);
+        movement(chosenPlayers, availablePlayers, selectedAvailablePlayers);
     }
 
 
     public void moveToAvailablePlayers(View view){ //'<-' button
-        movement(allPlayers, chosenPlayers, selectedChosenPlayers);
+        movement(availablePlayers, chosenPlayers, selectedChosenPlayers);
     }
 
     private void movement(ArrayList<String> add, ArrayList<String> remove, ArrayList<String> selected){
@@ -84,7 +93,7 @@ public class CreateTournament extends AppCompatActivity {
             remove.removeAll(selected);
             selected.clear();
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simpleCheckedTextView, allPlayers);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simpleCheckedTextView, availablePlayers);
             allPlayersListView.setAdapter(adapter);
             adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simpleCheckedTextView, chosenPlayers);
             chosenPlayerListView.setAdapter(adapter);
@@ -112,7 +121,7 @@ public class CreateTournament extends AppCompatActivity {
 
     public void addNewPlayer(View view){
         Intent i = new Intent(getApplicationContext(), AddNewPlayer.class);
-        i.putExtra("allPlayers", allPlayers);
+        i.putExtra("availablePlayers", availablePlayers);
         startActivity(i);
     }
 }

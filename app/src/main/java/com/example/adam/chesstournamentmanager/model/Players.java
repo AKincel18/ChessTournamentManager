@@ -35,9 +35,10 @@ public class Players {
     public Players() {
     }
 
-    public Players(String name, String surname) {
+    public Players(String name, String surname, Date dateOfBirth) {
         this.name = name;
         this.surname = surname;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Players(String name, String surname, double polishRanking, double internationalRanking, Date dateOfBirth) {

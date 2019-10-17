@@ -12,8 +12,14 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 
@@ -30,9 +36,7 @@ public class AddNewPlayer extends FragmentActivity {
 
     private ArrayList<String> allPlayers;
 
-    //DatabaseHelper myDb;
-
-    Database database;
+    private Database database;
 
 
     @Override
@@ -54,12 +58,11 @@ public class AddNewPlayer extends FragmentActivity {
 
         getWindow().setAttributes(params);
 
-        //myDb = new DatabaseHelper(this);
         database = Database.getInstance(this);
 
         pickDateTextView = findViewById(R.id.pickDateTextView);
-        Locale locale = new Locale("pl");
-        Locale.setDefault(locale);
+/*        Locale locale = new Locale("pl");
+        Locale.setDefault(locale);*/
 
         pickDateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +91,9 @@ public class AddNewPlayer extends FragmentActivity {
         };
 
         Intent i = getIntent();
-        allPlayers = i.getStringArrayListExtra("allPlayers");
+        allPlayers = i.getStringArrayListExtra("availablePlayers");
+
+
 
 
     }
@@ -96,22 +101,32 @@ public class AddNewPlayer extends FragmentActivity {
     public void confirmNewPlayer(View view){
         final EditText name =  findViewById(R.id.nameEditText);
         final EditText surname = findViewById(R.id.surnameEditText);
-        TextView date = findViewById(R.id.pickDateTextView);
+        final TextView date = findViewById(R.id.pickDateTextView);
 
         Intent i = new Intent(this, CreateTournament.class);
         if (allPlayers == null)
             allPlayers = new ArrayList<>();
+
 
         allPlayers.add(name.getText() + " " + surname.getText());
 
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
-                database.playersDao().insertPlayer(new Players(name.getText().toString(), surname.getText().toString()));
+                DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                Date formatDate = new Date();
+                try {
+                    formatDate = format.parse(date.getText().toString());
+                }
+                catch (ParseException exc) {
+                    System.out.println("WRONG DATE");
+                }
+
+                database.playersDao().insertPlayer(new Players(name.getText().toString(), surname.getText().toString(), formatDate));
             }
         });
 
-        i.putStringArrayListExtra("allPlayers", allPlayers);
+        i.putStringArrayListExtra("availablePlayers", allPlayers);
         startActivity(i);
 
 

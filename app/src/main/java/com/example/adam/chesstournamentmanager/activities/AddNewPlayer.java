@@ -18,7 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Executors;
@@ -34,7 +33,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
     private TextView pickDateTextView;
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
-    private ArrayList<String> allPlayers;
+    private ArrayList<Players> allPlayers;
 
     private Database database;
 
@@ -93,7 +92,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
         };
 
         Intent i = getIntent();
-        allPlayers = i.getStringArrayListExtra("availablePlayers");
+        allPlayers = (ArrayList<Players>) i.getSerializableExtra("availablePlayers");
 
         //buttons
         confirmNewPlayer();
@@ -111,13 +110,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 final EditText surname = findViewById(R.id.surnameEditText);
                 final TextView date = findViewById(R.id.pickDateTextView);
 
-                Intent i = new Intent(getApplicationContext(), CreateTournament.class);
-                if (allPlayers == null)
-                    allPlayers = new ArrayList<>();
 
-
-                allPlayers.add(surname.getText() + " " + name.getText());
-                Collections.sort(allPlayers);
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy", new Locale("pl"));
 
                 formatDate = new Date();
@@ -132,15 +125,29 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
 
 
                 }
+                //TODO add rankings to popup and then to database
+                final Players players = new Players(
+                        name.getText().toString(),
+                        surname.getText().toString(),
+                        formatDate
+                        );
+
+
 
                 Executors.newSingleThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        database.playersDao().insertPlayer(new Players(name.getText().toString(), surname.getText().toString(), formatDate));
+                        database.playersDao().insertPlayer(players);
+
                     }
                 });
 
-                i.putStringArrayListExtra("availablePlayers", allPlayers);
+                Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+                if (allPlayers == null)
+                    allPlayers = new ArrayList<>();
+
+                allPlayers.add(players);
+                i.putExtra("availablePlayers", allPlayers);
                 startActivity(i);
             }
         });

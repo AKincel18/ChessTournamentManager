@@ -8,10 +8,11 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.example.adam.chesstournamentmanager.database.DateConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(tableName = "players")
-public class Players {
+public class Players implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
@@ -98,5 +99,10 @@ public class Players {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    @Override
+    public String toString() {
+        return surname + " " + name;
     }
 }

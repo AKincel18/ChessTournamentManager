@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -17,25 +16,25 @@ import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.database.Database;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
+import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 
-public class CreateTournament extends AppCompatActivity {
+public class CreateTournament extends AppCompatActivity implements GeneralDialogFragment.OnDialogFragmentClickListener {
 
-    private ArrayList<String> selectedAvailablePlayers = new ArrayList<>();
-    private ArrayList<String> selectedChosenPlayers = new ArrayList<>();
+    private ArrayList<Players> selectedAvailablePlayers = new ArrayList<>();
+    private ArrayList<Players> selectedChosenPlayers = new ArrayList<>();
 
     private ListView chosenPlayerListView;
     private ListView allPlayersListView;
 
-    static private ArrayList<String> availablePlayers = new ArrayList<>();
-    static private ArrayList<String> chosenPlayers = new ArrayList<>();
+    static private ArrayList<Players> availablePlayers = new ArrayList<>();
+    static private ArrayList<Players> chosenPlayers = new ArrayList<>();
 
     static boolean isInitPlayers = true;
 
     private Database database;
 
-    //TODO code refator -> date, hardcode string, warnings -> informations
+    //TODO -> not loading data in first launch application... :/
 
-    //TODO add activity "tournament rules"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +46,8 @@ public class CreateTournament extends AppCompatActivity {
         database = Database.getInstance(this);
 
         Intent i = getIntent();
-        if (i.getStringArrayListExtra("availablePlayers") !=  null){
-            availablePlayers = i.getStringArrayListExtra("availablePlayers");
+        if (i.getSerializableExtra("availablePlayers") !=  null){
+            availablePlayers =(ArrayList<Players>)i.getSerializableExtra("availablePlayers");
             Toast.makeText(this, Constans.ADDED_NEW_PLAYER, Toast.LENGTH_LONG).show(); //TODO string from string.xml (not easy, maybe not possible :/)
         }
 
@@ -64,6 +63,7 @@ public class CreateTournament extends AppCompatActivity {
         moveToChosenPlayers();
         moveToAvailablePlayers();
         addNewPlayer();
+        configureTournament();
 
 
    }
@@ -81,9 +81,7 @@ public class CreateTournament extends AppCompatActivity {
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
-                for (Players p : database.playersDao().getAllPlayers()) {
-                    availablePlayers.add(p.getSurname() + " " + p.getName());
-                }
+                availablePlayers.addAll(database.playersDao().getAllPlayers());
             }
         });
     }
@@ -110,7 +108,7 @@ public class CreateTournament extends AppCompatActivity {
         });
     }
 
-    private void movement(ArrayList<String> add, ArrayList<String> remove, ArrayList<String> selected){
+    private void movement(ArrayList<Players> add, ArrayList<Players> remove, ArrayList<Players> selected){
         if (selected.isEmpty())
             Toast.makeText(this, Constans.NOTHING_SELECTED, Toast.LENGTH_LONG).show();
         else {
@@ -118,23 +116,27 @@ public class CreateTournament extends AppCompatActivity {
             remove.removeAll(selected);
             selected.clear();
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simpleCheckedTextView, availablePlayers);
+            //ArrayList<String> fullName = playersToString(availablePlayers);
+            ArrayAdapter<Players> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simpleCheckedTextView, availablePlayers);
             allPlayersListView.setAdapter(adapter);
+
+            //fullName = playersToString(chosenPlayers);
             adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simpleCheckedTextView, chosenPlayers);
             chosenPlayerListView.setAdapter(adapter);
         }
     }
 
-    private void initListView(ListView listView, ArrayList<String> playersList, final ArrayList<String> selected){
+    private void initListView(ListView listView, ArrayList<Players> playersList, final ArrayList<Players> selected){
 
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simpleCheckedTextView, playersList);
+        ArrayAdapter<Players> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simpleCheckedTextView,playersList );
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedPlayer = ((TextView)view).getText().toString();
+                Players selectedPlayer = (Players) parent.getItemAtPosition(position);
+
                 if (selected.contains(selectedPlayer))
                     selected.remove(selectedPlayer); //uncheck player
                 else
@@ -144,7 +146,7 @@ public class CreateTournament extends AppCompatActivity {
 
     }
 
-    public void addNewPlayer(){
+    private void addNewPlayer(){
         Button addPlayerButton = findViewById(R.id.addPlayerButton);
         addPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,5 +156,39 @@ public class CreateTournament extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    private void configureTournament(){
+        Button configureTournamentButton = findViewById(R.id.configureTournamentButton);
+        configureTournamentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (chosenPlayers.size() % 2 == 0) {
+                    Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
+                    i.putExtra("players", chosenPlayers);
+                    startActivity(i);
+                }
+                else {
+                    GeneralDialogFragment dialog = GeneralDialogFragment.
+                            newInstance(Constans.TITLE_WARNING, Constans.ODD_NUMBER_PLAYERS, Constans.POSITIVE_BUTTON_WARNING);
+                    dialog.show(getSupportFragmentManager(), Constans.TITLE_WARNING);
+                }
+
+
+
+            }
+        });
+    }
+
+    @Override
+    public void onOkClicked(GeneralDialogFragment dialog) {
+        Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
+        i.putExtra("players", chosenPlayers);
+        startActivity(i);
+    }
+
+    @Override
+    public void onCancelClicked(GeneralDialogFragment dialog) {
+
     }
 }

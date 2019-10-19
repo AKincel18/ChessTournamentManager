@@ -7,7 +7,7 @@
     tools:context=".activities.CreateTournament">
 
     <Button
-        android:id="@+id/drawButton"
+        android:id="@+id/configureTournamentButton"
         android:layout_width="436dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"

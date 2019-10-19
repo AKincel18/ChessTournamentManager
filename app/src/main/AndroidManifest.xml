@@ -18,11 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AddNewPlayer"
+        <activity
+            android:name=".activities.AddNewPlayer"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.PopUp"
-
-            ></activity>
+            android:theme="@style/AppTheme.PopUp" />
+        <activity android:name=".activities.ConfigureTournament"></activity>
     </application>
 
 </manifest>

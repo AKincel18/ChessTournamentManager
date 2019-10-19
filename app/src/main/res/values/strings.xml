@@ -5,7 +5,7 @@
     <string name="addPlayerButton">Dodaj zawodnika</string>
     <string name="moveToChosenPlayersButton"><![CDATA[->]]></string>
     <string name="moveToAvailablePlayersButton"><![CDATA[<-]]></string>
-    <string name="drawButton">Rozpocznij turniej</string>
+    <string name="drawButton">Konfiguracja turnieju</string>
     <string name="checked_text_view_example">Checked Text View Example</string>
     <string name="nameTextView">Imię</string>
     <string name="surnameTextView">Nazwisko</string>
@@ -13,4 +13,21 @@
     <string name="pickDateTextView">Wprowadź datę</string>
     <string name="confirmNewPlayerButton">Zatwierdź</string>
     <string name="closeButton">Wyjdź</string>
+    <string name="pairingType">Typ kojarzenia</string>
+    <string name="methodTextView">Metoda przy jednakowych wynikach</string>
+    <string name="countOfPlayersTextView"/>
+    <string name="setMethodTextView">Bucholtz</string>
+    <string name="startingListTextView">Lista startowa</string>
+    <string name="playersCountTextView">Ilość zawodników</string>
+    <string name="roundsTextView">Ilość rund</string>
+    <string name="roundNumber">Podaj liczbę rund</string>
+    <string name="startTournamentButton">Rozpocznij turniej</string>
+
+
+    <string-array name="pairing">
+        <item>Alfabetycznie</item>
+        <item>Ranking polski</item>
+        <item>Ranking międzynarodowy</item>
+    </string-array>
+
 </resources>

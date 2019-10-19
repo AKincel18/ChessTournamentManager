@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,10 +16,9 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Executors;
@@ -27,9 +27,9 @@ import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.database.Database;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
-import com.example.adam.chesstournamentmanager.staticdata.DialogBox;
+import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 
-public class AddNewPlayer extends FragmentActivity {
+public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragment.OnDialogFragmentClickListener {
 
     private TextView pickDateTextView;
     private DatePickerDialog.OnDateSetListener dateSetListener;
@@ -37,6 +37,8 @@ public class AddNewPlayer extends FragmentActivity {
     private ArrayList<String> allPlayers;
 
     private Database database;
+
+    private Date formatDate;
 
 
     @Override
@@ -85,7 +87,7 @@ public class AddNewPlayer extends FragmentActivity {
         dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String date = dayOfMonth + "-" + month + "-" + year;
+                String date = dayOfMonth + "-" + (month + 1) + "-" + year; //begin value in month = 0
                 pickDateTextView.setText(date);
             }
         };
@@ -93,49 +95,83 @@ public class AddNewPlayer extends FragmentActivity {
         Intent i = getIntent();
         allPlayers = i.getStringArrayListExtra("availablePlayers");
 
-
-
+        //buttons
+        confirmNewPlayer();
+        close();
 
     }
 
-    public void confirmNewPlayer(View view){
-        final EditText name =  findViewById(R.id.nameEditText);
-        final EditText surname = findViewById(R.id.surnameEditText);
-        final TextView date = findViewById(R.id.pickDateTextView);
+    public void confirmNewPlayer(){
 
-        Intent i = new Intent(this, CreateTournament.class);
-        if (allPlayers == null)
-            allPlayers = new ArrayList<>();
-
-
-        allPlayers.add(name.getText() + " " + surname.getText());
-
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
+        Button confirmPlayerButton = findViewById(R.id.confirmNewPlayerButton);
+        confirmPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                Date formatDate = new Date();
+            public void onClick(View v) {
+                final EditText name =  findViewById(R.id.nameEditText);
+                final EditText surname = findViewById(R.id.surnameEditText);
+                final TextView date = findViewById(R.id.pickDateTextView);
+
+                Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+                if (allPlayers == null)
+                    allPlayers = new ArrayList<>();
+
+
+                allPlayers.add(surname.getText() + " " + name.getText());
+                Collections.sort(allPlayers);
+                DateFormat format = new SimpleDateFormat("dd-MM-yyyy", new Locale("pl"));
+
+                formatDate = new Date();
                 try {
                     formatDate = format.parse(date.getText().toString());
                 }
                 catch (ParseException exc) {
-                    System.out.println("WRONG DATE");
+                    GeneralDialogFragment generalDialogFragment =
+                            GeneralDialogFragment.newInstance(Constans.TITLE_ERROR_DIALOGBOX, Constans.MESSAGE_ERROR_DIALOGBOX, Constans.EXIT_BUTTON_ERROR_DIALOGBOX);
+                    generalDialogFragment.show(getSupportFragmentManager(), Constans.TITLE_ERROR_DIALOGBOX);
+                    return;
+
+
                 }
 
-                database.playersDao().insertPlayer(new Players(name.getText().toString(), surname.getText().toString(), formatDate));
+                Executors.newSingleThreadExecutor().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        database.playersDao().insertPlayer(new Players(name.getText().toString(), surname.getText().toString(), formatDate));
+                    }
+                });
+
+                i.putStringArrayListExtra("availablePlayers", allPlayers);
+                startActivity(i);
             }
         });
 
-        i.putStringArrayListExtra("availablePlayers", allPlayers);
-        startActivity(i);
 
 
     }
 
-    public void close(View view){
-        DialogBox dialogBox = new DialogBox();
-        dialogBox.show(getSupportFragmentManager(), Constans.TTILE_DB);
+
+    private void close(){
+        Button closeButton = findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GeneralDialogFragment generalDialogFragment =
+                        GeneralDialogFragment.newInstance(Constans.TITLE_WARNING, Constans.INFORMATION_WARNING, Constans.POSITIVE_BUTTON_WARNING);
+                generalDialogFragment.show(getSupportFragmentManager(), Constans.TITLE_WARNING);
+            }
+        });
     }
 
 
+    @Override
+    public void onOkClicked(GeneralDialogFragment dialog) {
+        if (dialog.getArguments().getString("title").equals(Constans.TITLE_WARNING)) {
+            Intent i = new Intent(this, CreateTournament.class);
+            startActivity(i);
+        }
+    }
+
+    @Override
+    public void onCancelClicked(GeneralDialogFragment dialog) {
+    }
 }

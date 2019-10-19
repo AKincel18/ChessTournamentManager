@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface PlayersDao {
 
-    @Query("SELECT * FROM PLAYERS")
+    @Query("SELECT * FROM PLAYERS ORDER BY surname, name")
     List<Players> getAllPlayers();
 
     @Insert

@@ -1,4 +1,4 @@
-package com.example.adam.chesstournamentmanager.staticdata;
+package com.example.adam.chesstournamentmanager.database;
 
 import android.arch.persistence.room.TypeConverter;
 

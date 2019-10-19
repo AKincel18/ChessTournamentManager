@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,7 @@ public class CreateTournament extends AppCompatActivity {
     private ListView chosenPlayerListView;
     private ListView allPlayersListView;
 
-    private ArrayList<String> availablePlayers = new ArrayList<>();
+    static private ArrayList<String> availablePlayers = new ArrayList<>();
     static private ArrayList<String> chosenPlayers = new ArrayList<>();
 
     static boolean isInitPlayers = true;
@@ -33,6 +34,9 @@ public class CreateTournament extends AppCompatActivity {
     private Database database;
 
     //TODO code refator -> date, hardcode string, warnings -> informations
+
+    //TODO add activity "tournament rules"
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +56,15 @@ public class CreateTournament extends AppCompatActivity {
         initListView(chosenPlayerListView, chosenPlayers, selectedChosenPlayers);
 
         if (isInitPlayers)
-            initPlayers();
+            initPlayers(); //fetch players from database
 
         initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
+
+        //buttons
+        moveToChosenPlayers();
+        moveToAvailablePlayers();
+        addNewPlayer();
+
 
    }
 
@@ -63,26 +73,41 @@ public class CreateTournament extends AppCompatActivity {
         super.onPause();
         isInitPlayers = false;
     }
+
+
+
     private void initPlayers(){
 
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
                 for (Players p : database.playersDao().getAllPlayers()) {
-                    availablePlayers.add(p.getName() + " " + p.getSurname());
-                    System.out.println(p.getName() + " " + p.getSurname() + " " + p.getDateOfBirth());
+                    availablePlayers.add(p.getSurname() + " " + p.getName());
                 }
             }
         });
     }
 
-    public void moveToChosenPlayers(View view){ //'->' button
-        movement(chosenPlayers, availablePlayers, selectedAvailablePlayers);
+    public void moveToChosenPlayers(){ //'->' button
+        Button nextButton = findViewById(R.id.moveToChosenPlayersButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                movement(chosenPlayers, availablePlayers, selectedAvailablePlayers);
+            }
+        });
+
     }
 
 
-    public void moveToAvailablePlayers(View view){ //'<-' button
-        movement(availablePlayers, chosenPlayers, selectedChosenPlayers);
+    public void moveToAvailablePlayers(){ //'<-' button
+        Button backButton = findViewById(R.id.moveToAvailablePlayersButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                movement(availablePlayers, chosenPlayers, selectedChosenPlayers);
+            }
+        });
     }
 
     private void movement(ArrayList<String> add, ArrayList<String> remove, ArrayList<String> selected){
@@ -119,9 +144,15 @@ public class CreateTournament extends AppCompatActivity {
 
     }
 
-    public void addNewPlayer(View view){
-        Intent i = new Intent(getApplicationContext(), AddNewPlayer.class);
-        i.putExtra("availablePlayers", availablePlayers);
-        startActivity(i);
+    public void addNewPlayer(){
+        Button addPlayerButton = findViewById(R.id.addPlayerButton);
+        addPlayerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), AddNewPlayer.class);
+                i.putExtra("availablePlayers", availablePlayers);
+                startActivity(i);
+            }
+        });
     }
 }

@@ -2,10 +2,11 @@ package com.example.adam.chesstournamentmanager.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import com.example.adam.chesstournamentmanager.staticdata.DateConverter;
+import com.example.adam.chesstournamentmanager.database.DateConverter;
 
 import java.util.Date;
 
@@ -32,6 +33,7 @@ public class Players {
     private Date dateOfBirth;
 
 
+    @Ignore
     public Players() {
     }
 
@@ -41,6 +43,7 @@ public class Players {
         this.dateOfBirth = dateOfBirth;
     }
 
+    @Ignore
     public Players(String name, String surname, double polishRanking, double internationalRanking, Date dateOfBirth) {
         this.name = name;
         this.surname = surname;

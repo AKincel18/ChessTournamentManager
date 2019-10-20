@@ -22,6 +22,8 @@
     <string name="roundsTextView">Ilość rund</string>
     <string name="roundNumber">Podaj liczbę rund</string>
     <string name="startTournamentButton">Rozpocznij turniej</string>
+    <string name="polishRankingTextView">Ranking polski</string>
+    <string name="internationalRankingTextView">Ranking międzynarodowy</string>
 
 
     <string-array name="pairing">

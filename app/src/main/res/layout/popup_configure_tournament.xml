@@ -48,10 +48,10 @@
 
     <Spinner
         android:id="@+id/pairingTypeSpinner"
-        android:layout_width="140dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="844dp"
-        android:layout_marginBottom="420dp"
+        android:layout_width="282dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="692dp"
+        android:layout_marginBottom="416dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

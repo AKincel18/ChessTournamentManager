@@ -109,6 +109,8 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 final EditText name =  findViewById(R.id.nameEditText);
                 final EditText surname = findViewById(R.id.surnameEditText);
                 final TextView date = findViewById(R.id.pickDateTextView);
+                final EditText polishRanking = findViewById(R.id.polishRankingNumber);
+                final EditText internationalRanking = findViewById(R.id.internationalRankingNumber);
 
 
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy", new Locale("pl"));
@@ -125,14 +127,25 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
 
 
                 }
-                //TODO add rankings to popup and then to database
+
                 final Players players = new Players(
                         name.getText().toString(),
                         surname.getText().toString(),
                         formatDate
-                        );
+                );
 
-
+                try{
+                    players.setPolishRanking(Integer.valueOf(polishRanking.getText().toString()));
+                }
+                catch (NumberFormatException e){
+                    players.setPolishRanking(Integer.MAX_VALUE);
+                    }
+                try {
+                    players.setInternationalRanking(Integer.valueOf(internationalRanking.getText().toString()));
+                }
+                catch (NumberFormatException e){
+                    players.setInternationalRanking(Integer.MAX_VALUE);
+                }
 
                 Executors.newSingleThreadExecutor().execute(new Runnable() {
                     @Override
@@ -152,23 +165,28 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
             }
         });
 
-
-
     }
-
 
     private void close(){
         Button closeButton = findViewById(R.id.closeButton);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GeneralDialogFragment generalDialogFragment =
-                        GeneralDialogFragment.newInstance(Constans.TITLE_WARNING, Constans.INFORMATION_WARNING, Constans.POSITIVE_BUTTON_WARNING);
-                generalDialogFragment.show(getSupportFragmentManager(), Constans.TITLE_WARNING);
+                showDialogBox();
             }
         });
     }
 
+    @Override
+    public void onBackPressed(){
+        showDialogBox();
+    }
+
+    private void showDialogBox(){
+        GeneralDialogFragment generalDialogFragment =
+                GeneralDialogFragment.newInstance(Constans.TITLE_WARNING, Constans.INFORMATION_WARNING, Constans.POSITIVE_BUTTON_WARNING);
+        generalDialogFragment.show(getSupportFragmentManager(), Constans.TITLE_WARNING);
+    }
 
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {

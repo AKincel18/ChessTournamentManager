@@ -14,14 +14,6 @@ public interface PlayersDao {
     @Query("SELECT * FROM PLAYERS ORDER BY surname, name")
     List<Players> getAllPlayers();
 
-    @Query("SELECT * FROM PLAYERS as p WHERE p.name = :name AND p.surname = :surname")
-    Players findPlayer(String name, String surname);
-/*
-
-    @Query("DELETE FROM PLAYERS")
-    void delete();
-*/
-
     @Insert
     void insertPlayer(Players players);
 

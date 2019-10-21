@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -76,7 +77,10 @@ public class ConfigureTournament extends AppCompatActivity {
             }
         });
 
+        startTournament();
+
     }
+
 
     private void initListViewAlphabetical(ListView listView, List<Players> playersList){
 
@@ -178,5 +182,19 @@ public class ConfigureTournament extends AppCompatActivity {
                 return c;
             }
         });
+    }
+
+
+    private void startTournament() {
+        Button startTournament = findViewById(R.id.startTournamentButton);
+        startTournament.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), TournamentProcess.class);
+                startActivity(i);
+            }
+        });
+
+
     }
 }

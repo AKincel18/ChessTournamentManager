@@ -28,4 +28,6 @@ public class Constans {
     public static final String POLISH_RANKING_ORDER = "Ranking polski";
     public static final String INTERNATIONAL_RANKING_ORDER = "Ranking międzynarodowy";
 
+    //
+
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -46,24 +47,16 @@ public class ConfigureTournament extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (parent.getSelectedItem().toString()){
                     case (Constans.ALPHABETICAL_ORDER):
-                        //Collections.sort(players);
-
-                        System.out.println(Constans.ALPHABETICAL_ORDER);
                         comparatorBySurnameName();
                         initListViewAlphabetical(listView, players);
-
-
-
                         break;
+
                     case (Constans.POLISH_RANKING_ORDER):
-                        System.out.println(Constans.POLISH_RANKING_ORDER);
                         comparatorByPolishRanking();
-                        //initListViewAlphabetical(listView, players);
                         initListViewByRanking(true);
-
                         break;
+
                     case (Constans.INTERNATIONAL_RANKING_ORDER):
-                        System.out.println(Constans.INTERNATIONAL_RANKING_ORDER);
                         comparatorByInternationalRanking();
                         initListViewByRanking(false);
                         break;
@@ -186,11 +179,13 @@ public class ConfigureTournament extends AppCompatActivity {
 
 
     private void startTournament() {
+        final EditText roundsNumber = findViewById(R.id.roundsNumber);
         Button startTournament = findViewById(R.id.startTournamentButton);
         startTournament.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), TournamentProcess.class);
+                i.putExtra("roundsNumber", Integer.valueOf(roundsNumber.getText().toString()));
                 startActivity(i);
             }
         });

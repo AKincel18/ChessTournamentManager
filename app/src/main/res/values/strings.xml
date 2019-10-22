@@ -24,6 +24,7 @@
     <string name="startTournamentButton">Rozpocznij turniej</string>
     <string name="polishRankingTextView">Ranking polski</string>
     <string name="internationalRankingTextView">Ranking międzynarodowy</string>
+<!--    <string name= "fragmentNumber">Runda %1$d%</string>-->
 
 
     <string-array name="pairing">
@@ -31,11 +32,8 @@
         <item>Ranking polski</item>
         <item>Ranking międzynarodowy</item>
     </string-array>
+
     <string name="title_activity_tournament_process">TournamentProcess</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="tab_text_3">Tab 3</string>
-    <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

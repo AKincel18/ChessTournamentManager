@@ -71,11 +71,10 @@ public class TournamentProcess extends AppCompatActivity {
         mSectionsPagerAdapter.notifyDataSetChanged();
 
         for (int b = 0; b < roundsNumber; b++){
-            tabLayout.getTabAt(b).setText("Runda " + (b + 1));
-            //tabLayout.getTabAt(b).setText(getString((R.string.fragmentNumber), Integer.valueOf(b + 1)));
+            tabLayout.getTabAt(b).setText(getString(R.string.fragmentNumber, Integer.valueOf(b+1)));
         }
 
-        tabLayout.getTabAt(roundsNumber).setText("Wyniki");
+        tabLayout.getTabAt(roundsNumber).setText(getString(R.string.results));
 
 
     }

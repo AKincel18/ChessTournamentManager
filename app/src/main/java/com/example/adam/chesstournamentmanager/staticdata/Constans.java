@@ -27,6 +27,7 @@ public class Constans {
     public static final String ALPHABETICAL_ORDER = "Alfabetycznie";
     public static final String POLISH_RANKING_ORDER = "Ranking polski";
     public static final String INTERNATIONAL_RANKING_ORDER = "Ranking międzynarodowy";
+    public static final String RANDOM_ORDER = "Losowo";
 
     //
 

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Chess Tournament Manager</string>
     <string name="availablePlayersTextView">Dostępni zawodnicy</string>
     <string name="chosenPlayersTextView">Wybrani zawodnicy</string>
@@ -24,16 +24,21 @@
     <string name="startTournamentButton">Rozpocznij turniej</string>
     <string name="polishRankingTextView">Ranking polski</string>
     <string name="internationalRankingTextView">Ranking międzynarodowy</string>
-<!--    <string name= "fragmentNumber">Runda %1$d%</string>-->
+    <string name="fragmentNumber">Runda %1$d</string>
+    <string name="results">Wyniki</string>
 
+    <string name="title_activity_tournament_process">TournamentProcess</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="countOfNumberSwitch">Ręczny wybór liczby rund</string>
+    <string name="autoCountOfRounds">Standardowa liczba rund: %1$d</string>
+    <string name="nothing_selected">nic nie zaznaczono proszę pana</string>
 
     <string-array name="pairing">
         <item>Alfabetycznie</item>
         <item>Ranking polski</item>
         <item>Ranking międzynarodowy</item>
+        <item>Losowo</item>
     </string-array>
 
-    <string name="title_activity_tournament_process">TournamentProcess</string>
-    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

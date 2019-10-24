@@ -48,7 +48,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         Intent i = getIntent();
         if (i.getSerializableExtra("availablePlayers") !=  null){
             availablePlayers =(ArrayList<Players>)i.getSerializableExtra("availablePlayers");
-            Toast.makeText(this, Constans.ADDED_NEW_PLAYER, Toast.LENGTH_LONG).show(); //TODO string from string.xml (not easy, maybe not possible :/)
+            Toast.makeText(this, Constans.ADDED_NEW_PLAYER, Toast.LENGTH_LONG).show(); //TODO string from string.xml -> getString(R.string.nothing_selected)
         }
 
 
@@ -110,7 +110,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
     private void movement(ArrayList<Players> add, ArrayList<Players> remove, ArrayList<Players> selected){
         if (selected.isEmpty())
-            Toast.makeText(this, Constans.NOTHING_SELECTED, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.nothing_selected), Toast.LENGTH_LONG).show();
         else {
             add.addAll(selected);
             remove.removeAll(selected);

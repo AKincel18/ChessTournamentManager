@@ -29,6 +29,7 @@ public class ConfigureTournament extends AppCompatActivity {
     private ArrayList<Players> players;
     private ListView listView;
     private Switch switch1;
+    private String order;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,6 @@ public class ConfigureTournament extends AppCompatActivity {
         Intent i = getIntent();
         players = (ArrayList<Players>) i.getSerializableExtra("players");
         countOfPlayersTextView.setText(String.valueOf(players.size()));
-
         listView = findViewById(R.id.playersListView);
         Spinner spinner = findViewById(R.id.pairingTypeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.pairing, android.R.layout.simple_spinner_item);
@@ -47,7 +47,7 @@ public class ConfigureTournament extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (parent.getSelectedItem().toString()){
+                switch (order = parent.getSelectedItem().toString()){
                     case (Constans.ALPHABETICAL_ORDER):
                         comparatorBySurnameName();
                         initListView();
@@ -193,9 +193,12 @@ public class ConfigureTournament extends AppCompatActivity {
                 if (switch1.isChecked()){
                     i.putExtra("roundsNumber", Integer.valueOf(roundsNumber.getText().toString())); //TODO java.lang.NumberFormatException: For input string: ""
                 }
-                else
+                else {
                     i.putExtra("roundsNumber", Integer.valueOf(optimalCountOfRunds));
+                }
 
+                i.putExtra("players", players);
+                i.putExtra("order", order);
                 startActivity(i);
             }
         });

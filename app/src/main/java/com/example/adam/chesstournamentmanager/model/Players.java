@@ -41,6 +41,15 @@ public class Players implements Serializable {
     public Players() {
     }
 
+    @Ignore
+    public Players(Players player) {
+        this.name = player.getName();
+        this.surname = player.getSurname();
+        this.polishRanking = player.getPolishRanking();
+        this.internationalRanking = player.getInternationalRanking();
+        this.dateOfBirth = player.getDateOfBirth();
+    }
+
 
     public Players(String name, String surname, Date dateOfBirth) {
         this.name = name;
@@ -103,6 +112,10 @@ public class Players implements Serializable {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public Players getPlayer(){
+        return this;
     }
 
     @Override

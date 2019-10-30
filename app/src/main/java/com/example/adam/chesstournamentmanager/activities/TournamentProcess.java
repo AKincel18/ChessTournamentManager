@@ -10,7 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.example.adam.chesstournamentmanager.R;
+import com.example.adam.chesstournamentmanager.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.components.SectionPagerAdapter;
+import com.example.adam.chesstournamentmanager.model.Players;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TournamentProcess extends AppCompatActivity {
 
@@ -31,6 +36,8 @@ public class TournamentProcess extends AppCompatActivity {
 
     private int roundsNumber;
 
+    private List<Players> players;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +50,16 @@ public class TournamentProcess extends AppCompatActivity {
 
         Intent i = getIntent();
         roundsNumber = i.getIntExtra("roundsNumber", 0);
+        String order = i.getStringExtra("order");
 
-        mSectionsPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager(), roundsNumber + 1);
+        players = (ArrayList<Players>) i.getSerializableExtra("players");
+
+
+        SwissAlgorithm swissAlgorithm = new SwissAlgorithm(roundsNumber, order);
+        swissAlgorithm.initTournamentPlayers(players);
+        swissAlgorithm.drawFirstRound();
+
+        mSectionsPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager(), roundsNumber + 1, swissAlgorithm);
 
 
         // Set up the ViewPager with the sections adapter.
@@ -60,6 +75,13 @@ public class TournamentProcess extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
+        initView(tabLayout);
+
+
+    }
+
+
+    private void initView(TabLayout tabLayout){
 
 
         for (int a = 0; a < roundsNumber; a++) {
@@ -75,8 +97,6 @@ public class TournamentProcess extends AppCompatActivity {
         }
 
         tabLayout.getTabAt(roundsNumber).setText(getString(R.string.results));
-
-
     }
 
 

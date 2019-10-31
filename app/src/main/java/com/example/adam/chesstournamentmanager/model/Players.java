@@ -114,9 +114,6 @@ public class Players implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Players getPlayer(){
-        return this;
-    }
 
     @Override
     public String toString() {

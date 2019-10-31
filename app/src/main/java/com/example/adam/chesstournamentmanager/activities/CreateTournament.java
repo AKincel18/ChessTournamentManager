@@ -64,6 +64,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         moveToAvailablePlayers();
         addNewPlayer();
         configureTournament();
+        selectAll(allPlayersListView);
 
 
    }
@@ -81,7 +82,8 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
-                availablePlayers.addAll(database.playersDao().getAllPlayers());
+                //availablePlayers.addAll(database.playersDao().getAllPlayers());
+                chosenPlayers.addAll(database.playersDao().getAllPlayers()); //TODO FOR TESTING
             }
         });
     }
@@ -96,6 +98,22 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         });
 
     }
+
+    public void selectAll(final ListView listView){
+        Button selectAllButton = findViewById(R.id.selectAllButton);
+        selectAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < listView.getChildCount(); i++){
+                    listView.setItemChecked(i, true); //TODO not all selecting
+                    //selectedAvailablePlayers.add(i, );
+                }
+            }
+        });
+    }
+
+
+
 
 
     public void moveToAvailablePlayers(){ //'<-' button

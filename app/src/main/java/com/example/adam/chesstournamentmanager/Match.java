@@ -50,12 +50,22 @@ public class Match {
         this.matchResult = matchResult;
     }
 
-    @Override
+/*    @Override
     public String toString() {
         return "Match{" +
                 "round=" + round +
                 ", player1=" + player1.getName() + " " + player1.getSurname() +
                 ", player2=" + player2.getName() + " " + player2.getSurname() +
+                ", matchResult=" + matchResult +
+                '}';
+    }*/
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "round=" + round +
+                ","+ player1 +
+                " vs" + player2 +
                 ", matchResult=" + matchResult +
                 '}';
     }

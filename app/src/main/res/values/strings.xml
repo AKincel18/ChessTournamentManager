@@ -32,6 +32,7 @@
     <string name="countOfNumberSwitch">Ręczny wybór liczby rund</string>
     <string name="autoCountOfRounds">Standardowa liczba rund: %1$d</string>
     <string name="nothing_selected">nic nie zaznaczono proszę pana</string>
+    <string name="selectAllButton">Zaznacz wszystko</string>
 
     <string-array name="pairing">
         <item>Alfabetycznie</item>

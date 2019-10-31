@@ -1,6 +1,8 @@
 package com.example.adam.chesstournamentmanager.model;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class TournamentPlayer extends Players {
         return points;
     }
 
+
     public void addPoints(float points) {
         this.points += points;
     }
@@ -50,7 +53,7 @@ public class TournamentPlayer extends Players {
         this.prevColors.add(prevColors);
     }
 
-    public boolean isBye() {
+    public boolean hadByeBefore() {
         return bye;
     }
 
@@ -58,13 +61,35 @@ public class TournamentPlayer extends Players {
         this.bye = bye;
     }
 
-    public boolean isGoodOponent(Players player){
+    public boolean isPlayedTogether(TournamentPlayer player){
         for (TournamentPlayer tournamentPlayer : prevOponents){
-            if (tournamentPlayer.getPlayer() == player)
-                return false;
+            if (tournamentPlayer == player)
+                return true;
         }
-        return true;
+        return false;
     }
+
+    public boolean hasOpponent(int currentRound){
+        return currentRound == prevOponents.size();
+    }
+
+    public String writeOpponent(){
+        String tmp = "";
+        for (TournamentPlayer player : prevOponents){
+            tmp +=  player.toString();
+        }
+        return tmp;
+    }
+
+    public String writeColors(){
+        String tmp = "";
+        for (Colors colors : prevColors){
+            tmp += (colors.name() + " ");
+        }
+        return tmp;
+    }
+
+
 
 /*    public Colors expectedColor(){
         Colors color;
@@ -76,5 +101,13 @@ public class TournamentPlayer extends Players {
         public Colors expectedColor(){
             Colors color = prevColors.get(prevColors.size() - 1);
             return color.opposite();
+        }
+
+        public boolean isColorRepatedTwoLastTimes(){
+            if (prevColors.size() > 2){
+                return prevColors.get(prevColors.size() - 1) == prevColors.get(prevColors.size() - 2);
+            }
+            else
+                return false;
         }
 }

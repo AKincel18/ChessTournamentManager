@@ -181,7 +181,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         configureTournamentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (chosenPlayers.size() % 2 == 0) {
+/*                if (chosenPlayers.size() % 2 == 0) {
                     Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
                     i.putExtra("players", chosenPlayers);
                     startActivity(i);
@@ -190,7 +190,10 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
                     GeneralDialogFragment dialog = GeneralDialogFragment.
                             newInstance(Constans.TITLE_WARNING, Constans.ODD_NUMBER_PLAYERS, Constans.POSITIVE_BUTTON_WARNING);
                     dialog.show(getSupportFragmentManager(), Constans.TITLE_WARNING);
-                }
+                }*/
+                Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
+                i.putExtra("players", chosenPlayers);
+                startActivity(i); //TODO for testing
 
 
 

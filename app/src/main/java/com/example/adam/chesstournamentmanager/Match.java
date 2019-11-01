@@ -64,8 +64,8 @@ public class Match {
     public String toString() {
         return "Match{" +
                 "round=" + round +
-                ","+ player1 +
-                " vs" + player2 +
+                ", "+ player1.getName() +
+                " vs " + player2.getName() +
                 ", matchResult=" + matchResult +
                 '}';
     }

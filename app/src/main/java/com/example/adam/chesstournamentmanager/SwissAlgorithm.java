@@ -28,7 +28,9 @@ public class SwissAlgorithm {
 
     private List<Boolean> isRoundFinish;
 
-    private List<Match> matches = new ArrayList<>();
+    private List<List<Match>> matches = new ArrayList<>(); //rows -> number of rounds, columns -> matches
+
+    private List<Match> matchesTmp = new ArrayList<>();
 
     private String order;
 
@@ -55,6 +57,8 @@ public class SwissAlgorithm {
         even = playersNumber % 2 == 0;
 
 
+
+
     }
 
     private void drawNextRound(){
@@ -74,22 +78,31 @@ public class SwissAlgorithm {
                 TournamentPlayer player = playerIterator.next();
                 if (!player.hasOpponent(currentRound)) {
                     if (!findOpponent(player, groupsPlayers.get(listPos).size(), listPos, playerPos)) { //not found opponent in his points group
-                        //go into a lower group
+
                         if (listPos == groupsPlayers.size() - 1) { //huge problem :(((( -> in the last group, player hasn't opponent
-                            Log.i("", "huge problem :(((( -> in the last group, player hasn't opponent");
-                            break; //todo
+                            Log.i("", "huge problem :(((( -> in the last group, player hasn't opponent, player = " + player.getName());
+                            if (groupsPlayers.get(listPos).size() > 2)
+                                Log.i("", "debugging");
+
+                            removeMatchesInGroup(listPos);
+                            if (!findOpponent(player, groupsPlayers.get(listPos).size(), listPos, playerPos)){
+                                Log.i("", "UNLUCKYYYYYY :(((");
+                            }
+                            else
+                                Log.i("", "JEEEEEEEEEEEEEEST DRUGIE PODEJSCIE UDANE ;)");
                         }
                         else {
-
-                            groupIterator.next();
-                            ((ListIterator<List<TournamentPlayer>>) groupIterator).set(addingPlayerToGroup(groupsPlayers.get(listPos + 1), player));
-                            ((ListIterator<List<TournamentPlayer>>) groupIterator).previous();
+                            //go into a lower group
+                            //fallIntoTheLowerGroup(player, listPos, playerPos);
+                            groupsPlayers.get(listPos + 1).add(0, player);
                             playerIterator.remove();
+                            playerPos--;
                         }
                     }
                 }
                 playerPos++;
             }
+            playerPos = 0;
             listPos++;
             groupIterator.next();
         }
@@ -100,11 +113,38 @@ public class SwissAlgorithm {
 
     }
 
-    private List<TournamentPlayer> addingPlayerToGroup(List<TournamentPlayer> list, TournamentPlayer player){
-            list.add(0, player);
-            return list;
+
+
+    private void removeMatchesInGroup(int groupNumber){
+        List<TournamentPlayer> lastGroup = groupsPlayers.get(groupNumber);
+
+        //Iterator<Match> matchIterator = matches.get(currentRound - 1).listIterator(matches.get(currentRound - 1).size());//matches.listIterator(matches.size()); //from the end
+        Iterator<Match> matchIterator = matchesTmp.listIterator(matchesTmp.size() - 1 );
+        //while (((ListIterator<Match>) matchIterator).hasPrevious()){
+        while (((ListIterator<Match>) matchIterator).hasPrevious()){
+            Match match = ((ListIterator<Match>) matchIterator).previous();
+            if (match.getRound() != currentRound){
+                break;
+            }
+            for (TournamentPlayer player : lastGroup){
+                if (match.getPlayer1() == player || match.getPlayer2() == player){
+                    removeMatchFromPlayers(match.getPlayer1(), match.getPlayer2());
+                    matchIterator.remove();
+                    break;
+                }
+            }
+        }
+
     }
 
+    private void moveAllPlayerToHigherGroup(int group){
+        //TODO
+    }
+
+    private void removeMatchFromPlayers(TournamentPlayer player1, TournamentPlayer player2){
+        player1.removeLastMatch();
+        player2.removeLastMatch();
+    }
 
     private boolean findOpponent(TournamentPlayer player1, int playersInGroup, int group, int playersPos) {
 
@@ -118,8 +158,7 @@ public class SwissAlgorithm {
             }
         }
 
-        //find opponent in the first subgroup (only for players from first subgroup)
-        if (playersPos < playersInGroup / 2) {
+        //find opponent in the first subgroup
             for (int i = 0; i < playersInGroup / 2; i++) {
                 TournamentPlayer player2 = groupsPlayers.get(group).get(i);
 
@@ -128,14 +167,13 @@ public class SwissAlgorithm {
                     return true;
                 }
             }
-        }
         return false;
 
     }
 
 
     private void addMatchVersusBye(TournamentPlayer player){
-        matches.add(new Match(currentRound, player, bye));
+        matchesTmp.add(new Match(currentRound, player, bye));//matches.get(currentRound - 1).add(new Match(currentRound, player, bye)); //matches.add(new Match(currentRound, player, bye));
         player.setBye(true);
         player.setPrevOponents(bye);
         player.setPrevColors(Colors.NO_COLOR);
@@ -143,12 +181,12 @@ public class SwissAlgorithm {
 
     private void addMatch(TournamentPlayer player1, TournamentPlayer player2){
         if (drawColor()) { //TODO make intelligent color allocation
-            matches.add(new Match(currentRound, player1, player2));
+            matchesTmp.add(new Match(currentRound, player1, player2));//matches.get(currentRound - 1).add(new Match(currentRound, player1, player2));//matches.add(new Match(currentRound, player1, player2));
             player1.setPrevColors(Colors.WHITE);
             player2.setPrevColors(Colors.BLACK);
         }
         else{
-            matches.add(new Match(currentRound, player2, player1));
+            matchesTmp.add(new Match(currentRound, player2, player1));//matches.get(currentRound - 1).add(new Match(currentRound, player1, player2));//matches.add(new Match(currentRound, player2, player1));
             player1.setPrevColors(Colors.BLACK);
             player2.setPrevColors(Colors.WHITE);
         }
@@ -185,69 +223,6 @@ public class SwissAlgorithm {
         }
     }
 
-    private void drawRound(){
-        int groupNumber = 0;
-        for (int i = 0; i < groupsPlayers.size(); i++){
-            //int x = xCoefficient(groupNumber);
-            int groupSize = groupsPlayers.get(i).size();
-
-            for (int j = 0; j < groupSize; j++){
-                TournamentPlayer player = groupsPlayers.get(i).get(j);
-                TournamentPlayer player2 = groupsPlayers.get(i).get(groupSize / 2 + j);
-
-                if (!player.isPlayedTogether(player2)) { //is not played together
-                    if (player.expectedColor() != player2.expectedColor()){
-                        //losu losu
-                        if (player.expectedColor() == Colors.WHITE){
-                            matches.add(new Match(currentRound, player, player2)); //set color to player
-                            player.setPrevColors(Colors.WHITE);
-                            player2.setPrevColors(Colors.BLACK);
-                        }
-                        else {
-                            matches.add(new Match(currentRound, player2, player));
-                            player.setPrevColors(Colors.BLACK);
-                            player2.setPrevColors(Colors.WHITE);
-                        }
-                        player.setPrevOponents(player2);
-                        player2.setPrevOponents(player);
-
-                    }
-                    else {
-                        //if (player.isColorRepatedTwoLastTimes())
-                    }
-
-                    //matches.add(new Match())
-                }
-
-/*
-                if (player.getLastColor() != player2.getLastColor()){
-                    matches.add(new Match(currentRound, player, player2));
-
-                }*/
-
-            }
-            groupNumber++;
-        }
-    }
-
-    private int xCoefficient(int groupNumber){
-        return (groupsPlayers.get(groupNumber).size() / 2) - minColorExpected(groupNumber);
-    }
-
-    private int minColorExpected(int groupNumber){
-        int whiteExpected = 0;
-        int blackExpected = 0;
-
-        for (TournamentPlayer player : groupsPlayers.get(groupNumber)){
-            if (player.getLastColor() == Colors.WHITE)
-                blackExpected++;
-            else
-                whiteExpected++;
-        }
-        return Math.min(whiteExpected, blackExpected);
-    }
-
-
     public void drawFirstRound(){
         currentRound = 1;
 
@@ -259,16 +234,17 @@ public class SwissAlgorithm {
 
         if (playersNumber % 2 != 0){
             TournamentPlayer player1 = tournamentPlayers.get(playersNumber - 1);
-            matches.add(new Match(currentRound, player1, bye)); //last player vs bye
+            matchesTmp.add(new Match(currentRound, player1, bye));//matches.get(currentRound - 1).add(new Match(currentRound, player1, bye));//matches.add(new Match(currentRound, player1, bye)); //last player vs bye
             player1.setPrevOponents(bye);
             player1.setPrevColors(Colors.NO_COLOR); //no color
             player1.setBye(true);
         }
 
 
-
+        matches.add(matchesTmp);
+        matchesTmp = new ArrayList<>();
         setResult(result());
-        writeMatches();
+        writeMatches(0);
 
 
         for (int i = 1; i< roundsNumber; i++){
@@ -276,8 +252,10 @@ public class SwissAlgorithm {
             groupsPlayers = prepareGroups();
             writeGroups();
             drawNextRound();
+            matches.add(matchesTmp);
+            matchesTmp = new ArrayList<>();
             setResult(result());
-            writeMatches();
+            writeMatches(i);
         }
 
         sortPlayerByPoints();
@@ -290,9 +268,15 @@ public class SwissAlgorithm {
     }
 
     private void writeEndResults(){
+        System.out.println(" ");
+        System.out.println(" ");
+        Log.i("", "\t\t\t\t RESULTS");
+
         for (TournamentPlayer player : tournamentPlayers){
-            Log.i("", player.toString() + ", points = " + player.getPoints() + ", opponent = " + player.writeOpponent() +  " color = " + player.writeColors() );
+            Log.i("", "\t\t\t\t" + player.toString() + ", points = " + player.getPoints() + ", opponent = " + player.writeOpponent() +  ", color = " + player.writeColors() );
         }
+        System.out.println(" ");
+        System.out.println(" ");
     }
 
     private void writeGroups(){
@@ -357,6 +341,8 @@ public class SwissAlgorithm {
         }
         return MatchResult.WHITE_WON;
     }
+
+
     private List<MatchResult> result (){
 
         List<MatchResult> results = new ArrayList<>();
@@ -379,11 +365,13 @@ public class SwissAlgorithm {
 
     public void setResult(List<MatchResult> results){
 
-        int pos = (currentRound - 1) * results.size();
+        //int pos = (currentRound - 1) * results.size();
+        List<Match> matchesInGroup = matches.get(currentRound - 1);
+        int i = 0;
         for (MatchResult matchResult : results){
-            matches.get(pos).setMatchResult(matchResult);
-            TournamentPlayer player1 = matches.get(pos).getPlayer1();
-            TournamentPlayer player2 = matches.get(pos).getPlayer2();
+            matchesInGroup.get(i).setMatchResult(matchResult);//matches.get(currentRound - 1).get.setMatchResult(matchResult);
+            TournamentPlayer player1 = matchesInGroup.get(i).getPlayer1();
+            TournamentPlayer player2 = matchesInGroup.get(i).getPlayer2();
 
             switch (matchResult){
                 case WHITE_WON: //player1 won
@@ -392,12 +380,12 @@ public class SwissAlgorithm {
                 case BLACK_WON: //player2 won
                     player2.addPoints(1);
                     break;
-                case DRAW:
+                case DRAW: //draw
                     player1.addPoints(0.5f);
                     player2.addPoints(0.5f);
                     break;
             }
-            pos++;
+            i++;
         }
 
         currentRound++;
@@ -453,25 +441,20 @@ public class SwissAlgorithm {
 
 
 
-    private void writeMatches(){
+    private void writeMatches(int round){
         System.out.println(" ");
         System.out.println(" ");
         Log.i(" ", "\t\t\t\tRUNDA = " + (this.currentRound - 1));
-        for (Match m : matches){
+/*        for (Match m : matches){
             if (m.getRound() == this.currentRound - 1)
                 Log.i("","\t\t\t\t" + m.toString());
+        }*/
+
+        for (Match match : matches.get(round)){
+            Log.i("", "\t\t\t\t" + match.toString());
         }
     }
-/*
-    private void writeMatchesInCurrentRund(){
 
-        Log.i("", "\t\t\t\tRUNDA= " + this.currentRound);
-        for (Match match : matches){
-            if (match.getRound() == this.currentRound){
-                Log.i("","\t\t\t\t" + match.toString());
-            }
-        }
-    }*/
 
 
     public int getRoundsNumber() {
@@ -522,11 +505,11 @@ public class SwissAlgorithm {
         this.isRoundFinish = isRoundFinish;
     }
 
-    public List<Match> getMatches() {
+    public List<List<Match>> getMatches() {
         return matches;
     }
 
-    public void setMatches(List<Match> matches) {
+    public void setMatches(List<List<Match>> matches) {
         this.matches = matches;
     }
 }

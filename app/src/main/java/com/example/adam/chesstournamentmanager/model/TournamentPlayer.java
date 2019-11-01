@@ -61,6 +61,11 @@ public class TournamentPlayer extends Players {
         this.bye = bye;
     }
 
+    public void removeLastMatch(){
+        prevOponents.remove(prevOponents.size() - 1);
+        prevColors.remove(prevColors.size() - 1);
+    }
+
     public boolean isPlayedTogether(TournamentPlayer player){
         for (TournamentPlayer tournamentPlayer : prevOponents){
             if (tournamentPlayer == player)
@@ -76,7 +81,7 @@ public class TournamentPlayer extends Players {
     public String writeOpponent(){
         String tmp = "";
         for (TournamentPlayer player : prevOponents){
-            tmp +=  player.toString();
+            tmp +=  (player.getName() + " ");
         }
         return tmp;
     }

@@ -116,7 +116,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy", new Locale("pl"));
 
                 formatDate = new Date();
-                try {
+/*                try {
                     formatDate = format.parse(date.getText().toString());
                 }
                 catch (ParseException exc) {
@@ -126,7 +126,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                     return;
 
 
-                }
+                }*/
 
                 final Players players = new Players(
                         name.getText().toString(),

@@ -17,6 +17,8 @@ public class TournamentPlayer extends Players {
 
     private boolean bye;
 
+    private boolean fallIntoLowerGroup;
+
     public TournamentPlayer() {
     }
 
@@ -72,6 +74,14 @@ public class TournamentPlayer extends Players {
                 return true;
         }
         return false;
+    }
+
+    public boolean isFallIntoLowerGroup() {
+        return fallIntoLowerGroup;
+    }
+
+    public void setFallIntoLowerGroup(boolean fallIntoLowerGroup) {
+        this.fallIntoLowerGroup = fallIntoLowerGroup;
     }
 
     public boolean hasOpponent(int currentRound){

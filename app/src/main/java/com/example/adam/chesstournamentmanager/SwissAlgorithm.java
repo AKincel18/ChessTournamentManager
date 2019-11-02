@@ -61,8 +61,17 @@ public class SwissAlgorithm {
 
     }
 
+
+    private void resetFalling(){
+        for (TournamentPlayer player : tournamentPlayers){
+            player.setFallIntoLowerGroup(false);
+        }
+    }
+
+    //TODO program freeze (no find good opponent)
     private void drawNextRound(){
 
+        resetFalling();
         TournamentPlayer byePlayer;
         if (!even) //not even, last player vs bye
             byePlayer= findByePlayer();
@@ -70,41 +79,67 @@ public class SwissAlgorithm {
             byePlayer = null;
 
         Iterator<List<TournamentPlayer>> groupIterator = groupsPlayers.listIterator();
-        int listPos = 0;
+        int groupNumber = 0;
         int playerPos = 0;
-        while(listPos < groupsPlayers.size()){
-            Iterator<TournamentPlayer> playerIterator = groupsPlayers.get(listPos).listIterator();
+        while(groupNumber < groupsPlayers.size()){
+            boolean removeEmptyGroup = false;
+            boolean backToHigerGroup = false;
+            Iterator<TournamentPlayer> playerIterator = groupsPlayers.get(groupNumber).listIterator();
             while (playerIterator.hasNext()){
                 TournamentPlayer player = playerIterator.next();
                 if (!player.hasOpponent(currentRound)) {
-                    if (!findOpponent(player, groupsPlayers.get(listPos).size(), listPos, playerPos)) { //not found opponent in his points group
+                    if (!findOpponent(player, groupsPlayers.get(groupNumber).size(), groupNumber, playerPos)) { //not found opponent in his points group
 
-                        if (listPos == groupsPlayers.size() - 1) { //huge problem :(((( -> in the last group, player hasn't opponent
-                            Log.i("", "huge problem :(((( -> in the last group, player hasn't opponent, player = " + player.getName());
-                            if (groupsPlayers.get(listPos).size() > 2)
-                                Log.i("", "debugging");
+                        if (groupNumber == groupsPlayers.size() - 1) { //huge problem :(((( -> in the last group, player hasn't opponent
+                            //go into a higher group
+                            int posNewPlayer = (groupsPlayers.get(groupNumber - 1).size() + 1) / 2;
+                            groupsPlayers.get(groupNumber - 1).add(posNewPlayer, player); //add player to higher group
+                            playerIterator.remove(); //remove player from current group
+                            removeMatchesInGroup(groupNumber - 1); //remove all matches from higher group
+                            backToHigerGroup = true; //set flag
+                            break;
 
-                            removeMatchesInGroup(listPos);
-                            if (!findOpponent(player, groupsPlayers.get(listPos).size(), listPos, playerPos)){
-                                Log.i("", "UNLUCKYYYYYY :(((");
-                            }
-                            else
-                                Log.i("", "JEEEEEEEEEEEEEEST DRUGIE PODEJSCIE UDANE ;)");
                         }
                         else {
                             //go into a lower group
-                            //fallIntoTheLowerGroup(player, listPos, playerPos);
-                            groupsPlayers.get(listPos + 1).add(0, player);
+                            if (player.isFallIntoLowerGroup()) {
+                                int posNewPlayer = (groupsPlayers.get(groupNumber + 1).size() + 1) / 2; //go to second subgroup
+                                groupsPlayers.get(groupNumber + 1).add(posNewPlayer, player);
+                            }
+                            else
+                                groupsPlayers.get(groupNumber + 1).add(0, player); //go to first subgroup
+
+
                             playerIterator.remove();
                             playerPos--;
+                            player.setFallIntoLowerGroup(true);
+                            //remove empty group
+                            if (groupsPlayers.get(groupNumber).isEmpty()) {
+                                List <TournamentPlayer> list = groupIterator.next();
+                                groupIterator.remove();
+                                removeEmptyGroup = true;
+                            }
                         }
                     }
                 }
                 playerPos++;
             }
+
             playerPos = 0;
-            listPos++;
-            groupIterator.next();
+            if (removeEmptyGroup){
+                groupIterator = groupsPlayers.listIterator(groupNumber);
+            }
+            else if (backToHigerGroup) {
+                groupNumber--;
+                groupIterator = groupsPlayers.listIterator(groupNumber);
+            }
+
+                else{
+                    groupNumber++;
+                    groupIterator.next();
+            }
+
+
         }
 
         if (!even)
@@ -116,16 +151,18 @@ public class SwissAlgorithm {
 
 
     private void removeMatchesInGroup(int groupNumber){
+
+
         List<TournamentPlayer> lastGroup = groupsPlayers.get(groupNumber);
 
         //Iterator<Match> matchIterator = matches.get(currentRound - 1).listIterator(matches.get(currentRound - 1).size());//matches.listIterator(matches.size()); //from the end
-        Iterator<Match> matchIterator = matchesTmp.listIterator(matchesTmp.size() - 1 );
+        Iterator<Match> matchIterator = matchesTmp.listIterator(matchesTmp.size()); //from the end
         //while (((ListIterator<Match>) matchIterator).hasPrevious()){
         while (((ListIterator<Match>) matchIterator).hasPrevious()){
             Match match = ((ListIterator<Match>) matchIterator).previous();
-            if (match.getRound() != currentRound){
+/*            if (match.getRound() != currentRound){
                 break;
-            }
+            }*/
             for (TournamentPlayer player : lastGroup){
                 if (match.getPlayer1() == player || match.getPlayer2() == player){
                     removeMatchFromPlayers(match.getPlayer1(), match.getPlayer2());
@@ -138,7 +175,15 @@ public class SwissAlgorithm {
     }
 
     private void moveAllPlayerToHigherGroup(int group){
-        //TODO
+        removeMatchesInGroup(group - 1);
+        groupsPlayers.get(group - 1).addAll(groupsPlayers.get(group));
+        groupsPlayers.get(group).clear();
+
+    }
+
+    private void movePlayersToHigherGroup(TournamentPlayer player, int group){
+        removeMatchesInGroup(group - 1);
+
     }
 
     private void removeMatchFromPlayers(TournamentPlayer player1, TournamentPlayer player2){

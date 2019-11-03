@@ -1,6 +1,7 @@
 package com.example.adam.chesstournamentmanager;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.adam.chesstournamentmanager.model.Colors;
@@ -8,6 +9,14 @@ import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -62,16 +71,17 @@ public class SwissAlgorithm {
     }
 
 
-    private void resetFalling(){
+    private void reset(){
         for (TournamentPlayer player : tournamentPlayers){
-            player.setFallIntoLowerGroup(false);
+            player.setCountFallIntoTheLastGroup(0);
+            player.setCountGroup(0);
         }
     }
 
     //TODO program freeze (no find good opponent)
     private void drawNextRound(){
 
-        resetFalling();
+        reset();
         TournamentPlayer byePlayer;
         if (!even) //not even, last player vs bye
             byePlayer= findByePlayer();
@@ -83,7 +93,7 @@ public class SwissAlgorithm {
         int playerPos = 0;
         while(groupNumber < groupsPlayers.size()){
             boolean removeEmptyGroup = false;
-            boolean backToHigerGroup = false;
+            boolean backToHigherGroup = false;
             Iterator<TournamentPlayer> playerIterator = groupsPlayers.get(groupNumber).listIterator();
             while (playerIterator.hasNext()){
                 TournamentPlayer player = playerIterator.next();
@@ -92,17 +102,48 @@ public class SwissAlgorithm {
 
                         if (groupNumber == groupsPlayers.size() - 1) { //huge problem :(((( -> in the last group, player hasn't opponent
                             //go into a higher group
-                            int posNewPlayer = (groupsPlayers.get(groupNumber - 1).size() + 1) / 2;
-                            groupsPlayers.get(groupNumber - 1).add(posNewPlayer, player); //add player to higher group
+
+
+                            if (groupNumber - player.getCountGroup() == -1 )
+                                Log.i("", "TUTAJ :*((((");
+
+
+                            if (player.getCountFallIntoTheLastGroup() > 1){
+                                groupNumber = groupNumber - player.getCountFallIntoTheLastGroup();
+                                //groupNumber = groupNumber - player.getCountGroup();
+                                player.setCountGroup(0);
+
+
+                                for (int i = groupsPlayers.size() - 1; i > groupNumber; i--){
+                                    removeMatchesInGroup(i); //remove all matches in previous group (from the end to current)
+                                }
+                            }
+                            else {
+                                groupNumber--;
+                            }
+
+
+                            //int posNewPlayer = (groupsPlayers.get(groupNumber).size() + 1) / 2; //go to the first position in the second subgroup
+
+
+
+                            try {
+                                groupsPlayers.get(groupNumber).add(0, player); //add player to higher group, on the first position
+                            }
+                            catch (ArrayIndexOutOfBoundsException a){
+                                Log.i("", "ała222222222222222222222222222222222222222222222222222222222222222222222222");
+                            }
+
                             playerIterator.remove(); //remove player from current group
-                            removeMatchesInGroup(groupNumber - 1); //remove all matches from higher group
-                            backToHigerGroup = true; //set flag
+                            removeMatchesInGroup(groupNumber); //remove all matches from higher group
+                            backToHigherGroup = true; //set flag
+
                             break;
 
                         }
                         else {
                             //go into a lower group
-                            if (player.isFallIntoLowerGroup()) {
+                            if (player.getCountFallIntoTheLastGroup() > 1) {
                                 int posNewPlayer = (groupsPlayers.get(groupNumber + 1).size() + 1) / 2; //go to second subgroup
                                 groupsPlayers.get(groupNumber + 1).add(posNewPlayer, player);
                             }
@@ -112,13 +153,19 @@ public class SwissAlgorithm {
 
                             playerIterator.remove();
                             playerPos--;
-                            player.setFallIntoLowerGroup(true);
-                            //remove empty group
-                            if (groupsPlayers.get(groupNumber).isEmpty()) {
-                                List <TournamentPlayer> list = groupIterator.next();
-                                groupIterator.remove();
-                                removeEmptyGroup = true;
+                            player.increaseGroup();
+                            if (groupNumber + 1 == groupsPlayers.size() - 1) { //fall into the last group
+                                player.increaseFallIntoTheLastGroup();
                             }
+
+
+                        }
+
+                        //remove empty group
+                        if (groupsPlayers.get(groupNumber).isEmpty()) {
+                            List <TournamentPlayer> list = groupIterator.next();
+                            groupIterator.remove();
+                            removeEmptyGroup = true;
                         }
                     }
                 }
@@ -129,8 +176,7 @@ public class SwissAlgorithm {
             if (removeEmptyGroup){
                 groupIterator = groupsPlayers.listIterator(groupNumber);
             }
-            else if (backToHigerGroup) {
-                groupNumber--;
+            else if (backToHigherGroup) {
                 groupIterator = groupsPlayers.listIterator(groupNumber);
             }
 
@@ -140,6 +186,8 @@ public class SwissAlgorithm {
             }
 
 
+            writeGroups();
+            writeTmpMatches();
         }
 
         if (!even)
@@ -152,8 +200,12 @@ public class SwissAlgorithm {
 
     private void removeMatchesInGroup(int groupNumber){
 
-
-        List<TournamentPlayer> lastGroup = groupsPlayers.get(groupNumber);
+        List<TournamentPlayer> lastGroup = new ArrayList<>();
+        try {
+            lastGroup = groupsPlayers.get(groupNumber);
+        }catch(ArrayIndexOutOfBoundsException a){
+            Log.i("", "ał111111111111111111111111111111111111111111111111111111111111111111111111111");
+        }
 
         //Iterator<Match> matchIterator = matches.get(currentRound - 1).listIterator(matches.get(currentRound - 1).size());//matches.listIterator(matches.size()); //from the end
         Iterator<Match> matchIterator = matchesTmp.listIterator(matchesTmp.size()); //from the end
@@ -246,9 +298,8 @@ public class SwissAlgorithm {
         while (i >= 0){
             TournamentPlayer player = tournamentPlayers.get(i);
             if (!player.hadByeBefore()){ //no bye before
-/*                player.setBye(true);
-                player.setPrevOponents(bye);*/
                 removePlayerFromDrawing(player);
+                removeEmptyGroup();
                 Log.i("", "\t\t\t\t" + "BYE = " + player.toString());
                 return player;
             }
@@ -257,6 +308,16 @@ public class SwissAlgorithm {
         return null;
     }
 
+    private void removeEmptyGroup(){
+        Iterator<List<TournamentPlayer>> it = groupsPlayers.listIterator(groupsPlayers.size());
+        while (((ListIterator<List<TournamentPlayer>>) it).hasPrevious()) {
+            List<TournamentPlayer> players = ((ListIterator<List<TournamentPlayer>>) it).previous();
+            if (players.isEmpty()) {
+                it.remove();
+                break;
+            }
+        }
+    }
     private void removePlayerFromDrawing(TournamentPlayer playerToRemove){
         for (List<TournamentPlayer> list : groupsPlayers){
             for (TournamentPlayer player : list){
@@ -312,6 +373,9 @@ public class SwissAlgorithm {
 
     }
 
+
+
+
     private void writeEndResults(){
         System.out.println(" ");
         System.out.println(" ");
@@ -325,14 +389,23 @@ public class SwissAlgorithm {
     }
 
     private void writeGroups(){
+        //String text="";
         for (List<TournamentPlayer> list : groupsPlayers){
-            System.out.println(" ");
-            System.out.println(" ");
             Log.i("", "\t\t\t\tGRUPA = " + groupsPlayers.indexOf(list));
+           // text = "Grupa = " + groupsPlayers.indexOf(list);
             for (TournamentPlayer player : list){
-                Log.i("","\t\t\t\tZAWODNIK = " + player.toString() + " punkty = " + player.getPoints());
+                Log.i("","\t\t\t\tZAWODNIK = " + player.toString() + ", punkty = " + player.getPoints() + ", previous opponents = " + player.writeOpponent());
+               // text += "\t\t\t\tZAWODNIK = " + player.toString() + ", punkty = " + player.getPoints() + ", previous opponents = " + player.writeOpponent();
             }
         }
+
+/*        try {
+            FileWriter writer = new FileWriter("MyFile.txt", true);
+            writer.write(text);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
     }
     private List<List<TournamentPlayer>> prepareGroups(){
         float pointsTemp = tournamentPlayers.get(0).getPoints(); //the best score
@@ -496,6 +569,15 @@ public class SwissAlgorithm {
         }*/
 
         for (Match match : matches.get(round)){
+            Log.i("", "\t\t\t\t" + match.toString());
+        }
+    }
+
+    private void writeTmpMatches(){
+        System.out.println(" ");
+        System.out.println(" ");
+
+        for (Match match : matchesTmp){
             Log.i("", "\t\t\t\t" + match.toString());
         }
     }

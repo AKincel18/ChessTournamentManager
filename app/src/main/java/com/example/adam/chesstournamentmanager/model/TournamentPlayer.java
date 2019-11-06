@@ -1,6 +1,7 @@
 package com.example.adam.chesstournamentmanager.model;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class TournamentPlayer extends Players {
     private int countGroup; //o ile musi isc do gory ze swojej grupy
 
     private int countFallIntoTheLastGroup; //ile razy spadł do najnizej grupy: jesli raz to lec do wyzszej, a jesli dwa to lec do 2 wyzszej
+
+    private boolean upper;
 
     public TournamentPlayer() {
     }
@@ -65,8 +68,16 @@ public class TournamentPlayer extends Players {
         this.bye = bye;
     }
 
+    public boolean isUpper() {
+        return upper;
+    }
 
-/*
+    public void setUpper(boolean upper) {
+        this.upper = upper;
+    }
+
+
+    /*
 
     public boolean isFallIntoLastGroup() {
         return fallIntoLastGroup;
@@ -148,6 +159,51 @@ public class TournamentPlayer extends Players {
             Colors color = prevColors.get(prevColors.size() - 1);
             return color.opposite();
         }
+
+        public int countColorInTheRow(){
+            if (prevColors.size() == 1)
+                return 1;
+            int counter = 1;
+            for (int i=prevColors.size() - 1; i >= 1; i--){
+                if (prevColors.get(i) == prevColors.get(i - 1)){
+                    counter++;
+                }else
+                    return counter;
+            }
+            return counter;
+        }
+/*
+        public int maxColorInTheRow(){
+            int counter = 1;
+            int max = 1;
+            for (int i=prevColors.size() - 1; i >= 1; i--){
+                if (prevColors.get(i) == prevColors.get(i - 1)){
+                    counter++;
+                }else{
+                    if (max < counter) {
+                        max = counter;
+                        counter = 1;
+                    }
+                }
+            }
+            return max;
+        }*/
+
+    public List<Integer> maxColorInTheRow(){
+        List<Integer> list = new ArrayList<>();
+        int black = 0;
+        int white = 0;
+        for (Colors color : prevColors){
+            if (color == Colors.WHITE)
+                white++;
+            else if (color == Colors.BLACK)
+                black++;
+        }
+        list.add(black);
+        list.add(white);
+        return list;
+    }
+
 
         public boolean isColorRepatedTwoLastTimes(){
             if (prevColors.size() > 2){

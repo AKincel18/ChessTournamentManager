@@ -1,7 +1,6 @@
 package com.example.adam.chesstournamentmanager;
 
 
-import android.content.Context;
 import android.util.Log;
 
 import com.example.adam.chesstournamentmanager.model.Colors;
@@ -9,14 +8,6 @@ import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -75,10 +66,10 @@ public class SwissAlgorithm {
         for (TournamentPlayer player : tournamentPlayers){
             player.setCountFallIntoTheLastGroup(0);
             player.setCountGroup(0);
+            player.setUpper(false);
         }
     }
 
-    //TODO program freeze (no find good opponent)
     private void drawNextRound(){
 
         reset();
@@ -100,71 +91,46 @@ public class SwissAlgorithm {
                 if (!player.hasOpponent(currentRound)) {
                     if (!findOpponent(player, groupsPlayers.get(groupNumber).size(), groupNumber, playerPos)) { //not found opponent in his points group
 
-                        if (groupNumber == groupsPlayers.size() - 1) { //huge problem :(((( -> in the last group, player hasn't opponent
-                            //go into a higher group
+                        if (groupNumber == 0)
+                            player.setUpper(false);
 
 
-                            if (groupNumber - player.getCountGroup() == -1 )
-                                Log.i("", "TUTAJ :*((((");
+                        //go to higher group
+                        if (player.isUpper() || groupNumber == groupsPlayers.size() - 1){
 
-
-                            if (player.getCountFallIntoTheLastGroup() > 1){
-                                groupNumber = groupNumber - player.getCountFallIntoTheLastGroup();
-                                //groupNumber = groupNumber - player.getCountGroup();
-                                player.setCountGroup(0);
-
-
-                                for (int i = groupsPlayers.size() - 1; i > groupNumber; i--){
-                                    removeMatchesInGroup(i); //remove all matches in previous group (from the end to current)
-                                }
-                            }
-                            else {
-                                groupNumber--;
-                            }
-
-
-                            //int posNewPlayer = (groupsPlayers.get(groupNumber).size() + 1) / 2; //go to the first position in the second subgroup
-
-
-
-                            try {
-                                groupsPlayers.get(groupNumber).add(0, player); //add player to higher group, on the first position
-                            }
-                            catch (ArrayIndexOutOfBoundsException a){
-                                Log.i("", "ała222222222222222222222222222222222222222222222222222222222222222222222222");
-                            }
+                            groupNumber--;
+                            groupsPlayers.get(groupNumber).add(0, player); //add player to higher group, on the first position
 
                             playerIterator.remove(); //remove player from current group
                             removeMatchesInGroup(groupNumber); //remove all matches from higher group
                             backToHigherGroup = true; //set flag
 
                             break;
+                        } else {
 
-                        }
-                        else {
-                            //go into a lower group
-                            if (player.getCountFallIntoTheLastGroup() > 1) {
-                                int posNewPlayer = (groupsPlayers.get(groupNumber + 1).size() + 1) / 2; //go to second subgroup
-                                groupsPlayers.get(groupNumber + 1).add(posNewPlayer, player);
-                            }
-                            else
-                                groupsPlayers.get(groupNumber + 1).add(0, player); //go to first subgroup
+                            //go to lower group
+/*                            int posNewPlayer = (groupsPlayers.get(groupNumber + 1).size() + 1) / 2; //go to second subgroup
+                            groupsPlayers.get(groupNumber + 1).add(posNewPlayer, player);*/
+                            groupsPlayers.get(groupNumber + 1).add(0, player);
+                            if (groupNumber + 1 == groupsPlayers.size() - 1)
+                                player.setUpper(true);
 
-
+                            removeMatchesInGroup(groupNumber + 1);
                             playerIterator.remove();
                             playerPos--;
-                            player.increaseGroup();
-                            if (groupNumber + 1 == groupsPlayers.size() - 1) { //fall into the last group
-                                player.increaseFallIntoTheLastGroup();
-                            }
 
 
                         }
+
+                            //go into a higher group
+
+
 
                         //remove empty group
                         if (groupsPlayers.get(groupNumber).isEmpty()) {
                             List <TournamentPlayer> list = groupIterator.next();
                             groupIterator.remove();
+                           // player.setCountGroup(player.getCountGroup() - 1);
                             removeEmptyGroup = true;
                         }
                     }
@@ -186,8 +152,8 @@ public class SwissAlgorithm {
             }
 
 
-            writeGroups();
-            writeTmpMatches();
+/*            writeGroups();
+            writeTmpMatches();*/
         }
 
         if (!even)
@@ -201,11 +167,7 @@ public class SwissAlgorithm {
     private void removeMatchesInGroup(int groupNumber){
 
         List<TournamentPlayer> lastGroup = new ArrayList<>();
-        try {
-            lastGroup = groupsPlayers.get(groupNumber);
-        }catch(ArrayIndexOutOfBoundsException a){
-            Log.i("", "ał111111111111111111111111111111111111111111111111111111111111111111111111111");
-        }
+        lastGroup = groupsPlayers.get(groupNumber);
 
         //Iterator<Match> matchIterator = matches.get(currentRound - 1).listIterator(matches.get(currentRound - 1).size());//matches.listIterator(matches.size()); //from the end
         Iterator<Match> matchIterator = matchesTmp.listIterator(matchesTmp.size()); //from the end
@@ -277,7 +239,7 @@ public class SwissAlgorithm {
     }
 
     private void addMatch(TournamentPlayer player1, TournamentPlayer player2){
-        if (drawColor()) { //TODO make intelligent color allocation
+        if (selectColors(player1, player2)) {
             matchesTmp.add(new Match(currentRound, player1, player2));//matches.get(currentRound - 1).add(new Match(currentRound, player1, player2));//matches.add(new Match(currentRound, player1, player2));
             player1.setPrevColors(Colors.WHITE);
             player2.setPrevColors(Colors.BLACK);
@@ -329,21 +291,40 @@ public class SwissAlgorithm {
         }
     }
 
+    private void addFirstMatchRound(TournamentPlayer player1, TournamentPlayer player2){
+
+        Random randomGenerator = new Random();
+
+        if (randomGenerator.nextBoolean()){ //player1 = white
+
+            matchesTmp.add(new Match(currentRound, player1, player2));
+            player1.setPrevColors(Colors.WHITE);
+            player2.setPrevColors(Colors.BLACK);
+
+        } else { //player2 = black
+
+            matchesTmp.add(new Match(currentRound, player2, player1));
+            player1.setPrevColors(Colors.BLACK);
+            player2.setPrevColors(Colors.WHITE);
+        }
+
+
+        player1.setPrevOponents(player2);
+        player2.setPrevOponents(player1);
+    }
     public void drawFirstRound(){
         currentRound = 1;
 
         for (int i = 0; i < playersNumber / 2; i++){
             TournamentPlayer player1 = tournamentPlayers.get(i);
             TournamentPlayer player2 = tournamentPlayers.get(playersNumber / 2 + i);
-            addMatch(player1, player2);
+            addFirstMatchRound(player1, player2);
+
         }
 
         if (playersNumber % 2 != 0){
             TournamentPlayer player1 = tournamentPlayers.get(playersNumber - 1);
-            matchesTmp.add(new Match(currentRound, player1, bye));//matches.get(currentRound - 1).add(new Match(currentRound, player1, bye));//matches.add(new Match(currentRound, player1, bye)); //last player vs bye
-            player1.setPrevOponents(bye);
-            player1.setPrevColors(Colors.NO_COLOR); //no color
-            player1.setBye(true);
+            addMatchVersusBye(player1);
         }
 
 
@@ -382,7 +363,7 @@ public class SwissAlgorithm {
         Log.i("", "\t\t\t\t RESULTS");
 
         for (TournamentPlayer player : tournamentPlayers){
-            Log.i("", "\t\t\t\t" + player.toString() + ", points = " + player.getPoints() + ", opponent = " + player.writeOpponent() +  ", color = " + player.writeColors() );
+            Log.i("", "\t\t\t\t" + player.toString() + ", points = " + player.getPoints() + ", opponent = " + player.writeOpponent() +  ", color = " + player.writeColors() + ", white= " + player.maxColorInTheRow().get(0) + ", black = " + player.maxColorInTheRow().get(1) );
         }
         System.out.println(" ");
         System.out.println(" ");
@@ -399,13 +380,6 @@ public class SwissAlgorithm {
             }
         }
 
-/*        try {
-            FileWriter writer = new FileWriter("MyFile.txt", true);
-            writer.write(text);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
     private List<List<TournamentPlayer>> prepareGroups(){
         float pointsTemp = tournamentPlayers.get(0).getPoints(); //the best score
@@ -434,9 +408,22 @@ public class SwissAlgorithm {
         return groupsPlayers;
     }
 
-    private boolean drawColor(){
-        Random randomGenerator = new Random();
-        return randomGenerator.nextBoolean();
+    //return true if player1 has white color, false = black
+    private boolean selectColors(TournamentPlayer player1, TournamentPlayer player2){
+        if (player1.expectedColor() != player2.expectedColor()){
+            return (player1.expectedColor() == Colors.WHITE);
+        }
+        else {
+            if (player1.countColorInTheRow() > player2.countColorInTheRow()) {
+                return (player1.getLastColor().opposite() == Colors.WHITE);
+            } else
+            {
+                return !(player2.getLastColor().opposite() == Colors.WHITE);
+            }
+        }
+
+
+
     }
 
     private void writeAfterRound() {

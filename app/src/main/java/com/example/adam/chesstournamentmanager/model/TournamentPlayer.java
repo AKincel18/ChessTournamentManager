@@ -146,50 +146,32 @@ public class TournamentPlayer extends Players {
         return tmp;
     }
 
-
-
-/*    public Colors expectedColor(){
-        Colors color;
-        if ((color = prevColors.get(prevColors.size() - 1)) == prevColors.get(prevColors.size() - 2)){
-            return color.opposite();
-        }
-        return null;
-    }*/
+/*
         public Colors expectedColor(){
-            Colors color = prevColors.get(prevColors.size() - 1);
+            int round = prevColors.size() - 1;
+            Colors color = prevColors.get(round);
+            if (round == 1)
+                return null;
+            if (color == Colors.NO_COLOR)
+                color = prevColors.get(round);
             return color.opposite();
-        }
+        }*/
 
         public int countColorInTheRow(){
             if (prevColors.size() == 1)
                 return 1;
             int counter = 1;
             for (int i=prevColors.size() - 1; i >= 1; i--){
-                if (prevColors.get(i) == prevColors.get(i - 1)){
+                if (prevColors.get(i) != Colors.NO_COLOR && prevColors.get(i) == prevColors.get(i - 1)){
                     counter++;
                 }else
                     return counter;
             }
             return counter;
         }
-/*
-        public int maxColorInTheRow(){
-            int counter = 1;
-            int max = 1;
-            for (int i=prevColors.size() - 1; i >= 1; i--){
-                if (prevColors.get(i) == prevColors.get(i - 1)){
-                    counter++;
-                }else{
-                    if (max < counter) {
-                        max = counter;
-                        counter = 1;
-                    }
-                }
-            }
-            return max;
-        }*/
 
-    public List<Integer> maxColorInTheRow(){
+
+    public List<Integer> colorsCount(){
         List<Integer> list = new ArrayList<>();
         int black = 0;
         int white = 0;

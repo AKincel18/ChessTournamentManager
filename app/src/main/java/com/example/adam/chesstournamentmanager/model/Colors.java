@@ -14,6 +14,5 @@ public enum Colors {
 
         }
         return null;
-        //return Colors.values()[(this.ordinal() + 1) % 2]; //return opposite value
     }
 }

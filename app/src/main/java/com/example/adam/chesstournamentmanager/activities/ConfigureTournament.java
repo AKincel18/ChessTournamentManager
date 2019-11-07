@@ -3,6 +3,7 @@ package com.example.adam.chesstournamentmanager.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.R;
+import com.example.adam.chesstournamentmanager.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
@@ -82,6 +84,7 @@ public class ConfigureTournament extends AppCompatActivity {
         int optimalCountOfRunds =(int)Math.ceil(Math.log(players.size()) / Math.log(2)); // ceil(log2(ilość_graczy)),  log2 = (Math.log(x) / Math.log(2));
         switchImplementation(optimalCountOfRunds);
         startTournament(optimalCountOfRunds);
+        losuj();
 
     }
 
@@ -182,6 +185,20 @@ public class ConfigureTournament extends AppCompatActivity {
     }
 
 
+    private void losuj(){
+        Button button = findViewById(R.id.button);
+        final EditText roundsNumber = findViewById(R.id.roundsNumber);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    SwissAlgorithm swissAlgorithm = new SwissAlgorithm(Integer.valueOf(roundsNumber.getText().toString()), Constans.ALPHABETICAL_ORDER);
+                    swissAlgorithm.initTournamentPlayers(players);
+                    swissAlgorithm.drawFirstRound();
+
+            }
+        });
+    }
 
     private void startTournament(final int optimalCountOfRunds) {
         final EditText roundsNumber = findViewById(R.id.roundsNumber);

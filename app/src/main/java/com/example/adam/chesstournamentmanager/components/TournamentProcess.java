@@ -1,4 +1,4 @@
-package com.example.adam.chesstournamentmanager.activities;
+package com.example.adam.chesstournamentmanager.components;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
-import com.example.adam.chesstournamentmanager.components.SectionPagerAdapter;
 import com.example.adam.chesstournamentmanager.model.Players;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class TournamentProcess extends AppCompatActivity {
         setContentView(R.layout.activity_tournament_process);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
 
@@ -54,10 +53,9 @@ public class TournamentProcess extends AppCompatActivity {
 
         players = (ArrayList<Players>) i.getSerializableExtra("players");
 
-
         SwissAlgorithm swissAlgorithm = new SwissAlgorithm(roundsNumber, order);
         swissAlgorithm.initTournamentPlayers(players);
-        swissAlgorithm.drawFirstRound();
+        //swissAlgorithm.drawFirstRound();
 
         mSectionsPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager(), roundsNumber + 1, swissAlgorithm);
 
@@ -75,8 +73,8 @@ public class TournamentProcess extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        initView(tabLayout);
 
+        initView(tabLayout);
 
     }
 
@@ -88,12 +86,11 @@ public class TournamentProcess extends AppCompatActivity {
             mSectionsPagerAdapter.addFragment(new Fragment(), a );
             mSectionsPagerAdapter.notifyDataSetChanged();
         }
-
         mSectionsPagerAdapter.addFragment(new Fragment(), roundsNumber );
         mSectionsPagerAdapter.notifyDataSetChanged();
 
         for (int b = 0; b < roundsNumber; b++){
-            tabLayout.getTabAt(b).setText(getString(R.string.fragmentNumber, Integer.valueOf(b+1)));
+            tabLayout.getTabAt(b).setText(getString(R.string.fragmentNumber, b+1));
         }
 
         tabLayout.getTabAt(roundsNumber).setText(getString(R.string.results));

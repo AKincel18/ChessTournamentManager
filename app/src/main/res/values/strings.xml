@@ -1,38 +1,44 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Chess Tournament Manager</string>
-    <string name="availablePlayersTextView">Dostępni zawodnicy</string>
-    <string name="chosenPlayersTextView">Wybrani zawodnicy</string>
-    <string name="addPlayerButton">Dodaj zawodnika</string>
-    <string name="moveToChosenPlayersButton"><![CDATA[->]]></string>
-    <string name="moveToAvailablePlayersButton"><![CDATA[<-]]></string>
-    <string name="drawButton">Konfiguracja turnieju</string>
-    <string name="checked_text_view_example">Checked Text View Example</string>
+    <!--CreateTournament-->
+
+        <string name="availablePlayersTextView">Dostępni zawodnicy</string>
+        <string name="chosenPlayersTextView">Wybrani zawodnicy</string>
+        <string name="addPlayerButton">Dodaj zawodnika</string>
+        <string name="moveToChosenPlayersButton"><![CDATA[->]]></string>
+        <string name="moveToAvailablePlayersButton"><![CDATA[<-]]></string>
+        <string name="drawButton">Konfiguracja turnieju</string>
+        <string name="checked_text_view">Checked Text View</string>
+        <string name="selectAllButton">Zaznacz wszystko</string>
+
+        <!--Messages-->
+            <string name="nothing_selected">Nie zaznaczono zawodnika</string>
+            <string name="added_player">Dodano zawodnika</string>
+
+
+
+    <!--AddNewPlayer-->
     <string name="nameTextView">Imię</string>
     <string name="surnameTextView">Nazwisko</string>
     <string name="dateOfBirthTextView">Data urodzenia</string>
     <string name="pickDateTextView">Wprowadź datę</string>
     <string name="confirmNewPlayerButton">Zatwierdź</string>
     <string name="closeButton">Wyjdź</string>
+    <string name="polishRankingTextView">Ranking polski</string>
+    <string name="internationalRankingTextView">Ranking międzynarodowy</string>
+
+
+    <!--ConfigureTournament-->
     <string name="pairingType">Typ kojarzenia</string>
     <string name="methodTextView">Metoda przy jednakowych wynikach</string>
-    <string name="countOfPlayersTextView" />
+    <string name="countOfPlayersTextView"/>
     <string name="setMethodTextView">Bucholtz</string>
     <string name="startingListTextView">Lista startowa</string>
     <string name="playersCountTextView">Ilość zawodników</string>
-    <string name="roundsTextView">Ilość rund</string>
     <string name="roundNumber">Podaj liczbę rund</string>
     <string name="startTournamentButton">Rozpocznij turniej</string>
-    <string name="polishRankingTextView">Ranking polski</string>
-    <string name="internationalRankingTextView">Ranking międzynarodowy</string>
-    <string name="fragmentNumber">Runda %1$d</string>
-    <string name="results">Wyniki</string>
-
-    <string name="title_activity_tournament_process">TournamentProcess</string>
-    <string name="section_format">Hello World from section: %1$d</string>
     <string name="countOfNumberSwitch">Ręczny wybór liczby rund</string>
     <string name="autoCountOfRounds">Standardowa liczba rund: %1$d</string>
-    <string name="nothing_selected">nic nie zaznaczono proszę pana</string>
-    <string name="selectAllButton">Zaznacz wszystko</string>
 
     <string-array name="pairing">
         <item>Alfabetycznie</item>
@@ -42,4 +48,60 @@
     </string-array>
 
 
+    <!--TournamentProcess-->
+    <string name="results">Wyniki</string>
+    <string name="title_activity_tournament_process">TournamentProcess</string>
+
+    <!--PlaceholderFragment-->
+    <string name="roundCountTextView">Runda %1$d</string>
+        <!--messages-->
+        <string name="fragmentNumber">Runda %1$d</string>
+        <string name="not_finished_round">Poprzednie rundy nie zostały zakończone</string>
+        <string name="results_here">Tutaj pojawią się wyniki po zakończonych rundach</string>
+        <string name="final_result">Wyniki końcowe</string>
+        <string name="current_results">Wyniki po %1$d rundzie</string>
+
+    <string-array name="results_array">
+        <item>1&#8211;0</item>
+        <item>&#189;&#8211;&#189;</item>
+        <item>0&#8211;1</item>
+    </string-array>
+
+    <array name="autosize_text_sizes">
+        <item>8</item>
+        <item>16</item>
+        <item>24</item>
+        <item>32</item>
+        <item>40</item>
+    </array>
+
+    <!--DialogBoxes-->
+
+        <!--Yes/No-->
+        <string name="title_warning">Ostrzeżenie</string>
+        <string name="information_warning">Po zamknięciu okna zawodnik nie zostanie zapisany.
+                                           Czy na pewno chcesz wyjść?</string>
+        <string name="odd_number_players">Nieparzysta liczba zawodników.
+                                          Kontynuować?</string>
+        <string name="positive_button_warning">Tak</string>
+        <string name="negative_button_warning">Nie</string>
+
+        <!--Error-->
+        <string name="title_error">Błąd</string>
+        <string name="message_error">Wybierz datę</string>
+        <string name="exit_button">OK</string>
+
+    <!--Database-->
+    <string name="database_name">ChessTournamentManager.db</string>
+
+    <!--Intent-->
+    <string name="available_players">availablePlayers</string>
+    <string name="players">players</string>
+    <string name="rounds_number">roundsNumber</string>
+    <string name="order">order</string>
+    <string name="swiss">swiss</string>
+
+
+    <!--Bundle-->
+    <string name="title">title</string>
 </resources>

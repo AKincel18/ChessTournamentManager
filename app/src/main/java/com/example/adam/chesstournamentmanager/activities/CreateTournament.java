@@ -46,9 +46,9 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         database = Database.getInstance(this);
 
         Intent i = getIntent();
-        if (i.getSerializableExtra("availablePlayers") !=  null){
-            availablePlayers =(ArrayList<Players>)i.getSerializableExtra("availablePlayers");
-            Toast.makeText(this, Constans.ADDED_NEW_PLAYER, Toast.LENGTH_LONG).show(); //TODO string from string.xml -> getString(R.string.nothing_selected)
+        if (i.getSerializableExtra(getString(R.string.available_players)) !=  null){
+            availablePlayers =(ArrayList<Players>)i.getSerializableExtra(getString(R.string.available_players));
+            Toast.makeText(this, getString(R.string.added_player), Toast.LENGTH_LONG).show();
         }
 
 
@@ -170,7 +170,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), AddNewPlayer.class);
-                i.putExtra("availablePlayers", availablePlayers);
+                i.putExtra(getString(R.string.available_players), availablePlayers);
                 startActivity(i);
             }
         });
@@ -181,19 +181,19 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         configureTournamentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*                if (chosenPlayers.size() % 2 == 0) {
+                if (chosenPlayers.size() % 2 == 0) {
                     Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
-                    i.putExtra("players", chosenPlayers);
+                    i.putExtra(getString(R.string.players), chosenPlayers);
                     startActivity(i);
                 }
                 else {
                     GeneralDialogFragment dialog = GeneralDialogFragment.
-                            newInstance(Constans.TITLE_WARNING, Constans.ODD_NUMBER_PLAYERS, Constans.POSITIVE_BUTTON_WARNING);
-                    dialog.show(getSupportFragmentManager(), Constans.TITLE_WARNING);
-                }*/
-                Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
-                i.putExtra("players", chosenPlayers);
-                startActivity(i); //TODO for testing
+                            newInstance(getString(R.string.title_warning), getString(R.string.odd_number_players), getString(R.string.positive_button_warning));
+                    dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
+                }
+                Intent i = new Intent(getApplicationContext(), ConfigureTournament.class); //TODO dont wait for accept no even players warning
+                i.putExtra(getString(R.string.players), chosenPlayers);//TODO for testing
+                startActivity(i);
 
 
 
@@ -204,7 +204,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
         Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
-        i.putExtra("players", chosenPlayers);
+        i.putExtra(getString(R.string.players), chosenPlayers);
         startActivity(i);
     }
 

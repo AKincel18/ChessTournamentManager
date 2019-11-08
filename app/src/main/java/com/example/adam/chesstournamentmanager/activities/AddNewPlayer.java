@@ -92,7 +92,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
         };
 
         Intent i = getIntent();
-        allPlayers = (ArrayList<Players>) i.getSerializableExtra("availablePlayers");
+        allPlayers = (ArrayList<Players>) i.getSerializableExtra(getString(R.string.available_players));
 
         //buttons
         confirmNewPlayer();
@@ -116,17 +116,17 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy", new Locale("pl"));
 
                 formatDate = new Date();
-/*                try {
+                try {
                     formatDate = format.parse(date.getText().toString());
                 }
                 catch (ParseException exc) {
                     GeneralDialogFragment generalDialogFragment =
-                            GeneralDialogFragment.newInstance(Constans.TITLE_ERROR_DIALOGBOX, Constans.MESSAGE_ERROR_DIALOGBOX, Constans.EXIT_BUTTON_ERROR_DIALOGBOX);
-                    generalDialogFragment.show(getSupportFragmentManager(), Constans.TITLE_ERROR_DIALOGBOX);
+                            GeneralDialogFragment.newInstance(getString(R.string.title_error), getString(R.string.message_error), getString(R.string.exit_button));
+                    generalDialogFragment.show(getSupportFragmentManager(), getString(R.string.title_error));
                     return;
 
 
-                }*/
+                }
 
                 final Players players = new Players(
                         name.getText().toString(),
@@ -160,7 +160,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                     allPlayers = new ArrayList<>();
 
                 allPlayers.add(players);
-                i.putExtra("availablePlayers", allPlayers);
+                i.putExtra(getString(R.string.available_players), allPlayers);
                 startActivity(i);
             }
         });
@@ -184,13 +184,13 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
 
     private void showDialogBox(){
         GeneralDialogFragment generalDialogFragment =
-                GeneralDialogFragment.newInstance(Constans.TITLE_WARNING, Constans.INFORMATION_WARNING, Constans.POSITIVE_BUTTON_WARNING);
-        generalDialogFragment.show(getSupportFragmentManager(), Constans.TITLE_WARNING);
+                GeneralDialogFragment.newInstance(getString(R.string.title_warning), getString(R.string.information_warning), getString(R.string.positive_button_warning));
+        generalDialogFragment.show(getSupportFragmentManager(), getString(R.string.title_warning));
     }
 
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
-        if (dialog.getArguments().getString("title").equals(Constans.TITLE_WARNING)) {
+        if (dialog.getArguments().getString(getString(R.string.title)).equals(getString(R.string.title_warning))) {
             Intent i = new Intent(this, CreateTournament.class);
             startActivity(i);
         }

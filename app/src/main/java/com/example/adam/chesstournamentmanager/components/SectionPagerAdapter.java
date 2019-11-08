@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
+import com.example.adam.chesstournamentmanager.activities.PlaceholderFragment;
 
 import java.util.ArrayList;
 import java.util.List;

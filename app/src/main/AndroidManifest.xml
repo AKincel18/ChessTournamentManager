@@ -21,14 +21,14 @@
         <activity
             android:name=".activities.AddNewPlayer"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.PopUp"></activity>
+            android:theme="@style/AppTheme.PopUp" />
         <activity
             android:name=".activities.ConfigureTournament"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
-            android:name=".activities.TournamentProcess"
+            android:name=".components.TournamentProcess"
             android:label="@string/title_activity_tournament_process"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

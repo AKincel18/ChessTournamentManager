@@ -1,6 +1,8 @@
 package com.example.adam.chesstournamentmanager;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.adam.chesstournamentmanager.model.Colors;
@@ -16,11 +18,11 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
-public class SwissAlgorithm {
+public class SwissAlgorithm implements Parcelable {
 
     private int roundsNumber;
 
-    private int currentRound;
+    private int currentRound = 1;
 
     private int playersNumber;
 
@@ -34,7 +36,6 @@ public class SwissAlgorithm {
 
     private String order;
 
-    private TournamentPlayer bye = new TournamentPlayer();
 
     private boolean even;
 
@@ -44,6 +45,26 @@ public class SwissAlgorithm {
         this.roundsNumber = roundsNumber;
         this.order = order;
     }
+
+    protected SwissAlgorithm(Parcel in) {
+        roundsNumber = in.readInt();
+        currentRound = in.readInt();
+        playersNumber = in.readInt();
+        order = in.readString();
+        even = in.readByte() != 0;
+    }
+
+    public static final Creator<SwissAlgorithm> CREATOR = new Creator<SwissAlgorithm>() {
+        @Override
+        public SwissAlgorithm createFromParcel(Parcel in) {
+            return new SwissAlgorithm(in);
+        }
+
+        @Override
+        public SwissAlgorithm[] newArray(int size) {
+            return new SwissAlgorithm[size];
+        }
+    };
 
     public void initTournamentPlayers(List<Players> players){
 
@@ -206,6 +227,10 @@ public class SwissAlgorithm {
 
 
     private void addMatchVersusBye(TournamentPlayer player){
+
+        TournamentPlayer bye = new TournamentPlayer();
+        bye.setName("Bye");
+        bye.setSurname("");
         matchesTmp.add(new Match(currentRound, player, bye));//matches.get(currentRound - 1).add(new Match(currentRound, player, bye)); //matches.add(new Match(currentRound, player, bye));
         player.setBye(true);
         player.setPrevOponents(bye);
@@ -287,7 +312,6 @@ public class SwissAlgorithm {
         player2.setPrevOponents(player1);
     }
     public void drawFirstRound(){
-        currentRound = 1;
 
         for (int i = 0; i < playersNumber / 2; i++){
             TournamentPlayer player1 = tournamentPlayers.get(i);
@@ -303,7 +327,7 @@ public class SwissAlgorithm {
 
 
         matches.add(matchesTmp);
-        matchesTmp = new ArrayList<>();
+/*        matchesTmp = new ArrayList<>();
         setResult(result());
         writeMatches(0);
 
@@ -320,7 +344,7 @@ public class SwissAlgorithm {
         }
 
         sortPlayerByPoints();
-        writeEndResults();
+        writeEndResults();*/
 
 
 
@@ -589,5 +613,19 @@ public class SwissAlgorithm {
 
     public void setMatches(List<List<Match>> matches) {
         this.matches = matches;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(roundsNumber);
+        dest.writeInt(currentRound);
+        dest.writeInt(playersNumber);
+        dest.writeString(order);
+        dest.writeByte((byte) (even ? 1 : 0));
     }
 }

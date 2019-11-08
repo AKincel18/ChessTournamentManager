@@ -3,7 +3,6 @@ package com.example.adam.chesstournamentmanager.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
+import com.example.adam.chesstournamentmanager.components.TournamentProcess;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
@@ -39,16 +39,19 @@ public class ConfigureTournament extends AppCompatActivity {
 
         TextView countOfPlayersTextView = findViewById(R.id.countOfPlayersTextView);
         Intent i = getIntent();
-        players = (ArrayList<Players>) i.getSerializableExtra("players");
+        players = (ArrayList<Players>) i.getSerializableExtra(getString(R.string.players));
         countOfPlayersTextView.setText(String.valueOf(players.size()));
         listView = findViewById(R.id.playersListView);
         Spinner spinner = findViewById(R.id.pairingTypeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.pairing, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        //final String []pairingType = getResources().getStringArray(R.array.pairing);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 switch (order = parent.getSelectedItem().toString()){
                     case (Constans.ALPHABETICAL_ORDER):
                         comparatorBySurnameName();
@@ -81,9 +84,9 @@ public class ConfigureTournament extends AppCompatActivity {
 
         switch1 = findViewById(R.id.countOfNumberSwitch);
 
-        int optimalCountOfRunds =(int)Math.ceil(Math.log(players.size()) / Math.log(2)); // ceil(log2(ilość_graczy)),  log2 = (Math.log(x) / Math.log(2));
-        switchImplementation(optimalCountOfRunds);
-        startTournament(optimalCountOfRunds);
+        int optimalCountOfRounds =(int)Math.ceil(Math.log(players.size()) / Math.log(2)); // ceil(log2(player's number)),  log2 = (Math.log(x) / Math.log(2));
+        switchImplementation(optimalCountOfRounds);
+        startTournament(optimalCountOfRounds);
         losuj();
 
     }
@@ -208,14 +211,14 @@ public class ConfigureTournament extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), TournamentProcess.class);
                 if (switch1.isChecked()){
-                    i.putExtra("roundsNumber", Integer.valueOf(roundsNumber.getText().toString())); //TODO java.lang.NumberFormatException: For input string: ""
+                    i.putExtra(getString(R.string.rounds_number), Integer.valueOf(roundsNumber.getText().toString())); //TODO java.lang.NumberFormatException: For input string: ""
                 }
                 else {
-                    i.putExtra("roundsNumber", Integer.valueOf(optimalCountOfRunds));
+                    i.putExtra(getString(R.string.rounds_number), Integer.valueOf(optimalCountOfRunds));
                 }
 
-                i.putExtra("players", players);
-                i.putExtra("order", order);
+                i.putExtra(getString(R.string.players), players);
+                i.putExtra(getString(R.string.order), order);
                 startActivity(i);
             }
         });
@@ -223,11 +226,11 @@ public class ConfigureTournament extends AppCompatActivity {
 
     }
 
-    private void switchImplementation(int optimalCountOfRunds){
+    private void switchImplementation(int optimalCountOfRounds){
         final TextView textView = findViewById(R.id.autoRoundsNumber);
         final EditText editText = findViewById(R.id.roundsNumber);
 
-        textView.setText(getString(R.string.autoCountOfRounds, optimalCountOfRunds));
+        textView.setText(getString(R.string.autoCountOfRounds, optimalCountOfRounds));
 
 
 

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
 public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragment.OnDialogFragmentClickListener> {
@@ -42,8 +43,8 @@ public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragm
 
         );
 
-        if (getArguments().getString("title").equals(Constans.TITLE_WARNING))
-            builder.setNegativeButton(Constans.NEGATIVE_BUTTON_WARNING,
+        if (getArguments().getString("title").equals(getString(R.string.title_warning)))
+            builder.setNegativeButton(getString(R.string.negative_button_warning),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             // negative button clicked

@@ -1,11 +1,11 @@
-package com.example.adam.chesstournamentmanager.components;
+package com.example.adam.chesstournamentmanager.old;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
-import com.example.adam.chesstournamentmanager.activities.PlaceholderFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +24,21 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return PlaceholderFragment.newInstance(position + 1, swissAlgorithm);
+        return PlaceholderFragment.newInstance(position + 1, swissAlgorithm, mFragmentList);
     }
 
     @Override
     public int getCount() {
         return fragmentCount;
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        if (position + 1!= fragmentCount)
+            return "Runda " + (position + 1);
+        else
+            return "Wyniki";
     }
 
     public void addFragment(Fragment fragment, int position) {

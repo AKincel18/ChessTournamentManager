@@ -1,9 +1,10 @@
-package com.example.adam.chesstournamentmanager.activities;
+package com.example.adam.chesstournamentmanager.old;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,14 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.Match;
+import com.example.adam.chesstournamentmanager.MatchResult;
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
+import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,9 +35,6 @@ public class PlaceholderFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    private static final String ARG_SECTION_NUMBER = "section_number";
-
-    private static int N = 0;
 
     private List<Match> matches;
 
@@ -39,25 +42,35 @@ public class PlaceholderFragment extends Fragment {
 
     private TextView titleTextView;
 
+    private Button nextRoundButton;
+
+    private SwissAlgorithm swissAlgorithm;
+
+    private TextView[] textViews;
+
+    private  Spinner[] spinners;
+
+    private List<Fragment> fragments;
+
+    static private int section;
+
+
+
     public PlaceholderFragment() {
     }
-
-/*    @SuppressLint("ValidFragment")
-    public PlaceholderFragment(SwissAlgorithm swissAlgorithm) {
-        this.swissAlgorithm = swissAlgorithm;
-        this.currentRound = 1;
-    }*/
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static PlaceholderFragment newInstance(int sectionNumber, SwissAlgorithm swissAlgorithm) {
+
+    public static PlaceholderFragment newInstance(int sectionNumber, SwissAlgorithm swissAlgorithm, List<Fragment> fragments) {
 
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        args.putParcelable("swiss", swissAlgorithm);
+        args.putInt(Constans.ARG_SECTION_NUMBER, sectionNumber);
+        args.putSerializable(Constans.SWISS, swissAlgorithm);
+        args.putSerializable("aaa", (Serializable) fragments);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,35 +81,72 @@ public class PlaceholderFragment extends Fragment {
                              Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_tournament_process, container, false);
 
-            int section = getArguments().getInt(ARG_SECTION_NUMBER);
+            section = getArguments().getInt(Constans.ARG_SECTION_NUMBER);
 
-            SwissAlgorithm swissAlgorithm = getArguments().getParcelable(getString(R.string.swiss));
-            titleTextView = rootView.findViewById(R.id.roundCountTextView);
-            if (section > (currentRound = swissAlgorithm.getCurrentRound())){
 
+
+
+
+        System.out.println("on create view = " + section);
+
+        swissAlgorithm = (SwissAlgorithm) getArguments().getSerializable(getString(R.string.swiss));
+        currentRound = swissAlgorithm.getCurrentRound();
+        fragments = (List<Fragment>) getArguments().getSerializable("aaa");
+        nextRoundButton = rootView.findViewById(R.id.nextRoundButton);
+        titleTextView = rootView.findViewById(R.id.roundCountTextView);
+        nextRoundButton();
+
+
+        if (section == 1){
+            swissAlgorithm.drawFirstRound();
+            matches = swissAlgorithm.getMatches().get(currentRound - 1);
+            textViews = new TextView[matches.size() * 2];
+            spinners = new Spinner[matches.size()];
+            currentRoundBuildView(rootView);
+        }
+        /*//nextRoundButton();
+            if (section == 1){
+                //init(rootView);
+                swissAlgorithm.drawFirstRound();
+                matches = swissAlgorithm.getMatches().get(currentRound - 1);
+                textViews = new TextView[matches.size() * 2];
+                spinners = new Spinner[matches.size()];
+                currentRoundBuildView(rootView);
+            }
+            else if (section == currentRound){
+                swissAlgorithm.drawNextRound();
+                matches = swissAlgorithm.getMatches().get(currentRound - 1);
+                textViews = new TextView[matches.size() * 2];
+                spinners = new Spinner[matches.size()];
+                currentRoundBuildView(rootView);
+
+            }
+            else if (section > currentRound){
                 if ( section == swissAlgorithm.getRoundsNumber() + 1) { // results fragment
                     resultBuildView(swissAlgorithm.getRoundsNumber());
                     return rootView;
                 }
                 //previous rounds have no finished
                 noCurrentRoundBuildView();
-                return rootView;
-            }
-            else {
-                swissAlgorithm.drawFirstRound();
-                matches = swissAlgorithm.getMatches().get(currentRound - 1);
+            }*/
 
-                if (getArguments().getInt(ARG_SECTION_NUMBER) == 1)
-                    currentRoundBuildView(rootView);
-                System.out.println("onCreateView");
-
-
-               return rootView;
-            }
-
+            return rootView;
     }
+/*
+
+    private void init(View rootView){
+        swissAlgorithm = (SwissAlgorithm) getArguments().getSerializable(getString(R.string.swiss));
+        currentRound = swissAlgorithm.getCurrentRound();
+        fragments = (List<Fragment>) getArguments().getSerializable("aaa");
+        nextRoundButton = rootView.findViewById(R.id.nextRoundButton);
+        titleTextView = rootView.findViewById(R.id.roundCountTextView);
+
+        nextRoundButton();
+    }
+*/
 
     private void resultBuildView(int roundNumber){
+        nextRoundButton.setVisibility(View.INVISIBLE);
         titleTextView.setTextSize(30);
         titleTextView.setTypeface(titleTextView.getTypeface(), Typeface.BOLD);
         titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -113,8 +163,17 @@ public class PlaceholderFragment extends Fragment {
 
 
     }
-    private void noCurrentRoundBuildView() {
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            System.out.println("hint = " + section);
+        }
+    }
+
+    private void noCurrentRoundBuildView() {
+        nextRoundButton.setVisibility(View.INVISIBLE);
         titleTextView.setTextSize(50);
         titleTextView.setTypeface(titleTextView.getTypeface(), Typeface.BOLD);
         titleTextView.setText(getString(R.string.not_finished_round));
@@ -141,7 +200,6 @@ public class PlaceholderFragment extends Fragment {
     params.setMargins(10,5,10,5);
     linearLayout.setLayoutParams(params);
     matchesRelativeLayout.addView(linearLayout);
-    int count = 0;
     LinearLayout.LayoutParams paramsLeftTextSize = new LinearLayout.LayoutParams(200, 50);
     paramsLeftTextSize.setMargins(5, 5, 50, 5);
 
@@ -154,20 +212,27 @@ public class PlaceholderFragment extends Fragment {
 
 
         //matches
-        TextView[] textViews = new TextView[matches.size() * 2];
         for (int i =0;i<matches.size() * 2; i++){
             TextView textView = new TextView(getContext());
             textView.setId(i);
             textViews[i] = textView;
         }
 
+        //spinners
+        for (int i = 0; i<matches.size(); i++){
+            Spinner spinner = new Spinner(getContext());
+            spinner.setId(i);
+            spinners[i] = spinner;
+
+        }
+
+        int count = 0;
         for (int i =0; i<matches.size() * 2;i+=2){
             LinearLayout l = new LinearLayout(getContext());
             l.setOrientation(LinearLayout.HORIZONTAL);
 
 
-            Spinner spinner = new Spinner(getContext());
-            initSpinner(spinner);
+            initSpinner(spinners[count]);
 
             textViews[i].setTextSize(20);
             textViews[i].setLayoutParams(paramsLeftTextSize);
@@ -177,8 +242,8 @@ public class PlaceholderFragment extends Fragment {
                     TypedValue.COMPLEX_UNIT_SP );
             l.addView(textViews[i]);
 
-            spinner.setLayoutParams(paramsSpinner);
-            l.addView(spinner);
+            spinners[count].setLayoutParams(paramsSpinner);
+            l.addView(spinners[count]);
 
             textViews[i + 1].setTextSize(20);
             textViews[i + 1].setGravity(Gravity.END);
@@ -195,22 +260,71 @@ public class PlaceholderFragment extends Fragment {
         }
 
 
+
+
+
+
     }
 
+    private void nextRoundButton(){
+        nextRoundButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pociagnij i zapisz wyniki
+                swissAlgorithm.setResult(getResult());
+                //wylosuj nastepne kojarzenia
+                swissAlgorithm.drawNextRound();
+
+                //otworz nastepna karte
+                //openNextFragment();
+            }
+        });
+    }
+
+
+    private void openNextFragment(){
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragments.get(currentRound));
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+    }
+
+    private List<MatchResult> getResult(){
+        List<MatchResult> results = new ArrayList<>();
+        for (int i=0; i < matches.size(); i++){
+            results.add(getMatchResultFromSpinner(i));
+        }
+        return results;
+    }
+
+    private MatchResult getMatchResultFromSpinner(int pos){
+        switch (spinners[pos].getSelectedItemPosition()){
+            case 0:
+                return MatchResult.WHITE_WON;
+            case 1:
+                return MatchResult.DRAW;
+            case 2:
+                return MatchResult.BLACK_WON;
+        }
+        return null;
+    }
     private void initSpinner(final Spinner spinner){
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.results_array, R.layout.spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setId(View.generateViewId());
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                switch (parent.getSelectedItemPosition()){
+                spinners[spinner.getId()].setSelection( parent.getSelectedItemPosition() );
+                /*switch (parent.getSelectedItemPosition()){
                     case 0:
+
                         System.out.println("1-0");
                         break;
                     case 1:
@@ -219,7 +333,7 @@ public class PlaceholderFragment extends Fragment {
                     case 2:
                         System.out.println("0-1");
                         break;
-                }
+                }*/
             }
 
             @Override

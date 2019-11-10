@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
@@ -27,6 +28,7 @@ public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragm
         return frag;
     }
     // Create a Dialog using default AlertDialog builder , if not inflate custom view in onCreateView
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 

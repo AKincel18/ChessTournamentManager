@@ -15,7 +15,6 @@ import java.util.concurrent.Executors;
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.database.Database;
 import com.example.adam.chesstournamentmanager.model.Players;
-import com.example.adam.chesstournamentmanager.staticdata.Constans;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 
 public class CreateTournament extends AppCompatActivity implements GeneralDialogFragment.OnDialogFragmentClickListener {
@@ -181,7 +180,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         configureTournamentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (chosenPlayers.size() % 2 == 0) {
+/*                if (chosenPlayers.size() % 2 == 0) {
                     Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
                     i.putExtra(getString(R.string.players), chosenPlayers);
                     startActivity(i);
@@ -190,8 +189,10 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
                     GeneralDialogFragment dialog = GeneralDialogFragment.
                             newInstance(getString(R.string.title_warning), getString(R.string.odd_number_players), getString(R.string.positive_button_warning));
                     dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
-                }
-                Intent i = new Intent(getApplicationContext(), ConfigureTournament.class); //TODO dont wait for accept no even players warning
+                }*/
+
+
+                Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
                 i.putExtra(getString(R.string.players), chosenPlayers);//TODO for testing
                 startActivity(i);
 

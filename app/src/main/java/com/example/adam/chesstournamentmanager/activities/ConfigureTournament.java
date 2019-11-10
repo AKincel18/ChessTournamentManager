@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
-import com.example.adam.chesstournamentmanager.components.TournamentProcess;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
@@ -209,7 +208,7 @@ public class ConfigureTournament extends AppCompatActivity {
         startTournament.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), TournamentProcess.class);
+                Intent i = new Intent(getApplicationContext(), Tournament.class);
                 if (switch1.isChecked()){
                     i.putExtra(getString(R.string.rounds_number), Integer.valueOf(roundsNumber.getText().toString())); //TODO java.lang.NumberFormatException: For input string: ""
                 }
@@ -222,7 +221,6 @@ public class ConfigureTournament extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
 
     }
 

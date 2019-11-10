@@ -2,19 +2,18 @@
     <string name="app_name">Chess Tournament Manager</string>
     <!--CreateTournament-->
 
-        <string name="availablePlayersTextView">Dostępni zawodnicy</string>
-        <string name="chosenPlayersTextView">Wybrani zawodnicy</string>
-        <string name="addPlayerButton">Dodaj zawodnika</string>
-        <string name="moveToChosenPlayersButton"><![CDATA[->]]></string>
-        <string name="moveToAvailablePlayersButton"><![CDATA[<-]]></string>
-        <string name="drawButton">Konfiguracja turnieju</string>
-        <string name="checked_text_view">Checked Text View</string>
-        <string name="selectAllButton">Zaznacz wszystko</string>
+    <string name="available_players_textview">Dostępni zawodnicy</string>
+    <string name="chosenPlayersTextView">Wybrani zawodnicy</string>
+    <string name="addPlayerButton">Dodaj zawodnika</string>
+    <string name="moveToChosenPlayersButton"><![CDATA[->]]></string>
+    <string name="moveToAvailablePlayersButton"><![CDATA[<-]]></string>
+    <string name="drawButton">Konfiguracja turnieju</string>
+    <string name="checked_text_view">Checked Text View</string>
+    <string name="selectAllButton">Zaznacz wszystko</string>
 
-        <!--Messages-->
-            <string name="nothing_selected">Nie zaznaczono zawodnika</string>
-            <string name="added_player">Dodano zawodnika</string>
-
+    <!--Messages-->
+    <string name="nothing_selected">Nie zaznaczono zawodnika</string>
+    <string name="added_player">Dodano zawodnika</string>
 
 
     <!--AddNewPlayer-->
@@ -31,7 +30,7 @@
     <!--ConfigureTournament-->
     <string name="pairingType">Typ kojarzenia</string>
     <string name="methodTextView">Metoda przy jednakowych wynikach</string>
-    <string name="countOfPlayersTextView"/>
+    <string name="countOfPlayersTextView" />
     <string name="setMethodTextView">Bucholtz</string>
     <string name="startingListTextView">Lista startowa</string>
     <string name="playersCountTextView">Ilość zawodników</string>
@@ -48,18 +47,18 @@
     </string-array>
 
 
-    <!--TournamentProcess-->
+    <!--Tournament-->
     <string name="results">Wyniki</string>
     <string name="title_activity_tournament_process">TournamentProcess</string>
 
-    <!--PlaceholderFragment-->
     <string name="roundCountTextView">Runda %1$d</string>
-        <!--messages-->
-        <string name="fragmentNumber">Runda %1$d</string>
-        <string name="not_finished_round">Poprzednie rundy nie zostały zakończone</string>
-        <string name="results_here">Tutaj pojawią się wyniki po zakończonych rundach</string>
-        <string name="final_result">Wyniki końcowe</string>
-        <string name="current_results">Wyniki po %1$d rundzie</string>
+    <!--messages-->
+    <string name="fragmentNumber">Runda %1$d</string>
+    <string name="not_finished_round">Poprzednie rundy nie zostały zakończone</string>
+    <string name="results_here">Tutaj pojawią się wyniki po zakończonych rundach</string>
+    <string name="final_result">Wyniki końcowe</string>
+    <string name="current_results">Wyniki po %1$d rundzie</string>
+    <string name="set_results">Wprowadź wynik</string>
 
     <string-array name="results_array">
         <item>1&#8211;0</item>
@@ -77,20 +76,21 @@
 
     <!--DialogBoxes-->
 
-        <!--Yes/No-->
-        <string name="title_warning">Ostrzeżenie</string>
-        <string name="information_warning">Po zamknięciu okna zawodnik nie zostanie zapisany.
+    <!--Yes/No-->
+    <string name="title_warning">Ostrzeżenie</string>
+    <string name="information_warning">Po zamknięciu okna zawodnik nie zostanie zapisany.
                                            Czy na pewno chcesz wyjść?</string>
-        <string name="odd_number_players">Nieparzysta liczba zawodników.
+    <string name="odd_number_players">Nieparzysta liczba zawodników.
                                           Kontynuować?</string>
-        <string name="positive_button_warning">Tak</string>
-        <string name="negative_button_warning">Nie</string>
+    <string name="positive_button_warning">Tak</string>
+    <string name="negative_button_warning">Nie</string>
 
-        <!--Error-->
-        <string name="title_error">Błąd</string>
-        <string name="message_error">Wybierz datę</string>
-        <string name="exit_button">OK</string>
+    <!--Error-->
+    <string name="title_error">Błąd</string>
+    <string name="message_error">Wybierz datę</string>
+    <string name="exit_button">OK</string>
 
+    <string name="no_result_message_error">Nie wprowadzono wszytkich wyników</string>
     <!--Database-->
     <string name="database_name">ChessTournamentManager.db</string>
 
@@ -104,4 +104,9 @@
 
     <!--Bundle-->
     <string name="title">title</string>
+
+
+    <!--new-->
+    <string name="nextRoundButton">Następna runda</string>
+    <string name="rounds">Rundy</string>
 </resources>

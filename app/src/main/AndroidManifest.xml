@@ -26,9 +26,10 @@
             android:name=".activities.ConfigureTournament"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".components.TournamentProcess"
+            android:name=".old.TournamentProcess"
             android:label="@string/title_activity_tournament_process"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.Tournament"></activity>
     </application>
 
 </manifest>

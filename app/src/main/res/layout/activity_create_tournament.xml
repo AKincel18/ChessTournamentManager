@@ -94,7 +94,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="@string/availablePlayersTextView"
+        android:text="@string/available_players_textview"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/playersList"
         app:layout_constraintEnd_toEndOf="parent"

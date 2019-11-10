@@ -10,6 +10,7 @@ import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
-public class SwissAlgorithm implements Parcelable {
+public class SwissAlgorithm implements Serializable {
 
     private int roundsNumber;
 
@@ -46,26 +47,6 @@ public class SwissAlgorithm implements Parcelable {
         this.order = order;
     }
 
-    protected SwissAlgorithm(Parcel in) {
-        roundsNumber = in.readInt();
-        currentRound = in.readInt();
-        playersNumber = in.readInt();
-        order = in.readString();
-        even = in.readByte() != 0;
-    }
-
-    public static final Creator<SwissAlgorithm> CREATOR = new Creator<SwissAlgorithm>() {
-        @Override
-        public SwissAlgorithm createFromParcel(Parcel in) {
-            return new SwissAlgorithm(in);
-        }
-
-        @Override
-        public SwissAlgorithm[] newArray(int size) {
-            return new SwissAlgorithm[size];
-        }
-    };
-
     public void initTournamentPlayers(List<Players> players){
 
         tournamentPlayers = new ArrayList<>();
@@ -88,8 +69,9 @@ public class SwissAlgorithm implements Parcelable {
         }
     }
 
-    private void drawNextRound(){
-
+    public void drawNextRound(){
+        sortPlayerByPoints();
+        groupsPlayers = prepareGroups();
         reset();
         TournamentPlayer byePlayer = null;
         if (!even) //not even, last player vs bye
@@ -167,6 +149,9 @@ public class SwissAlgorithm implements Parcelable {
 
         if (!even)
             addMatchVersusBye(byePlayer);
+
+        matches.add(matchesTmp);
+        matchesTmp = new ArrayList<>();
     }
 
 
@@ -327,8 +312,8 @@ public class SwissAlgorithm implements Parcelable {
 
 
         matches.add(matchesTmp);
-/*        matchesTmp = new ArrayList<>();
-        setResult(result());
+        matchesTmp = new ArrayList<>();
+ /*       setResult(result());
         writeMatches(0);
 
 
@@ -615,17 +600,11 @@ public class SwissAlgorithm implements Parcelable {
         this.matches = matches;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public boolean isEven() {
+        return even;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(roundsNumber);
-        dest.writeInt(currentRound);
-        dest.writeInt(playersNumber);
-        dest.writeString(order);
-        dest.writeByte((byte) (even ? 1 : 0));
+    public void setEven(boolean even) {
+        this.even = even;
     }
 }

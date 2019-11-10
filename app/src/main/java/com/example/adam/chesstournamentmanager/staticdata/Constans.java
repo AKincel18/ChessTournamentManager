@@ -11,6 +11,10 @@ public class Constans {
     public static final String INTERNATIONAL_RANKING_ORDER = "Ranking międzynarodowy";
     public static final String RANDOM_ORDER = "Losowo";
 
-    //
+    //intents
+    public static final String SWISS = "swiss";
+
+
+    public static final String ARG_SECTION_NUMBER = "section_number";
 
 }

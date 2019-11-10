@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayoutFragment2"
+    android:id="@+id/linearLayoutFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -13,7 +13,7 @@
     tools:context=".old.TournamentProcess">
 
     <TextView
-        android:id="@+id/roundCountTextView2"
+        android:id="@+id/roundCountTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -22,14 +22,14 @@
     <include
         layout="@layout/matches_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp" />
+        android:layout_height="490dp" />
 
     <Button
-        android:id="@+id/nextRoundButton2"
+        android:id="@+id/nextRoundButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
         android:text="@string/nextRoundButton" />
 
 </LinearLayout>

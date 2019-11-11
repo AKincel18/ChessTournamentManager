@@ -2,7 +2,9 @@ package com.example.adam.chesstournamentmanager;
 
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
 
-public class Match {
+import java.io.Serializable;
+
+public class Match implements Serializable {
 
     private int round;
 
@@ -59,6 +61,24 @@ public class Match {
                 ", matchResult=" + matchResult +
                 '}';
     }*/
+
+
+    public String writeMatch(){
+        return player1.getName() + " vs " + player2.getName();
+    }
+
+    public String writeResult(){
+        switch (matchResult){
+            case WHITE_WON:
+                return "1-0";
+            case DRAW:
+                return "1/2 - 1/2";
+            case BLACK_WON:
+                return "0-1";
+        }
+        return null;
+
+    }
 
     @Override
     public String toString() {

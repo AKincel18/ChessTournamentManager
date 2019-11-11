@@ -100,6 +100,8 @@
     <string name="rounds_number">roundsNumber</string>
     <string name="order">order</string>
     <string name="swiss">swiss</string>
+    <string name="current_round">currentRound</string>
+    <string name="go_to_round">goToRound</string>
 
 
     <!--Bundle-->

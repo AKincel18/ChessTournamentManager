@@ -29,7 +29,6 @@ public class SwissAlgorithm implements Serializable {
 
     private List<TournamentPlayer> tournamentPlayers;
 
-    private List<Boolean> isRoundFinish;
 
     private List<List<Match>> matches = new ArrayList<>(); //rows -> number of rounds, columns -> matches
 
@@ -37,6 +36,7 @@ public class SwissAlgorithm implements Serializable {
 
     private String order;
 
+    private boolean finishedTournament = false;
 
     private boolean even;
 
@@ -55,7 +55,6 @@ public class SwissAlgorithm implements Serializable {
             tournamentPlayers.add(new TournamentPlayer(p));
         }
         playersNumber = tournamentPlayers.size();
-        isRoundFinish = new ArrayList<>(roundsNumber);
         even = playersNumber % 2 == 0;
 
     }
@@ -466,7 +465,10 @@ public class SwissAlgorithm implements Serializable {
             i++;
         }
 
-        currentRound++;
+        if (currentRound == roundsNumber)
+            finishedTournament = true;
+        else
+            currentRound++;
 
 
     }
@@ -584,14 +586,6 @@ public class SwissAlgorithm implements Serializable {
         this.tournamentPlayers = tournamentPlayers;
     }
 
-    public List<Boolean> getIsRoundFinish() {
-        return isRoundFinish;
-    }
-
-    public void setIsRoundFinish(List<Boolean> isRoundFinish) {
-        this.isRoundFinish = isRoundFinish;
-    }
-
     public List<List<Match>> getMatches() {
         return matches;
     }
@@ -606,5 +600,13 @@ public class SwissAlgorithm implements Serializable {
 
     public void setEven(boolean even) {
         this.even = even;
+    }
+
+    public boolean isFinishedTournament() {
+        return finishedTournament;
+    }
+
+    public void setFinishedTournament(boolean finishedTournament) {
+        this.finishedTournament = finishedTournament;
     }
 }

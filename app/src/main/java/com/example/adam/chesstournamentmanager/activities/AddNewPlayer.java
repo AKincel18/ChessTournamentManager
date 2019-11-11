@@ -61,7 +61,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
 
         database = Database.getInstance(this);
 
-        pickDateTextView = findViewById(R.id.pickDateTextView);
+        pickDateTextView = findViewById(R.id.pick_date_text_view);
 /*        Locale locale = new Locale("pl");
         Locale.setDefault(locale);*/
 
@@ -102,15 +102,15 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
 
     public void confirmNewPlayer(){
 
-        Button confirmPlayerButton = findViewById(R.id.confirmNewPlayerButton);
+        Button confirmPlayerButton = findViewById(R.id.confirm_new_player_button);
         confirmPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText name =  findViewById(R.id.nameEditText);
-                final EditText surname = findViewById(R.id.surnameEditText);
-                final TextView date = findViewById(R.id.pickDateTextView);
-                final EditText polishRanking = findViewById(R.id.polishRankingNumber);
-                final EditText internationalRanking = findViewById(R.id.internationalRankingNumber);
+                final EditText name =  findViewById(R.id.name_edit_text);
+                final EditText surname = findViewById(R.id.surname_edit_text);
+                final TextView date = findViewById(R.id.pick_date_text_view);
+                final EditText polishRanking = findViewById(R.id.polish_ranking_number);
+                final EditText internationalRanking = findViewById(R.id.international_ranking_number);
 
 
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy", new Locale("pl"));
@@ -168,7 +168,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
     }
 
     private void close(){
-        Button closeButton = findViewById(R.id.closeButton);
+        Button closeButton = findViewById(R.id.close_button);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -63,10 +64,14 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         moveToAvailablePlayers();
         addNewPlayer();
         configureTournament();
-        selectAll(allPlayersListView);
+
+        selectedAll(R.id.select_all_checkbox, allPlayersListView, selectedAvailablePlayers);
+        selectedAll(R.id.select_all_checkbox2, chosenPlayerListView, selectedChosenPlayers);
 
 
    }
+
+
 
     @Override
     protected void onPause(){
@@ -82,45 +87,33 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
             @Override
             public void run() {
                 //availablePlayers.addAll(database.playersDao().getAllPlayers());
-                chosenPlayers.addAll(database.playersDao().getAllPlayers()); //TODO FOR TESTING
+                availablePlayers.addAll(database.playersDao().getAllPlayers());
             }
         });
     }
 
     public void moveToChosenPlayers(){ //'->' button
-        Button nextButton = findViewById(R.id.moveToChosenPlayersButton);
+        Button nextButton = findViewById(R.id.move_to_chosen_players_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 movement(chosenPlayers, availablePlayers, selectedAvailablePlayers);
+                CheckBox checkBox = findViewById(R.id.select_all_checkbox);
+                checkBox.setChecked(false);
             }
         });
 
     }
-
-    public void selectAll(final ListView listView){
-        Button selectAllButton = findViewById(R.id.selectAllButton);
-        selectAllButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < listView.getChildCount(); i++){
-                    listView.setItemChecked(i, true); //TODO not all selecting
-                    //selectedAvailablePlayers.add(i, );
-                }
-            }
-        });
-    }
-
-
-
 
 
     public void moveToAvailablePlayers(){ //'<-' button
-        Button backButton = findViewById(R.id.moveToAvailablePlayersButton);
+        Button backButton = findViewById(R.id.move_to_available_players_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 movement(availablePlayers, chosenPlayers, selectedChosenPlayers);
+                CheckBox checkBox = findViewById(R.id.select_all_checkbox2);
+                checkBox.setChecked(false);
             }
         });
     }
@@ -164,7 +157,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
     }
 
     private void addNewPlayer(){
-        Button addPlayerButton = findViewById(R.id.addPlayerButton);
+        Button addPlayerButton = findViewById(R.id.add_player_button);
         addPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,7 +169,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
     }
 
     private void configureTournament(){
-        Button configureTournamentButton = findViewById(R.id.configureTournamentButton);
+        Button configureTournamentButton = findViewById(R.id.config_tournament_button);
         configureTournamentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,6 +193,33 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
             }
         });
+    }
+
+
+
+    public void selectedAll(int idCheckBox, final ListView listView, final ArrayList<Players> list ){
+        final CheckBox selectAllCheckBox = findViewById(idCheckBox);
+
+        selectAllCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int itemCount = listView.getCount();
+                list.clear();
+
+                if (selectAllCheckBox.isChecked()) { //select all
+                    for(int i=0 ; i < itemCount ; i++){
+                        listView.setItemChecked(i, true);
+                        list.add((Players) listView.getItemAtPosition(i));
+                    }
+                } else {
+                    for(int i=0 ; i < itemCount ; i++){ //deselect all
+                        listView.setItemChecked(i, false);
+                    }
+                }
+            }
+        });
+
     }
 
     @Override

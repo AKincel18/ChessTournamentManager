@@ -7,47 +7,47 @@
     tools:context=".activities.ConfigureTournament">
 
     <TextView
-        android:id="@+id/playersCountTextView"
+        android:id="@+id/players_count_text_view"
         android:layout_width="154dp"
         android:layout_height="26dp"
         android:layout_marginStart="132dp"
         android:layout_marginTop="236dp"
-        android:text="@string/playersCountTextView"
+        android:text="@string/players_count_text_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/pairingTypeTextView"
+        android:id="@+id/pairing_type_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="168dp"
         android:layout_marginBottom="360dp"
-        android:text="@string/pairingType"
+        android:text="@string/pairing_type_text_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/methodTextView"
+        android:id="@+id/method_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginBottom="304dp"
-        android:text="@string/methodTextView"
+        android:text="@string/method_text_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/countOfPlayersTextView"
+        android:id="@+id/count_of_players_text_view"
         android:layout_width="82dp"
         android:layout_height="27dp"
         android:layout_marginTop="236dp"
         android:layout_marginEnd="868dp"
-        android:text="@string/countOfPlayersTextView"
+        android:text="@string/count_of_players_text_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/pairingTypeSpinner"
+        android:id="@+id/pairing_type_spinner"
         android:layout_width="282dp"
         android:layout_height="32dp"
         android:layout_marginEnd="668dp"
@@ -56,17 +56,17 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/set_method_text_view"
         android:layout_width="152dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="328dp"
         android:layout_marginBottom="304dp"
-        android:text="@string/setMethodTextView"
+        android:text="@string/set_method_text_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ListView
-        android:id="@+id/playersListView"
+        android:id="@+id/players_list_view"
         android:layout_width="415dp"
         android:layout_height="453dp"
         android:layout_marginStart="8dp"
@@ -79,14 +79,14 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/starting_list_text_view"
         android:layout_width="415dp"
         android:layout_height="35dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="56dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/startingListTextView"
+        android:text="@string/starting_list_text_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.76"
@@ -95,14 +95,14 @@
         app:layout_constraintVertical_bias="0.077" />
 
     <Button
-        android:id="@+id/startTournamentButton"
+        android:id="@+id/start_tournament_button"
         android:layout_width="126dp"
         android:layout_height="66dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/startTournamentButton"
+        android:text="@string/start_tournament_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.974"
@@ -111,38 +111,39 @@
         app:layout_constraintVertical_bias="0.97" />
 
     <Switch
-        android:id="@+id/countOfNumberSwitch"
+        android:id="@+id/count_of_number_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
         android:layout_marginTop="156dp"
-        android:text="@string/countOfNumberSwitch"
+        android:text="@string/count_of_number_switch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/autoRoundsNumber"
+        android:id="@+id/auto_count_of_rounds"
         android:layout_width="226dp"
         android:layout_height="27dp"
         android:layout_marginStart="328dp"
         android:layout_marginTop="156dp"
-        android:text="@string/autoCountOfRounds"
+        android:text="@string/auto_count_of_rounds"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/roundsNumber"
+        android:id="@+id/rounds_number_edit_text"
         android:layout_width="225dp"
         android:layout_height="39dp"
         android:layout_marginStart="328dp"
         android:layout_marginTop="144dp"
         android:ems="10"
-        android:hint="@string/roundNumber"
+        android:hint="@string/rounds_number_edit_text"
         android:inputType="number"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--testing-->
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"

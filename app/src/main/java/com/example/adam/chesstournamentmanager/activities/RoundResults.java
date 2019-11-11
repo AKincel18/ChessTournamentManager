@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.Match;
 import com.example.adam.chesstournamentmanager.R;
+import com.example.adam.chesstournamentmanager.SwissAlgorithm;
 
 import java.util.List;
 
@@ -34,18 +35,20 @@ public class RoundResults extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_round_results);
         Intent i = getIntent();
-        allMatches = (List<List<Match>>) i.getSerializableExtra("matches");
-        currentRound = i.getIntExtra(getString(R.string.current_round), 0);
+/*        allMatches = (List<List<Match>>) i.getSerializableExtra("matches");
+        currentRound = i.getIntExtra(getString(R.string.current_round), 0);*/
+        allMatches = SwissAlgorithm.getINSTANCE().getMatches();
+        currentRound = SwissAlgorithm.getINSTANCE().getCurrentRound();
         currentView = i.getIntExtra(getString(R.string.go_to_round), 0);
         textView = findViewById(R.id.previousRoundCountTextView);
-        textView.setText(getString(R.string.roundCountTextView, currentView));
+        textView.setText(getString(R.string.round_count_text_view, currentView));
         buildView(currentView);
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == currentRound){ //todo and not finished tournament
+        if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()){
             Intent i = new Intent(getApplicationContext(), Tournament.class);
             startActivity(i);
         }
@@ -54,6 +57,10 @@ public class RoundResults extends AppCompatActivity {
             LinearLayout matchesRelativeLayout = findViewById(R.id.linearLayoutMatches);
             matchesRelativeLayout.removeAllViews();
             buildView(item.getItemId());
+        }
+        else if (item.getItemId() ==  R.id.results_menu){
+            Intent i = new Intent(getApplicationContext(), FinalResults.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -70,12 +77,12 @@ public class RoundResults extends AppCompatActivity {
         MenuItem menuItem = myMenu.findItem(R.id.rounds_menu);
         SubMenu subMenu = menuItem.getSubMenu();
         for (int i = 1; i <= currentRound; i++){
-            subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.fragmentNumber, i));
+            subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.round_count_text_view, i));
         }
     }
 
     private void buildView(int currentRound){
-        textView.setText(getString(R.string.roundCountTextView, currentRound));
+        textView.setText(getString(R.string.round_count_text_view, currentRound));
 
         LinearLayout matchesRelativeLayout = findViewById(R.id.linearLayoutMatches);
 

@@ -21,6 +21,8 @@ import java.util.Random;
 
 public class SwissAlgorithm implements Serializable {
 
+    private static SwissAlgorithm INSTANCE;
+
     private int roundsNumber;
 
     private int currentRound = 1;
@@ -47,6 +49,16 @@ public class SwissAlgorithm implements Serializable {
         this.order = order;
     }
 
+    public static SwissAlgorithm initSwissAlgorithm(int roundsNumber, String order){
+        if (INSTANCE == null){
+            INSTANCE = new SwissAlgorithm(roundsNumber, order);
+        }
+        return INSTANCE;
+    }
+
+    public static SwissAlgorithm getINSTANCE(){
+        return INSTANCE;
+    }
     public void initTournamentPlayers(List<Players> players){
 
         tournamentPlayers = new ArrayList<>();
@@ -465,10 +477,13 @@ public class SwissAlgorithm implements Serializable {
             i++;
         }
 
-        if (currentRound == roundsNumber)
+        if (currentRound == roundsNumber) {
             finishedTournament = true;
-        else
+            sortPlayerByPoints();
+        }
+        else {
             currentRound++;
+        }
 
 
     }

@@ -1,12 +1,10 @@
 package com.example.adam.chesstournamentmanager.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -28,12 +26,6 @@ import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.SpinnerAdapter;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +50,6 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
     private int currentView;
 
-    private static boolean isStart = false;
     private boolean rebuildMenu = false;
 
     @Override
@@ -66,22 +57,22 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_tournament);
-        nextRoundButton = findViewById(R.id.nextRoundButton);
-        titleTextView = findViewById(R.id.roundCountTextView);
-        swissAlgorithm = getStoredData();
-        if (isStart && swissAlgorithm != null){
+        nextRoundButton = findViewById(R.id.next_round_button);
+        titleTextView = findViewById(R.id.round_count_text_view);
+
+        swissAlgorithm = SwissAlgorithm.getINSTANCE();
+        if (swissAlgorithm != null){
             rebuildMenu = true;
             roundsNumber = swissAlgorithm.getRoundsNumber();
         }
         else {
-            isStart = true;
+
             Intent i = getIntent();
             roundsNumber = i.getIntExtra(getString(R.string.rounds_number), 0);
             String order = i.getStringExtra(getString(R.string.order));
             List<Players> players = (List<Players>) i.getSerializableExtra(getString(R.string.players));
 
-
-            swissAlgorithm = new SwissAlgorithm(roundsNumber, order);
+            swissAlgorithm = SwissAlgorithm.initSwissAlgorithm(roundsNumber, order);
             swissAlgorithm.initTournamentPlayers(players);
             swissAlgorithm.drawFirstRound();
         }
@@ -90,12 +81,6 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
         buildRoundsView();
         nextRoundButton();
 
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(getString(R.string.swiss), swissAlgorithm);
-        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -110,8 +95,9 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.results_menu){
-            // TODO
+        if (item.getItemId() == R.id.results_menu && swissAlgorithm.getCurrentRound() != 1){
+            Intent i = new Intent(getApplicationContext(), FinalResults.class);
+            startActivity(i);
         } else if (item.getItemId() >= 1 && item.getItemId() <= swissAlgorithm.getRoundsNumber()){
             refreshView(item.getItemId(), false);
         }
@@ -131,11 +117,10 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
                     notAllResultsEnteredDialogBox();
                 }
 
+                buildMenu();
                 if (swissAlgorithm.isFinishedTournament()) {
-                    titleTextView.setText("WYNICZKI");
-                    LinearLayout linearLayout = findViewById(R.id.linearLayoutMatches);
-                    linearLayout.removeAllViews();
-                    nextRoundButton.setVisibility(View.INVISIBLE);
+                    Intent i = new Intent(getApplicationContext(), FinalResults.class);
+                    startActivity(i);
                 }
                 else {
                         swissAlgorithm.drawNextRound();
@@ -143,7 +128,7 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
                         refreshView(swissAlgorithm.getCurrentRound(), true);
                     }
 
-                buildMenu();
+
 
 
             }
@@ -159,7 +144,10 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
     private void buildMenu() {
         MenuItem menuItem = myMenu.findItem(R.id.rounds_menu);
         SubMenu subMenu = menuItem.getSubMenu();
-        subMenu.add(Menu.NONE,swissAlgorithm.getCurrentRound() - 1, Menu.NONE,getString(R.string.fragmentNumber, swissAlgorithm.getCurrentRound() - 1));
+        if (swissAlgorithm.isFinishedTournament())
+            subMenu.add(Menu.NONE,swissAlgorithm.getCurrentRound(), Menu.NONE,getString(R.string.round_count_text_view, swissAlgorithm.getCurrentRound()));
+        else
+            subMenu.add(Menu.NONE,swissAlgorithm.getCurrentRound() - 1, Menu.NONE,getString(R.string.round_count_text_view, swissAlgorithm.getCurrentRound() - 1));
 
     }
 
@@ -167,7 +155,7 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
         MenuItem menuItem = myMenu.findItem(R.id.rounds_menu);
         SubMenu subMenu = menuItem.getSubMenu();
         for (int i =1; i <= swissAlgorithm.getCurrentRound() - 1; i++){
-            subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.fragmentNumber, i));
+            subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.round_count_text_view, i));
         }
     }
 
@@ -206,57 +194,17 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
             }
         }
         else {
-            storeData(swissAlgorithm);
+
             Intent intent = new Intent(getApplicationContext(), RoundResults.class);
-            intent.putExtra("matches", (Serializable) swissAlgorithm.getMatches());
-            intent.putExtra(getString(R.string.current_round), swissAlgorithm.getCurrentRound());
+/*            intent.putExtra("matches", (Serializable) swissAlgorithm.getMatches());
+            intent.putExtra(getString(R.string.current_round), swissAlgorithm.getCurrentRound());*/
             intent.putExtra(getString(R.string.go_to_round), goToRound);
             startActivity(intent);
         }
     }
-    private <T> void storeData(T data) {
-        ByteArrayOutputStream serializedData = new ByteArrayOutputStream();
 
-        try {
-            ObjectOutputStream serializer = new ObjectOutputStream(serializedData);
-            serializer.writeObject(data);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        SharedPreferences sharedPreferences = getSharedPreferences("sss", 0);
-        SharedPreferences.Editor edit = sharedPreferences.edit();
 
-        edit.putString("sss", Base64.encodeToString(serializedData.toByteArray(), Base64.DEFAULT));
-        edit.commit();
-    }
-
-    private <T> T getStoredData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("sss", 0);
-        String serializedData = sharedPreferences.getString("sss", null);
-        T storedData = null;
-        try {
-            ByteArrayInputStream input = new ByteArrayInputStream(Base64.decode(serializedData, Base64.DEFAULT));
-            ObjectInputStream inputStream = new ObjectInputStream(input);
-            storedData = (T)inputStream.readObject();
-        } catch (IOException|ClassNotFoundException|java.lang.IllegalArgumentException|NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        return storedData;
-    }
-
-    private int getSelectionPosition(int pos){
-        switch (matches.get(pos).getMatchResult()){
-            case WHITE_WON:
-                return 0;
-            case DRAW:
-                return 1;
-            case BLACK_WON:
-                return 2;
-        }
-        return 3;
-    }
 
 
     private MatchResult getMatchResultFromSpinner(int pos){
@@ -296,7 +244,7 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
         //title
         titleTextView.setTextSize(30.0f);
         titleTextView.setTypeface(titleTextView.getTypeface(), Typeface.BOLD);
-        titleTextView.setText(getString(R.string.fragmentNumber, round));
+        titleTextView.setText(getString(R.string.round_count_text_view, round));
         titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 
@@ -316,7 +264,7 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
         //title
         titleTextView.setTextSize(30.0f);
         titleTextView.setTypeface(titleTextView.getTypeface(), Typeface.BOLD);
-        titleTextView.setText(getString(R.string.fragmentNumber, swissAlgorithm.getCurrentRound()));
+        titleTextView.setText(getString(R.string.round_count_text_view, swissAlgorithm.getCurrentRound()));
         titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
 
 

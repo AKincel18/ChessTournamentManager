@@ -9,70 +9,70 @@
 
 
     <TextView
-        android:id="@+id/polishRankingTextView"
+        android:id="@+id/polish_ranking_text_view"
         android:layout_width="184dp"
         android:layout_height="45dp"
         android:layout_marginStart="164dp"
         android:layout_marginBottom="20dp"
         android:gravity="left|center"
-        android:text="@string/polishRankingTextView"
+        android:text="@string/polish_ranking_text_view"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/internationalRankingTextView"
+        app:layout_constraintBottom_toTopOf="@+id/international_ranking_text_view"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/internationalRankingTextView"
+        android:id="@+id/international_ranking_text_view"
         android:layout_width="184dp"
         android:layout_height="45dp"
         android:layout_marginStart="164dp"
         android:layout_marginBottom="100dp"
         android:gravity="left|center"
-        android:text="@string/internationalRankingTextView"
+        android:text="@string/international_ranking_text_view"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/dateOfBirthTextView"
+        android:id="@+id/date_of_birth_text_view"
         android:layout_width="184dp"
         android:layout_height="45dp"
         android:layout_marginStart="164dp"
         android:layout_marginBottom="28dp"
         android:gravity="left|center"
-        android:text="@string/dateOfBirthTextView"
+        android:text="@string/date_of_birth_text_view"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/polishRankingTextView"
+        app:layout_constraintBottom_toTopOf="@+id/polish_ranking_text_view"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/nameTextView"
+        android:id="@+id/name_text_view"
         android:layout_width="184dp"
         android:layout_height="45dp"
         android:layout_marginStart="164dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="left|center"
-        android:text="@string/nameTextView"
+        android:text="@string/name_text_view"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/surnameTextView"
+        app:layout_constraintBottom_toTopOf="@+id/surname_text_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.857" />
 
     <TextView
-        android:id="@+id/surnameTextView"
+        android:id="@+id/surname_text_view"
         android:layout_width="184dp"
         android:layout_height="42dp"
         android:layout_marginStart="164dp"
         android:layout_marginBottom="16dp"
         android:gravity="left|center"
-        android:text="@string/surnameTextView"
+        android:text="@string/surname_text_view"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/dateOfBirthTextView"
+        app:layout_constraintBottom_toTopOf="@+id/date_of_birth_text_view"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/nameEditText"
+        android:id="@+id/name_edit_text"
         android:layout_width="200dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
@@ -83,15 +83,15 @@
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/surnameEditText"
+        app:layout_constraintBottom_toTopOf="@+id/surname_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.167"
-        app:layout_constraintStart_toEndOf="@+id/nameTextView"
+        app:layout_constraintStart_toEndOf="@+id/name_text_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.753" />
 
     <EditText
-        android:id="@+id/surnameEditText"
+        android:id="@+id/surname_edit_text"
         android:layout_width="200dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
@@ -101,13 +101,13 @@
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/pickDateTextView"
+        app:layout_constraintBottom_toTopOf="@+id/pick_date_text_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.167"
-        app:layout_constraintStart_toEndOf="@+id/surnameTextView" />
+        app:layout_constraintStart_toEndOf="@+id/surname_text_view" />
 
     <TextView
-        android:id="@+id/pickDateTextView"
+        android:id="@+id/pick_date_text_view"
         android:layout_width="200dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
@@ -115,22 +115,22 @@
         android:layout_marginBottom="24dp"
         android:clickable="true"
         android:gravity="left|center"
-        android:text="@string/pickDateTextView"
+        android:text="@string/pick_date_text_view"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/polishRankingNumber"
+        app:layout_constraintBottom_toTopOf="@+id/polish_ranking_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.167"
-        app:layout_constraintStart_toEndOf="@+id/dateOfBirthTextView" />
+        app:layout_constraintStart_toEndOf="@+id/date_of_birth_text_view" />
 
     <Button
-        android:id="@+id/confirmNewPlayerButton"
+        android:id="@+id/confirm_new_player_button"
         android:layout_width="133dp"
         android:layout_height="61dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/confirmNewPlayerButton"
+        android:text="@string/confirm_new_player_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.413"
@@ -139,14 +139,14 @@
         app:layout_constraintVertical_bias="0.986" />
 
     <Button
-        android:id="@+id/closeButton"
+        android:id="@+id/close_button"
         android:layout_width="wrap_content"
         android:layout_height="72dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/closeButton"
+        android:text="@string/close_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -155,18 +155,18 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/polishRankingNumber"
+        android:id="@+id/polish_ranking_number"
         android:layout_width="200dp"
         android:layout_height="45dp"
         android:layout_marginStart="128dp"
         android:layout_marginBottom="28dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/internationalRankingNumber"
-        app:layout_constraintStart_toEndOf="@+id/polishRankingTextView" />
+        app:layout_constraintBottom_toTopOf="@+id/international_ranking_number"
+        app:layout_constraintStart_toEndOf="@+id/polish_ranking_text_view" />
 
     <EditText
-        android:id="@+id/internationalRankingNumber"
+        android:id="@+id/international_ranking_number"
         android:layout_width="200dp"
         android:layout_height="45dp"
         android:layout_marginStart="124dp"
@@ -174,6 +174,6 @@
         android:ems="10"
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/internationalRankingTextView" />
+        app:layout_constraintStart_toEndOf="@+id/international_ranking_text_view" />
 
 </android.support.constraint.ConstraintLayout>

@@ -7,30 +7,30 @@
     tools:context=".activities.CreateTournament">
 
     <Button
-        android:id="@+id/configureTournamentButton"
+        android:id="@+id/config_tournament_button"
         android:layout_width="436dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/drawButton"
+        android:text="@string/config_tournament_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.951"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.929" />
+        app:layout_constraintVertical_bias="0.959" />
 
     <Button
-        android:id="@+id/moveToChosenPlayersButton"
+        android:id="@+id/move_to_chosen_players_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/moveToChosenPlayersButton"
+        android:text="@string/move_to_chosen_players_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/chosenPlayersList"
         app:layout_constraintHorizontal_bias="0.468"
@@ -39,14 +39,14 @@
         app:layout_constraintVertical_bias="0.25" />
 
     <Button
-        android:id="@+id/moveToAvailablePlayersButton"
+        android:id="@+id/move_to_available_players_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/moveToAvailablePlayersButton"
+        android:text="@string/move_to_available_players_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/chosenPlayersList"
         app:layout_constraintHorizontal_bias="0.468"
@@ -86,7 +86,7 @@
         app:layout_constraintVertical_bias="0.374" />
 
     <TextView
-        android:id="@+id/availablePlayersTextView"
+        android:id="@+id/available_players_text_view"
         android:layout_width="436dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -94,7 +94,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="@string/available_players_textview"
+        android:text="@string/available_players_text_view"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/playersList"
         app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +104,7 @@
         app:layout_constraintVertical_bias="0.335" />
 
     <TextView
-        android:id="@+id/chosenPlayersTextView"
+        android:id="@+id/chosen_players_text_view"
         android:layout_width="436dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -112,7 +112,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="@string/chosenPlayersTextView"
+        android:text="@string/chosen_players_text_view"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/playersList"
         app:layout_constraintEnd_toEndOf="parent"
@@ -122,33 +122,50 @@
         app:layout_constraintVertical_bias="0.323" />
 
     <Button
-        android:id="@+id/addPlayerButton"
+        android:id="@+id/add_player_button"
         android:layout_width="436dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/addPlayerButton"
+        android:text="@string/add_player_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.067"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playersList"
-        app:layout_constraintVertical_bias="0.449" />
+        app:layout_constraintVertical_bias="0.73" />
 
-    <Button
-        android:id="@+id/selectAllButton"
+
+    <CheckBox
+        android:id="@+id/select_all_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="572dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="56dp"
-        android:text="@string/selectAllButton"
+        android:text="@string/select_all_checkbox"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.871" />
+        app:layout_constraintVertical_bias="0.918" />
+
+    <CheckBox
+        android:id="@+id/select_all_checkbox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="56dp"
+        android:text="@string/select_all_checkbox"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.918" />
 </android.support.constraint.ConstraintLayout>

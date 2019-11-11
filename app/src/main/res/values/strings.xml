@@ -2,14 +2,14 @@
     <string name="app_name">Chess Tournament Manager</string>
     <!--CreateTournament-->
 
-    <string name="available_players_textview">Dostępni zawodnicy</string>
-    <string name="chosenPlayersTextView">Wybrani zawodnicy</string>
-    <string name="addPlayerButton">Dodaj zawodnika</string>
-    <string name="moveToChosenPlayersButton"><![CDATA[->]]></string>
-    <string name="moveToAvailablePlayersButton"><![CDATA[<-]]></string>
-    <string name="drawButton">Konfiguracja turnieju</string>
+    <string name="available_players_text_view">Dostępni zawodnicy</string>
+    <string name="chosen_players_text_view">Wybrani zawodnicy</string>
+    <string name="add_player_button">Dodaj zawodnika</string>
+    <string name="move_to_chosen_players_button"><![CDATA[->]]></string>
+    <string name="move_to_available_players_button"><![CDATA[<-]]></string>
+    <string name="config_tournament_button">Konfiguracja turnieju</string>
     <string name="checked_text_view">Checked Text View</string>
-    <string name="selectAllButton">Zaznacz wszystko</string>
+    <string name="select_all_checkbox">Zaznacz wszystko</string>
 
     <!--Messages-->
     <string name="nothing_selected">Nie zaznaczono zawodnika</string>
@@ -17,27 +17,27 @@
 
 
     <!--AddNewPlayer-->
-    <string name="nameTextView">Imię</string>
-    <string name="surnameTextView">Nazwisko</string>
-    <string name="dateOfBirthTextView">Data urodzenia</string>
-    <string name="pickDateTextView">Wprowadź datę</string>
-    <string name="confirmNewPlayerButton">Zatwierdź</string>
-    <string name="closeButton">Wyjdź</string>
-    <string name="polishRankingTextView">Ranking polski</string>
-    <string name="internationalRankingTextView">Ranking międzynarodowy</string>
+    <string name="name_text_view">Imię</string>
+    <string name="surname_text_view">Nazwisko</string>
+    <string name="date_of_birth_text_view">Data urodzenia</string>
+    <string name="pick_date_text_view">Wprowadź datę</string>
+    <string name="confirm_new_player_button">Zatwierdź</string>
+    <string name="close_button">Wyjdź</string>
+    <string name="polish_ranking_text_view">Ranking polski</string>
+    <string name="international_ranking_text_view">Ranking międzynarodowy</string>
 
 
     <!--ConfigureTournament-->
-    <string name="pairingType">Typ kojarzenia</string>
-    <string name="methodTextView">Metoda przy jednakowych wynikach</string>
-    <string name="countOfPlayersTextView" />
-    <string name="setMethodTextView">Bucholtz</string>
-    <string name="startingListTextView">Lista startowa</string>
-    <string name="playersCountTextView">Ilość zawodników</string>
-    <string name="roundNumber">Podaj liczbę rund</string>
-    <string name="startTournamentButton">Rozpocznij turniej</string>
-    <string name="countOfNumberSwitch">Ręczny wybór liczby rund</string>
-    <string name="autoCountOfRounds">Standardowa liczba rund: %1$d</string>
+    <string name="pairing_type_text_view">Typ kojarzenia</string>
+    <string name="method_text_view">Metoda przy jednakowych wynikach</string>
+    <string name="count_of_players_text_view" />
+    <string name="set_method_text_view">Bucholtz</string>
+    <string name="starting_list_text_view">Lista startowa</string>
+    <string name="players_count_text_view">Ilość zawodników</string>
+    <string name="rounds_number_edit_text">Podaj liczbę rund</string>
+    <string name="start_tournament_button">Rozpocznij turniej</string>
+    <string name="count_of_number_switch">Ręczny wybór liczby rund</string>
+    <string name="auto_count_of_rounds">Standardowa liczba rund: %1$d</string>
 
     <string-array name="pairing">
         <item>Alfabetycznie</item>
@@ -51,11 +51,10 @@
     <string name="results">Wyniki</string>
     <string name="title_activity_tournament_process">TournamentProcess</string>
 
-    <string name="roundCountTextView">Runda %1$d</string>
+    <string name="round_count_text_view">Runda %1$d</string>
+
     <!--messages-->
-    <string name="fragmentNumber">Runda %1$d</string>
-    <string name="not_finished_round">Poprzednie rundy nie zostały zakończone</string>
-    <string name="results_here">Tutaj pojawią się wyniki po zakończonych rundach</string>
+    <string name="rounds_number_text_view">Runda %1$d</string>
     <string name="final_result">Wyniki końcowe</string>
     <string name="current_results">Wyniki po %1$d rundzie</string>
     <string name="set_results">Wprowadź wynik</string>
@@ -109,6 +108,6 @@
 
 
     <!--new-->
-    <string name="nextRoundButton">Następna runda</string>
+    <string name="next_round_button">Następna runda</string>
     <string name="rounds">Rundy</string>
 </resources>

@@ -1,8 +1,6 @@
 package com.example.adam.chesstournamentmanager;
 
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.adam.chesstournamentmanager.model.Colors;
@@ -59,6 +57,7 @@ public class SwissAlgorithm implements Serializable {
     public static SwissAlgorithm getINSTANCE(){
         return INSTANCE;
     }
+
     public void initTournamentPlayers(List<Players> players){
 
         tournamentPlayers = new ArrayList<>();
@@ -74,8 +73,6 @@ public class SwissAlgorithm implements Serializable {
 
     private void reset(){
         for (TournamentPlayer player : tournamentPlayers){
-            player.setCountFallIntoTheLastGroup(0);
-            player.setCountGroup(0);
             player.setUpper(false);
         }
     }
@@ -296,7 +293,7 @@ public class SwissAlgorithm implements Serializable {
             player1.setPrevColors(Colors.WHITE);
             player2.setPrevColors(Colors.BLACK);
 
-        } else { //player2 = black
+        } else { //player1 = black
 
             matchesTmp.add(new Match(currentRound, player2, player1));
             player1.setPrevColors(Colors.BLACK);
@@ -324,7 +321,12 @@ public class SwissAlgorithm implements Serializable {
 
         matches.add(matchesTmp);
         matchesTmp = new ArrayList<>();
- /*       setResult(result());
+
+
+
+ /*             DEBUGGING
+
+        setResult(result());
         writeMatches(0);
 
 
@@ -341,10 +343,6 @@ public class SwissAlgorithm implements Serializable {
 
         sortPlayerByPoints();
         writeEndResults();*/
-
-
-
-
 
     }
 
@@ -375,6 +373,7 @@ public class SwissAlgorithm implements Serializable {
         }
 
     }
+
     private List<List<TournamentPlayer>> prepareGroups(){
         float pointsTemp = tournamentPlayers.get(0).getPoints(); //the best score
         groupsPlayers.clear(); //new drawing

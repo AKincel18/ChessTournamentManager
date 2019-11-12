@@ -256,10 +256,9 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
         init();
         initTitle(swissAlgorithm.getCurrentRound());
 
-        LinearLayout relativeLayout = findViewById(R.id.linearLayoutFragment);
 
 
-        LinearLayout matchesRelativeLayout = findViewById(R.id.linearLayoutMatches);
+        LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
 
         //title
         titleTextView.setTextSize(30.0f);

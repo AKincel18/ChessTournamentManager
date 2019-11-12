@@ -1,179 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/layout_border"
+    android:background="@drawable/layout_border_popup"
+    android:orientation="vertical"
+    android:layout_gravity="center"
     tools:context=".activities.AddNewPlayer">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
 
-    <TextView
-        android:id="@+id/polish_ranking_text_view"
-        android:layout_width="184dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="164dp"
-        android:layout_marginBottom="20dp"
-        android:gravity="left|center"
-        android:text="@string/polish_ranking_text_view"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/international_ranking_text_view"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/close_button"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="650dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/close_button" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/international_ranking_text_view"
-        android:layout_width="184dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="164dp"
-        android:layout_marginBottom="100dp"
-        android:gravity="left|center"
-        android:text="@string/international_ranking_text_view"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/date_of_birth_text_view"
-        android:layout_width="184dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="164dp"
-        android:layout_marginBottom="28dp"
-        android:gravity="left|center"
-        android:text="@string/date_of_birth_text_view"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/polish_ranking_text_view"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/name_text_view"
+            android:textSize="25sp" />
 
-    <TextView
-        android:id="@+id/name_text_view"
-        android:layout_width="184dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="164dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="left|center"
-        android:text="@string/name_text_view"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/surname_text_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.857" />
 
-    <TextView
-        android:id="@+id/surname_text_view"
-        android:layout_width="184dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="164dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="left|center"
-        android:text="@string/surname_text_view"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/date_of_birth_text_view"
-        app:layout_constraintStart_toStartOf="parent" />
+        <EditText
+            android:id="@+id/name_edit_text"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:textSize="25sp" />
 
-    <EditText
-        android:id="@+id/name_edit_text"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="128dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/surname_edit_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.167"
-        app:layout_constraintStart_toEndOf="@+id/name_text_view"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.753" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/surname_edit_text"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/pick_date_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.167"
-        app:layout_constraintStart_toEndOf="@+id/surname_text_view" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/pick_date_text_view"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="24dp"
-        android:clickable="true"
-        android:gravity="left|center"
-        android:text="@string/pick_date_text_view"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/polish_ranking_number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.167"
-        app:layout_constraintStart_toEndOf="@+id/date_of_birth_text_view" />
 
-    <Button
-        android:id="@+id/confirm_new_player_button"
-        android:layout_width="133dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/confirm_new_player_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.413"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.986" />
+        <TextView
+            android:id="@+id/surname_text_view"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/surname_text_view"
+            android:textSize="25sp" />
 
-    <Button
-        android:id="@+id/close_button"
-        android:layout_width="wrap_content"
-        android:layout_height="72dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/close_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
-        android:id="@+id/polish_ranking_number"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="128dp"
-        android:layout_marginBottom="28dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/international_ranking_number"
-        app:layout_constraintStart_toEndOf="@+id/polish_ranking_text_view" />
+        <EditText
+            android:id="@+id/surname_edit_text"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:importantForAutofill="no"
+            android:textSize="25sp"
+            app:layout_constraintStart_toEndOf="@+id/surname_text_view" />
 
-    <EditText
-        android:id="@+id/international_ranking_number"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="124dp"
-        android:layout_marginBottom="100dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/international_ranking_text_view" />
+    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/date_of_birth_text_view"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="25sp"
+            android:text="@string/date_of_birth_text_view" />
+
+
+        <TextView
+            android:id="@+id/pick_date_text_view"
+            android:text="@string/pick_date_text_view"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:importantForAutofill="no"
+            android:textSize="25sp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/polish_ranking_text_view"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="25sp"
+            android:text="@string/polish_ranking_text_view" />
+
+
+
+        <EditText
+            android:id="@+id/polish_ranking_number"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:importantForAutofill="no"
+            android:textSize="25sp"
+            android:inputType="number" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+
+        <TextView
+            android:id="@+id/international_ranking_text_view"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:textSize="25sp"
+            android:text="@string/international_ranking_text_view"
+            />
+
+
+
+        <EditText
+            android:id="@+id/international_ranking_number"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:importantForAutofill="no"
+            android:textSize="25sp"
+            android:inputType="number"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/confirm_new_player_button"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="@string/confirm_new_player_button" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -16,12 +16,6 @@ public class TournamentPlayer extends Players {
 
     private boolean bye;
 
-    private boolean fallIntoLastGroup;
-
-    private int countGroup; //o ile musi isc do gory ze swojej grupy
-
-    private int countFallIntoTheLastGroup; //ile razy spadł do najnizej grupy: jesli raz to lec do wyzszej, a jesli dwa to lec do 2 wyzszej
-
     private boolean upper;
 
     public TournamentPlayer() {
@@ -74,42 +68,6 @@ public class TournamentPlayer extends Players {
 
     public void setUpper(boolean upper) {
         this.upper = upper;
-    }
-
-
-    /*
-
-    public boolean isFallIntoLastGroup() {
-        return fallIntoLastGroup;
-    }
-
-    public void setFallIntoLastGroup(boolean fallIntoLastGroup) {
-        this.fallIntoLastGroup = fallIntoLastGroup;
-    }
-*/
-
-
-    public int getCountGroup() {
-        return countGroup;
-    }
-
-    public void increaseGroup() {
-        this.countGroup++;
-    }
-
-    public void setCountGroup(int countGroup){
-        this.countGroup = countGroup;
-    }
-
-    public int getCountFallIntoTheLastGroup() {
-        return countFallIntoTheLastGroup;
-    }
-
-    public void increaseFallIntoTheLastGroup(){
-        this.countFallIntoTheLastGroup++;
-    }
-    public void setCountFallIntoTheLastGroup(int countFallIntoTheLastGroup) {
-        this.countFallIntoTheLastGroup = countFallIntoTheLastGroup;
     }
 
     public void removeLastMatch(){

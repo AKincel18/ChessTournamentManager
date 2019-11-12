@@ -30,7 +30,7 @@ public class FinalResults extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_results);
         currentRound = SwissAlgorithm.getINSTANCE().getCurrentRound();
-        TextView textView = findViewById(R.id.currentResults);
+        TextView textView = findViewById(R.id.current_results);
         if (SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
             textView.setText(getString(R.string.final_result));
         }
@@ -77,7 +77,7 @@ public class FinalResults extends AppCompatActivity {
 
     private void buildView() {
 
-        LinearLayout matchesRelativeLayout = findViewById(R.id.linearLayoutMatches);
+        LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
 
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);

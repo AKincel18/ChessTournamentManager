@@ -32,9 +32,9 @@
         android:layout_marginBottom="8dp"
         android:text="@string/move_to_chosen_players_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/chosenPlayersList"
+        app:layout_constraintEnd_toStartOf="@+id/chosen_players_list_view"
         app:layout_constraintHorizontal_bias="0.468"
-        app:layout_constraintStart_toEndOf="@+id/playersList"
+        app:layout_constraintStart_toEndOf="@+id/available_players_list_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.25" />
 
@@ -48,14 +48,14 @@
         android:layout_marginBottom="8dp"
         android:text="@string/move_to_available_players_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/chosenPlayersList"
+        app:layout_constraintEnd_toStartOf="@+id/chosen_players_list_view"
         app:layout_constraintHorizontal_bias="0.468"
-        app:layout_constraintStart_toEndOf="@+id/playersList"
+        app:layout_constraintStart_toEndOf="@+id/available_players_list_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.541" />
 
     <ListView
-        android:id="@+id/playersList"
+        android:id="@+id/available_players_list_view"
         android:layout_width="436dp"
         android:layout_height="428dp"
         android:layout_marginStart="48dp"
@@ -63,7 +63,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:padding="7dp"
-        android:background="@drawable/layout_border"
+        android:background="@drawable/layout_border_list_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.02"
@@ -72,14 +72,14 @@
         app:layout_constraintVertical_bias="0.374" />
 
     <ListView
-        android:id="@+id/chosenPlayersList"
+        android:id="@+id/chosen_players_list_view"
         android:layout_width="436dp"
         android:layout_height="428dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="8dp"
         android:padding="7dp"
-        android:background="@drawable/layout_border"
+        android:background="@drawable/layout_border_list_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -96,7 +96,7 @@
         android:gravity="center"
         android:text="@string/available_players_text_view"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/playersList"
+        app:layout_constraintBottom_toTopOf="@+id/available_players_list_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.058"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@
         android:gravity="center"
         android:text="@string/chosen_players_text_view"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/playersList"
+        app:layout_constraintBottom_toTopOf="@+id/available_players_list_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.951"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +133,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.067"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playersList"
+        app:layout_constraintTop_toBottomOf="@+id/available_players_list_view"
         app:layout_constraintVertical_bias="0.73" />
 
 

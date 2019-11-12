@@ -40,7 +40,7 @@ public class RoundResults extends AppCompatActivity {
         allMatches = SwissAlgorithm.getINSTANCE().getMatches();
         currentRound = SwissAlgorithm.getINSTANCE().getCurrentRound();
         currentView = i.getIntExtra(getString(R.string.go_to_round), 0);
-        textView = findViewById(R.id.previousRoundCountTextView);
+        textView = findViewById(R.id.previous_round_count_text_view);
         textView.setText(getString(R.string.round_count_text_view, currentView));
         buildView(currentView);
 
@@ -54,7 +54,7 @@ public class RoundResults extends AppCompatActivity {
         }
         else if (item.getItemId() <= currentRound) {
 
-            LinearLayout matchesRelativeLayout = findViewById(R.id.linearLayoutMatches);
+            LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
             matchesRelativeLayout.removeAllViews();
             buildView(item.getItemId());
         }
@@ -84,7 +84,7 @@ public class RoundResults extends AppCompatActivity {
     private void buildView(int currentRound){
         textView.setText(getString(R.string.round_count_text_view, currentRound));
 
-        LinearLayout matchesRelativeLayout = findViewById(R.id.linearLayoutMatches);
+        LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
 
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);

@@ -12,7 +12,7 @@
 
 
     <TextView
-        android:id="@+id/currentResults"
+        android:id="@+id/current_results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"

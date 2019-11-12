@@ -1,17 +1,22 @@
 package com.example.adam.chesstournamentmanager.activities;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.adam.chesstournamentmanager.R;
+import com.example.adam.chesstournamentmanager.database.Database;
+import com.example.adam.chesstournamentmanager.model.Players;
+import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -22,48 +27,37 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 
-import com.example.adam.chesstournamentmanager.R;
-import com.example.adam.chesstournamentmanager.database.Database;
-import com.example.adam.chesstournamentmanager.model.Players;
-import com.example.adam.chesstournamentmanager.staticdata.Constans;
-import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
-
-public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragment.OnDialogFragmentClickListener {
+public class AddPlayer implements GeneralDialogFragment.OnDialogFragmentClickListener{
 
     private TextView pickDateTextView;
-    private DatePickerDialog.OnDateSetListener dateSetListener;
 
-    private ArrayList<Players> allPlayers;
+    private DatePickerDialog.OnDateSetListener dateSetListener;
 
     private Database database;
 
     private Date formatDate;
 
+    private Context context;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.popup_add_new_player);
+    private Dialog dialog;
+
+    private Players players;
 
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+    //private FragmentActivity fragmentActivity;
 
-        int width = displayMetrics.widthPixels;
-        int height = displayMetrics.heightPixels;
+    private FragmentManager fragmentManager;
 
-        getWindow().setLayout((int) (width*.6), (int) (height*.6));
+    public AddPlayer(Context context, Dialog dialog, FragmentManager fragmentManager) {
+        this.context = context;
+        this.dialog = dialog;
+        this.fragmentManager = fragmentManager;
+    }
 
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.gravity = Gravity.CENTER;
-        params.x = 0;
-        params.y = 0;
+    public void init(){
+        database = Database.getInstance(context);
 
-        getWindow().setAttributes(params);
-
-        database = Database.getInstance(this);
-
-        pickDateTextView = findViewById(R.id.pick_date_text_view);
+        pickDateTextView = dialog.findViewById(R.id.pick_date_text_view);
 /*        Locale locale = new Locale("pl");
         Locale.setDefault(locale);*/
 
@@ -76,7 +70,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        AddNewPlayer.this,
+                        context,
                         android.R.style.Theme_DeviceDefault_Light_Dialog_MinWidth,
                         dateSetListener,
                         year, month, day);
@@ -93,26 +87,25 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
             }
         };
 
-        Intent i = getIntent();
-        allPlayers = (ArrayList<Players>) i.getSerializableExtra(getString(R.string.available_players));
 
         //buttons
-        confirmNewPlayer();
         close();
+        confirmNewPlayer();
 
     }
 
-    public void confirmNewPlayer(){
 
-        Button confirmPlayerButton = findViewById(R.id.confirm_new_player_button);
+    private void confirmNewPlayer(){
+
+        Button confirmPlayerButton = dialog.findViewById(R.id.confirm_new_player_button);
         confirmPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText name =  findViewById(R.id.name_edit_text);
-                final EditText surname = findViewById(R.id.surname_edit_text);
-                final TextView date = findViewById(R.id.pick_date_text_view);
-                final EditText polishRanking = findViewById(R.id.polish_ranking_number);
-                final EditText internationalRanking = findViewById(R.id.international_ranking_number);
+                final EditText name =  dialog.findViewById(R.id.name_edit_text);
+                final EditText surname = dialog.findViewById(R.id.surname_edit_text);
+                final TextView date = dialog.findViewById(R.id.pick_date_text_view);
+                final EditText polishRanking = dialog.findViewById(R.id.polish_ranking_number);
+                final EditText internationalRanking = dialog.findViewById(R.id.international_ranking_number);
 
 
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy", new Locale("pl"));
@@ -123,14 +116,16 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 }
                 catch (ParseException exc) {
                     GeneralDialogFragment generalDialogFragment =
-                            GeneralDialogFragment.newInstance(getString(R.string.title_error), getString(R.string.message_error), getString(R.string.exit_button));
-                    generalDialogFragment.show(getSupportFragmentManager(), getString(R.string.title_error));
+                            GeneralDialogFragment.newInstance(Resources.getSystem().getString(R.string.title_error),
+                                    Resources.getSystem().getString(R.string.message_error),
+                                    Resources.getSystem().getString(R.string.exit_button));
+                    generalDialogFragment.show(fragmentManager, Resources.getSystem().getString(R.string.title_error));
                     return;
 
 
                 }
 
-                final Players players = new Players(
+                players = new Players(
                         name.getText().toString(),
                         surname.getText().toString(),
                         formatDate
@@ -141,7 +136,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 }
                 catch (NumberFormatException e){
                     players.setPolishRanking(Integer.MAX_VALUE);
-                    }
+                }
                 try {
                     players.setInternationalRanking(Integer.valueOf(internationalRanking.getText().toString()));
                 }
@@ -157,20 +152,13 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                     }
                 });
 
-                Intent i = new Intent(getApplicationContext(), CreateTournament.class);
-                if (allPlayers == null)
-                    allPlayers = new ArrayList<>();
-
-                allPlayers.add(players);
-                i.putExtra(getString(R.string.available_players), allPlayers);
-                startActivity(i);
             }
         });
 
     }
 
     private void close(){
-        Button closeButton = findViewById(R.id.close_button);
+        Button closeButton = dialog.findViewById(R.id.close_button);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,26 +167,30 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
         });
     }
 
-    @Override
-    public void onBackPressed(){
-        showDialogBox();
-    }
-
-    private void showDialogBox(){
+    private void showDialogBox() {
         GeneralDialogFragment generalDialogFragment =
-                GeneralDialogFragment.newInstance(getString(R.string.title_warning), getString(R.string.information_warning), getString(R.string.positive_button_warning));
-        generalDialogFragment.show(getSupportFragmentManager(), getString(R.string.title_warning));
+                GeneralDialogFragment.newInstance(Resources.getSystem().getString(R.string.title_warning),
+                        Resources.getSystem().getString(R.string.information_warning),
+                        Resources.getSystem().getString(R.string.positive_button_warning));
+
+        generalDialogFragment.show(fragmentManager, Resources.getSystem().getString(R.string.title_warning));
     }
 
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
-        if (dialog.getArguments().getString(getString(R.string.title)).equals(getString(R.string.title_warning))) {
-            Intent i = new Intent(this, CreateTournament.class);
-            startActivity(i);
-        }
+
     }
 
     @Override
     public void onCancelClicked(GeneralDialogFragment dialog) {
+        dialog.dismiss();
+    }
+
+    public Players getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Players players) {
+        this.players = players;
     }
 }

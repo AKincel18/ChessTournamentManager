@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/simpleCheckedTextView"
+    android:id="@+id/simple_checked_text_view"
     android:layout_width="fill_parent"
     android:layout_height="50dp"
     android:gravity="center_vertical"

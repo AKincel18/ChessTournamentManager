@@ -1,5 +1,6 @@
 package com.example.adam.chesstournamentmanager.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,15 +34,19 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
     private Database database;
 
-    //TODO -> not loading data in first launch application... :/
+
+/*    private Button closeButton;
+    private Button b;
+    private Dialog dialog;*/
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_tournament);
-        chosenPlayerListView = findViewById(R.id.chosenPlayersList);
-        allPlayersListView = findViewById(R.id.playersList);
+        chosenPlayerListView = findViewById(R.id.chosen_players_list_view);
+        allPlayersListView = findViewById(R.id.available_players_list_view);
 
         database = Database.getInstance(this);
 
@@ -52,12 +57,17 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         }
 
 
-        initListView(chosenPlayerListView, chosenPlayers, selectedChosenPlayers);
-
-        if (isInitPlayers)
+        if (isInitPlayers) {
             initPlayers(); //fetch players from database
+            try {
 
-        initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
+                Thread.sleep(100);//wait to fetching data from database
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
 
         //buttons
         moveToChosenPlayers();
@@ -67,6 +77,12 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
         selectedAll(R.id.select_all_checkbox, allPlayersListView, selectedAvailablePlayers);
         selectedAll(R.id.select_all_checkbox2, chosenPlayerListView, selectedChosenPlayers);
+
+        initListView(chosenPlayerListView, chosenPlayers, selectedChosenPlayers);
+        initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
+
+
+        //dialog = new Dialog(this);
 
 
    }
@@ -83,7 +99,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
     private void initPlayers(){
 
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
+        Executors.newSingleThreadExecutor().execute(    new Runnable() {
             @Override
             public void run() {
                 //availablePlayers.addAll(database.playersDao().getAllPlayers());
@@ -127,11 +143,11 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
             selected.clear();
 
             //ArrayList<String> fullName = playersToString(availablePlayers);
-            ArrayAdapter<Players> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simpleCheckedTextView, availablePlayers);
+            ArrayAdapter<Players> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simple_checked_text_view, availablePlayers);
             allPlayersListView.setAdapter(adapter);
 
             //fullName = playersToString(chosenPlayers);
-            adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simpleCheckedTextView, chosenPlayers);
+            adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simple_checked_text_view, chosenPlayers);
             chosenPlayerListView.setAdapter(adapter);
         }
     }
@@ -139,7 +155,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
     private void initListView(ListView listView, ArrayList<Players> playersList, final ArrayList<Players> selected){
 
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        ArrayAdapter<Players> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simpleCheckedTextView,playersList );
+        ArrayAdapter<Players> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simple_checked_text_view,playersList );
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
@@ -156,16 +172,38 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
     }
 
+
+
     private void addNewPlayer(){
         Button addPlayerButton = findViewById(R.id.add_player_button);
+
         addPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+/*                dialog.setContentView(R.layout.popup_add_new_player);
+                closeButton = dialog.findViewById(R.id.close_button);
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                final AddPlayer addPlayer = new AddPlayer(CreateTournament.this, dialog, getSupportFragmentManager());
+                addPlayer.init();
+                if (addPlayer.getPlayers() != null) {
+                    availablePlayers.add(addPlayer.getPlayers());
+                    Toast.makeText(CreateTournament.this, getString(R.string.added_player), Toast.LENGTH_LONG).show();
+
+                }
+                dialog.show();*/
                 Intent i = new Intent(getApplicationContext(), AddNewPlayer.class);
                 i.putExtra(getString(R.string.available_players), availablePlayers);
                 startActivity(i);
             }
+
         });
+
     }
 
     private void configureTournament(){

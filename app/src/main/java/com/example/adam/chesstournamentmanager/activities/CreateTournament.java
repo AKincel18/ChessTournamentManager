@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -34,10 +35,9 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
     private Database database;
 
+    private Dialog dialog;
 
-/*    private Button closeButton;
-    private Button b;
-    private Dialog dialog;*/
+    private boolean chooseDialogBox;
 
 
 
@@ -74,6 +74,8 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         moveToAvailablePlayers();
         addNewPlayer();
         configureTournament();
+        aboutPlayer();
+        removePlayer();
 
         selectedAll(R.id.select_all_checkbox, allPlayersListView, selectedAvailablePlayers);
         selectedAll(R.id.select_all_checkbox2, chosenPlayerListView, selectedChosenPlayers);
@@ -82,7 +84,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
 
 
-        //dialog = new Dialog(this);
+        dialog = new Dialog(this);
 
 
    }
@@ -217,6 +219,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
                     startActivity(i);
                 }
                 else {
+                    chooseDialogBox = false;
                     GeneralDialogFragment dialog = GeneralDialogFragment.
                             newInstance(getString(R.string.title_warning), getString(R.string.odd_number_players), getString(R.string.positive_button_warning));
                     dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
@@ -234,6 +237,67 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
     }
 
 
+    private void aboutPlayer(){
+        Button aboutPlayerButton = findViewById(R.id.about_player);
+        aboutPlayerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.setContentView(R.layout.popup_about_player);
+                TextView name = dialog.findViewById(R.id.about_set_name_text_view);
+                TextView surname = dialog.findViewById(R.id.about_set_surname_text_view);
+                TextView date = dialog.findViewById(R.id.about_set_date_of_birth_text_view);
+                TextView polishRank = dialog.findViewById(R.id.about_set_polish_ranking_text_view);
+                TextView internationalRank = dialog.findViewById(R.id.about_set_international_ranking_text_view);
+
+                if (selectedAvailablePlayers.size() == 1) {
+                    Players p = selectedAvailablePlayers.get(0);
+                    name.setText(p.getName());
+                    surname.setText(p.getSurname());
+                    date.setText(p.getDateOfBirth().toString());
+                    polishRank.setText(String.valueOf(p.getPolishRanking()));
+                    internationalRank.setText(String.valueOf(p.getInternationalRanking()));
+                } else if (selectedAvailablePlayers.size() > 1) {
+                    //todo selected more than one player
+                } else  {
+                    //todo not selected player
+                }
+                dialog.show();
+            }
+        });
+    }
+
+    private void removePlayer(){
+        Button removePlayerButton = findViewById(R.id.remove_player);
+        removePlayerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedAvailablePlayers.size() == 1) {
+                    chooseDialogBox = true;
+                    Players player = selectedAvailablePlayers.get(0);
+                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                            getString(R.string.title_warning),
+                            getString(R.string.remove_player_warning,
+                                    player.getName(),
+                                    player.getSurname(),
+                                    player.getDateOfBirth().toString(),
+                                    player.getPolishRanking(),
+                                    player.getInternationalRanking()),
+                            getString(R.string.positive_button_warning));
+
+                    dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
+
+
+
+
+            } else if (selectedAvailablePlayers.size() > 1) {
+                //todo selected more than one player
+            } else  {
+                //todo not selected player
+            }
+
+            }
+        });
+    }
 
     public void selectedAll(int idCheckBox, final ListView listView, final ArrayList<Players> list ){
         final CheckBox selectAllCheckBox = findViewById(idCheckBox);
@@ -262,13 +326,32 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
-        Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
-        i.putExtra(getString(R.string.players), chosenPlayers);
-        startActivity(i);
+        if (chooseDialogBox){
+            final Players player = selectedAvailablePlayers.get(0);
+            Executors.newSingleThreadExecutor().execute(new Runnable() {
+                @Override
+                public void run() {
+                    database.playersDao().removePlayer(player);
+                }
+            });
+            selectedAvailablePlayers.remove(player);
+            availablePlayers.remove(player);
+            ArrayAdapter<Players> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.list_players, R.id.simple_checked_text_view, availablePlayers);
+            allPlayersListView.setAdapter(adapter);
+            Toast.makeText(this, getString(R.string.removed_player), Toast.LENGTH_LONG).show();
+        }
+        else {
+            Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
+            i.putExtra(getString(R.string.players), chosenPlayers);
+            startActivity(i);
+        }
     }
 
     @Override
     public void onCancelClicked(GeneralDialogFragment dialog) {
-
+        //todo dialog.getTag -> check
+        if (chooseDialogBox) {
+            allPlayersListView.setItemChecked(allPlayersListView.getSelectedItemPosition(), false); //todo not reseting
+        }
     }
 }

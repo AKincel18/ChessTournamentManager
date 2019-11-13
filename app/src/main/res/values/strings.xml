@@ -5,6 +5,8 @@
     <string name="available_players_text_view">Dostępni zawodnicy</string>
     <string name="chosen_players_text_view">Wybrani zawodnicy</string>
     <string name="add_player_button">Dodaj zawodnika</string>
+    <string name="about_player">Informacje o zawodniku</string>
+    <string name="remove_player">Usuń zawodnika</string>
     <string name="move_to_chosen_players_button"><![CDATA[->]]></string>
     <string name="move_to_available_players_button"><![CDATA[<-]]></string>
     <string name="config_tournament_button">Konfiguracja turnieju</string>
@@ -14,6 +16,7 @@
     <!--Messages-->
     <string name="nothing_selected">Nie zaznaczono zawodnika</string>
     <string name="added_player">Dodano zawodnika</string>
+    <string name="removed_player">Usunięto zawodnika</string>
 
 
     <!--AddNewPlayer-->
@@ -81,6 +84,13 @@
                                            Czy na pewno chcesz wyjść?</string>
     <string name="odd_number_players">Nieparzysta liczba zawodników.
                                           Kontynuować?</string>
+    <string name="remove_player_warning">Czy usunąć zawodnika:\n
+        imię: %1$s\n
+        nazwisko: %2$s\n
+        data urodzenia: %3$s\n
+        ranking polski: %4$d\n
+        ranking międzynarodowy: %5$d
+                                            </string>
     <string name="positive_button_warning">Tak</string>
     <string name="negative_button_warning">Nie</string>
 

@@ -1,6 +1,7 @@
 package com.example.adam.chesstournamentmanager.database;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -16,5 +17,8 @@ public interface PlayersDao {
 
     @Insert
     void insertPlayer(Players players);
+
+    @Delete
+    void removePlayer(Players players);
 
 }

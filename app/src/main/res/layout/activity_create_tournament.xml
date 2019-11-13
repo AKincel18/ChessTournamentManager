@@ -17,10 +17,10 @@
         android:text="@string/config_tournament_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.961"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.959" />
+        app:layout_constraintVertical_bias="0.951" />
 
     <Button
         android:id="@+id/move_to_chosen_players_button"
@@ -62,28 +62,28 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:padding="7dp"
         android:background="@drawable/layout_border_list_view"
+        android:padding="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintHorizontal_bias="0.01"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.374" />
+        app:layout_constraintVertical_bias="0.283" />
 
     <ListView
         android:id="@+id/chosen_players_list_view"
         android:layout_width="436dp"
         android:layout_height="428dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="40dp"
         android:layout_marginBottom="8dp"
-        android:padding="7dp"
         android:background="@drawable/layout_border_list_view"
+        android:padding="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.374" />
+        app:layout_constraintVertical_bias="0.337" />
 
     <TextView
         android:id="@+id/available_players_text_view"
@@ -136,6 +136,36 @@
         app:layout_constraintTop_toBottomOf="@+id/available_players_list_view"
         app:layout_constraintVertical_bias="0.73" />
 
+    <Button
+        android:id="@+id/about_player"
+        android:layout_width="216dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/about_player"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.053"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/available_players_list_view"
+        app:layout_constraintVertical_bias="0.112" />
+
+
+    <Button
+        android:id="@+id/remove_player"
+        android:layout_width="216dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/remove_player"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.262"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/available_players_list_view"
+        app:layout_constraintVertical_bias="0.112" />
 
     <CheckBox
         android:id="@+id/select_all_checkbox"
@@ -148,10 +178,10 @@
         android:text="@string/select_all_checkbox"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintHorizontal_bias="0.404"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.918" />
+        app:layout_constraintVertical_bias="0.917" />
 
     <CheckBox
         android:id="@+id/select_all_checkbox2"

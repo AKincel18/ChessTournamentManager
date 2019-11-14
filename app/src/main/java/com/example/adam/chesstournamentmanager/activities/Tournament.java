@@ -26,6 +26,7 @@ import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.SpinnerAdapter;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 
+import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -242,10 +243,7 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
     private void initTitle(int round){
         //title
-        titleTextView.setTextSize(30.0f);
-        titleTextView.setTypeface(titleTextView.getTypeface(), Typeface.BOLD);
         titleTextView.setText(getString(R.string.round_count_text_view, round));
-        titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 
     private void buildRoundsView(){
@@ -268,14 +266,6 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
 
 
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.setMargins(10,5,10,5);
-        linearLayout.setLayoutParams(params);
-        matchesRelativeLayout.addView(linearLayout);
-
-
         LinearLayout.LayoutParams paramsLeftTextSize = new LinearLayout.LayoutParams(200, 50);
         paramsLeftTextSize.setMargins(5, 5, 50, 5);
 
@@ -284,6 +274,16 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
         LinearLayout.LayoutParams paramsRightTextSize = new LinearLayout.LayoutParams(200, 50);
         paramsRightTextSize.setMargins(50, 5, 10, 5);
+
+
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.setMargins(10,5,10,5);
+        linearLayout.setLayoutParams(params);
+        matchesRelativeLayout.addView(linearLayout);
+
+
 
 
 
@@ -327,6 +327,7 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
                 textView.setLayoutParams(paramsSpinner);
                 textView.setText("1-0");
+                textView.setTextColor(Color.BLACK);
                 textView.setId(View.generateViewId());
                 textView.setAutoSizeTextTypeUniformWithPresetSizes(getResources().getIntArray(R.array.autosize_text_sizes),
                         TypedValue.COMPLEX_UNIT_SP );

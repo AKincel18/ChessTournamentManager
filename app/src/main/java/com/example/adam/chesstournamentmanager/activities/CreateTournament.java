@@ -12,7 +12,14 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Executors;
 
 import com.example.adam.chesstournamentmanager.R;
@@ -36,8 +43,6 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
     private Database database;
 
     private Dialog dialog;
-
-    private boolean chooseDialogBox;
 
 
 
@@ -87,6 +92,23 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         dialog = new Dialog(this);
 
 
+/*        Executors.newSingleThreadExecutor().execute(    new Runnable() {
+            @Override
+            public void run() {
+                //availablePlayers.addAll(database.playersDao().getAllPlayers());
+                for (int i = 1; i<= 15; i++) {
+                    Players players = new Players(String.valueOf(i),"", new Random().nextFloat(),new Random().nextFloat(), new Date());
+                    database.playersDao().insertPlayer(players);
+                }
+            }
+        });
+        try {
+
+            Thread.sleep(100);//wait to fetching data from database
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
    }
 
 
@@ -104,7 +126,6 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         Executors.newSingleThreadExecutor().execute(    new Runnable() {
             @Override
             public void run() {
-                //availablePlayers.addAll(database.playersDao().getAllPlayers());
                 availablePlayers.addAll(database.playersDao().getAllPlayers());
             }
         });
@@ -182,23 +203,6 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         addPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*                dialog.setContentView(R.layout.popup_add_new_player);
-                closeButton = dialog.findViewById(R.id.close_button);
-                closeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                final AddPlayer addPlayer = new AddPlayer(CreateTournament.this, dialog, getSupportFragmentManager());
-                addPlayer.init();
-                if (addPlayer.getPlayers() != null) {
-                    availablePlayers.add(addPlayer.getPlayers());
-                    Toast.makeText(CreateTournament.this, getString(R.string.added_player), Toast.LENGTH_LONG).show();
-
-                }
-                dialog.show();*/
                 Intent i = new Intent(getApplicationContext(), AddNewPlayer.class);
                 i.putExtra(getString(R.string.available_players), availablePlayers);
                 startActivity(i);
@@ -213,24 +217,16 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         configureTournamentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*                if (chosenPlayers.size() % 2 == 0) {
+                if (chosenPlayers.size() % 2 == 0) {
                     Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
                     i.putExtra(getString(R.string.players), chosenPlayers);
                     startActivity(i);
                 }
                 else {
-                    chooseDialogBox = false;
                     GeneralDialogFragment dialog = GeneralDialogFragment.
                             newInstance(getString(R.string.title_warning), getString(R.string.odd_number_players), getString(R.string.positive_button_warning));
                     dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
-                }*/
-
-
-                Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
-                i.putExtra(getString(R.string.players), chosenPlayers);//TODO for testing
-                startActivity(i);
-
-
+                }
 
             }
         });
@@ -253,46 +249,115 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
                     Players p = selectedAvailablePlayers.get(0);
                     name.setText(p.getName());
                     surname.setText(p.getSurname());
-                    date.setText(p.getDateOfBirth().toString());
-                    polishRank.setText(String.valueOf(p.getPolishRanking()));
-                    internationalRank.setText(String.valueOf(p.getInternationalRanking()));
+                    date.setText(getFormatDate(p.getDateOfBirth()));
+                    setRankInTextView(p.getPolishRanking(), polishRank);
+                    setRankInTextView(p.getInternationalRanking(), internationalRank);
+                    dialog.show();
                 } else if (selectedAvailablePlayers.size() > 1) {
-                    //todo selected more than one player
+                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                            getString(R.string.title_error),
+                            getString(R.string.too_many_player_selected),
+                            getString(R.string.positive_button_warning));
+                    dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
+
+
                 } else  {
-                    //todo not selected player
+                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                            getString(R.string.title_error),
+                            getString(R.string.no_one_selected),
+                            getString(R.string.positive_button_warning));
+                    dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
                 }
-                dialog.show();
             }
         });
     }
 
+    private String getFormatDate(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        int month;
+        if ((month = calendar.get(Calendar.MONTH)) < 10) {
+            month++;
+        }
+        String monthString = String.valueOf(month);
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+        return day + '-' + monthString + '-' + year;
+    }
+
+    private void setRankInTextView(float rank, TextView textView){
+        if (rank != -1)
+            textView.setText(String.valueOf(rank));
+        else
+            textView.setText(getString(R.string.no_rank));
+
+    }
+
+    private GeneralDialogFragment getDialog(Players player){
+        if (player.getPolishRanking() == -1 && player.getInternationalRanking() != -1) {
+            return GeneralDialogFragment.newInstance(
+                    getString(R.string.remove_player_title_DB),
+                    getString(R.string.remove_player_warning,
+                            player.getName(),
+                            player.getSurname(),
+                            getFormatDate(player.getDateOfBirth()),
+                            getString(R.string.no_rank),
+                            String.valueOf(player.getInternationalRanking())),
+                    getString(R.string.positive_button_warning));
+        } else if (player.getPolishRanking() != -1 && player.getInternationalRanking() == -1){
+            return GeneralDialogFragment.newInstance(
+                    getString(R.string.remove_player_title_DB),
+                    getString(R.string.remove_player_warning,
+                            player.getName(),
+                            player.getSurname(),
+                            getFormatDate(player.getDateOfBirth()),
+                            String.valueOf(player.getPolishRanking()),
+                            getString(R.string.no_rank)),
+                    getString(R.string.positive_button_warning));
+        } else if (player.getPolishRanking() == -1 && player.getInternationalRanking() == -1){
+            return GeneralDialogFragment.newInstance(
+                    getString(R.string.remove_player_title_DB),
+                    getString(R.string.remove_player_warning,
+                            player.getName(),
+                            player.getSurname(),
+                            getFormatDate(player.getDateOfBirth()),
+                            getString(R.string.no_rank),
+                            getString(R.string.no_rank)),
+                    getString(R.string.positive_button_warning));
+        } else {
+            return GeneralDialogFragment.newInstance(
+                    getString(R.string.remove_player_title_DB),
+                    getString(R.string.remove_player_warning,
+                            player.getName(),
+                            player.getSurname(),
+                            getFormatDate(player.getDateOfBirth()),
+                            String.valueOf(player.getPolishRanking()),
+                            String.valueOf(player.getInternationalRanking())),
+                    getString(R.string.positive_button_warning));
+        }
+    }
     private void removePlayer(){
         Button removePlayerButton = findViewById(R.id.remove_player);
         removePlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (selectedAvailablePlayers.size() == 1) {
-                    chooseDialogBox = true;
                     Players player = selectedAvailablePlayers.get(0);
-                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
-                            getString(R.string.title_warning),
-                            getString(R.string.remove_player_warning,
-                                    player.getName(),
-                                    player.getSurname(),
-                                    player.getDateOfBirth().toString(),
-                                    player.getPolishRanking(),
-                                    player.getInternationalRanking()),
-                            getString(R.string.positive_button_warning));
-
-                    dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
-
-
-
+                    GeneralDialogFragment dialog = getDialog(player);
+                    dialog.show(getSupportFragmentManager(), getString(R.string.confirmation_removing_player));
 
             } else if (selectedAvailablePlayers.size() > 1) {
-                //todo selected more than one player
-            } else  {
-                //todo not selected player
+                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                            getString(R.string.title_warning),
+                            getString(R.string.selected_player_remove),
+                            getString(R.string.positive_button_warning));
+                    dialog.show(getSupportFragmentManager(), getString(R.string.confirmation_removing_player));
+                } else  {
+                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                            getString(R.string.title_error),
+                            getString(R.string.no_one_selected),
+                            getString(R.string.positive_button_warning));
+                    dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
             }
 
             }
@@ -326,21 +391,28 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
-        if (chooseDialogBox){
-            final Players player = selectedAvailablePlayers.get(0);
+        final List<Players> playersList = new ArrayList<>(selectedAvailablePlayers);
+
+        if (dialog.getTag().equals(getString(R.string.confirmation_removing_player))){
             Executors.newSingleThreadExecutor().execute(new Runnable() {
                 @Override
                 public void run() {
-                    database.playersDao().removePlayer(player);
+                    database.playersDao().removePlayer(playersList);
                 }
             });
-            selectedAvailablePlayers.remove(player);
-            availablePlayers.remove(player);
+
+            availablePlayers.removeAll(selectedAvailablePlayers);
+            selectedAvailablePlayers.clear();
+
             ArrayAdapter<Players> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.list_players, R.id.simple_checked_text_view, availablePlayers);
             allPlayersListView.setAdapter(adapter);
-            Toast.makeText(this, getString(R.string.removed_player), Toast.LENGTH_LONG).show();
+            if (playersList.size() == 1)
+                Toast.makeText(this, getString(R.string.removed_player), Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(this, getString(R.string.removed_players), Toast.LENGTH_LONG).show();
+
         }
-        else {
+        else if (dialog.getTag().equals(getString(R.string.title_warning))){
             Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
             i.putExtra(getString(R.string.players), chosenPlayers);
             startActivity(i);
@@ -349,8 +421,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
     @Override
     public void onCancelClicked(GeneralDialogFragment dialog) {
-        //todo dialog.getTag -> check
-        if (chooseDialogBox) {
+        if (dialog.getTag().equals(getString(R.string.confirmation_removing_player))) {
             allPlayersListView.setItemChecked(allPlayersListView.getSelectedItemPosition(), false); //todo not reseting
         }
     }

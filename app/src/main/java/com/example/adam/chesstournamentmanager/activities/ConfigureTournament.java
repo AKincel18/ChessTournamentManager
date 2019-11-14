@@ -15,6 +15,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.R;
+import com.example.adam.chesstournamentmanager.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
@@ -85,7 +86,7 @@ public class ConfigureTournament extends AppCompatActivity {
         int optimalCountOfRounds =(int)Math.ceil(Math.log(players.size()) / Math.log(2)); // ceil(log2(player's number)),  log2 = (Math.log(x) / Math.log(2));
         switchImplementation(optimalCountOfRounds);
         startTournament(optimalCountOfRounds);
-        //losuj();
+        losuj();
 
     }
 
@@ -108,8 +109,8 @@ public class ConfigureTournament extends AppCompatActivity {
         ArrayList<String> s = new ArrayList<>();
         for (Players p : players) {
             Formatter fmt = new Formatter();
-            if (p.getPolishRanking() != Integer.MAX_VALUE){
-                fmt.format("%1s %20s %15d", p.getSurname(), p.getName(), p.getPolishRanking());
+            if (p.getPolishRanking() != -1){
+                fmt.format("%1s %20s %15f", p.getSurname(), p.getName(), p.getPolishRanking());
                 s.add(fmt.toString());
             }
             else{
@@ -127,8 +128,8 @@ public class ConfigureTournament extends AppCompatActivity {
         ArrayList<String> s = new ArrayList<>();
         for (Players p : players) {
             Formatter fmt = new Formatter();
-            if (p.getInternationalRanking() != Integer.MAX_VALUE){
-                fmt.format("%1s %20s %15d", p.getSurname(), p.getName(), p.getInternationalRanking());
+            if (p.getInternationalRanking() != -1){
+                fmt.format("%1s %20s %15f", p.getSurname(), p.getName(), p.getInternationalRanking());
                 s.add(fmt.toString());
             }
             else{
@@ -159,7 +160,7 @@ public class ConfigureTournament extends AppCompatActivity {
         Collections.sort(players, new Comparator<Players>() {
             @Override
             public int compare(Players o1, Players o2) {
-                int c = Integer.compare(o1.getPolishRanking(), o2.getPolishRanking());
+                int c = Float.compare(o2.getPolishRanking(), o1.getPolishRanking());
                 if (c == 0)
                     c = o1.getSurname().compareTo(o2.getSurname());
                 if (c == 0)
@@ -175,7 +176,7 @@ public class ConfigureTournament extends AppCompatActivity {
         Collections.sort(players, new Comparator<Players>() {
             @Override
             public int compare(Players o1, Players o2) {
-                int c = Integer.compare(o1.getInternationalRanking(), o2.getInternationalRanking());
+                int c = Float.compare(o2.getInternationalRanking(), o1.getInternationalRanking());
                 if (c == 0)
                     c = o1.getSurname().compareTo(o2.getSurname());
                 if (c == 0)
@@ -186,20 +187,19 @@ public class ConfigureTournament extends AppCompatActivity {
     }
 
 
-/*    private void losuj(){
+    private void losuj(){
         Button button = findViewById(R.id.button);
-        final EditText roundsNumber = findViewById(R.id.roundsNumber);
+        final EditText roundsNumber = findViewById(R.id.rounds_number_edit_text);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    SwissAlgorithm swissAlgorithm = SwissAlgorithm.getINSTANCE(Integer.valueOf(roundsNumber.getText().toString()), Constans.ALPHABETICAL_ORDER);
-                    //SwissAlgorithm swissAlgorithm = new SwissAlgorithm(Integer.valueOf(roundsNumber.getText().toString()), Constans.ALPHABETICAL_ORDER);
+                    SwissAlgorithm swissAlgorithm = SwissAlgorithm.initSwissAlgorithm(Integer.valueOf(roundsNumber.getText().toString()), Constans.ALPHABETICAL_ORDER);
                     swissAlgorithm.initTournamentPlayers(players);
                     swissAlgorithm.drawFirstRound();
 
             }
         });
-    }*/
+    }
 
     private void startTournament(final int optimalCountOfRounds) {
         final EditText roundsNumber = findViewById(R.id.rounds_number_edit_text);

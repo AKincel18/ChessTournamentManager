@@ -45,7 +45,8 @@ public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragm
 
         );
 
-        if (getArguments().getString("title").equals(getString(R.string.title_warning)))
+        if (getArguments().getString("title").equals(getString(R.string.title_warning)) ||
+                getArguments().getString("title").equals(getString(R.string.remove_player_title_DB)))
             builder.setNegativeButton(getString(R.string.negative_button_warning),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {

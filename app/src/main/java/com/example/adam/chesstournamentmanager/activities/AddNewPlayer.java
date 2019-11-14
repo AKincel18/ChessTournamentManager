@@ -2,6 +2,7 @@ package com.example.adam.chesstournamentmanager.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -90,6 +91,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String date = dayOfMonth + "-" + (month + 1) + "-" + year; //begin value in month = 0
                 pickDateTextView.setText(date);
+                pickDateTextView.setTextColor(Color.BLACK);
             }
         };
 
@@ -118,7 +120,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy", new Locale("pl"));
 
                 formatDate = new Date();
-                try {
+/*                try {
                     formatDate = format.parse(date.getText().toString());
                 }
                 catch (ParseException exc) {
@@ -128,7 +130,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                     return;
 
 
-                }
+                }*/
 
                 final Players players = new Players(
                         name.getText().toString(),
@@ -137,16 +139,16 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 );
 
                 try{
-                    players.setPolishRanking(Integer.valueOf(polishRanking.getText().toString()));
+                    players.setPolishRanking(Float.valueOf(polishRanking.getText().toString()));
                 }
                 catch (NumberFormatException e){
-                    players.setPolishRanking(Integer.MAX_VALUE);
+                    players.setPolishRanking(-1);
                     }
                 try {
-                    players.setInternationalRanking(Integer.valueOf(internationalRanking.getText().toString()));
+                    players.setInternationalRanking(Float.valueOf(internationalRanking.getText().toString()));
                 }
                 catch (NumberFormatException e){
-                    players.setInternationalRanking(Integer.MAX_VALUE);
+                    players.setInternationalRanking(-1);
                 }
 
                 Executors.newSingleThreadExecutor().execute(new Runnable() {

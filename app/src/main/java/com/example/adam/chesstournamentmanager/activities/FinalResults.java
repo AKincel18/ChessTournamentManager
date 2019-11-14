@@ -128,6 +128,23 @@ public class FinalResults extends AppCompatActivity {
                     TypedValue.COMPLEX_UNIT_SP );
             l.addView(pointTextView);
 
+
+            if (SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
+                TextView buchholzPointsTextView = new TextView(this);
+                buchholzPointsTextView.setTextSize(20);
+                buchholzPointsTextView.setTextColor(Color.BLACK);
+                buchholzPointsTextView.setLayoutParams(paramsPointsTextView);
+
+
+                String buchholzPoints = Float.toString(playerList.get(i).getBuchholzPoints()) + " Buchholz pkt";
+                buchholzPointsTextView.setText(buchholzPoints);
+
+                buchholzPointsTextView.setId(View.generateViewId());
+                buchholzPointsTextView.setAutoSizeTextTypeUniformWithPresetSizes(getResources().getIntArray(R.array.autosize_text_sizes),
+                        TypedValue.COMPLEX_UNIT_SP);
+                l.addView(buchholzPointsTextView);
+            }
+
             linearLayout.addView(l);
 
 

@@ -10,9 +10,13 @@ public class TournamentPlayer extends Players {
 
     private float points;
 
-    private List<TournamentPlayer> prevOponents = new ArrayList<>();
+    private List<TournamentPlayer> prevOpponents = new ArrayList<>();
 
     private List<Colors> prevColors = new ArrayList<>();
+
+    private float buchholzPoints;
+
+    private float medianBuchholzMethod;
 
     private boolean bye;
 
@@ -34,12 +38,12 @@ public class TournamentPlayer extends Players {
         this.points += points;
     }
 
-    public List<TournamentPlayer> getPrevOponents() {
-        return prevOponents;
+    public List<TournamentPlayer> getPrevOpponents() {
+        return prevOpponents;
     }
 
-    public void setPrevOponents(TournamentPlayer prevOponents) {
-        this.prevOponents.add(prevOponents);
+    public void setPrevOpponents(TournamentPlayer prevOpponents) {
+        this.prevOpponents.add(prevOpponents);
     }
 
     public List<Colors> getPrevColors() {
@@ -70,13 +74,29 @@ public class TournamentPlayer extends Players {
         this.upper = upper;
     }
 
+    public float getBuchholzPoints() {
+        return buchholzPoints;
+    }
+
+    public void setBuchholzPoints(float buchholzPoints) {
+        this.buchholzPoints = buchholzPoints;
+    }
+
+    public float getMedianBuchholzMethod() {
+        return medianBuchholzMethod;
+    }
+
+    public void setMedianBuchholzMethod(float medianBuchholzMethod) {
+        this.medianBuchholzMethod = medianBuchholzMethod;
+    }
+
     public void removeLastMatch(){
-        prevOponents.remove(prevOponents.size() - 1);
+        prevOpponents.remove(prevOpponents.size() - 1);
         prevColors.remove(prevColors.size() - 1);
     }
 
     public boolean isPlayedTogether(TournamentPlayer player){
-        for (TournamentPlayer tournamentPlayer : prevOponents){
+        for (TournamentPlayer tournamentPlayer : prevOpponents){
             if (tournamentPlayer == player)
                 return true;
         }
@@ -84,13 +104,13 @@ public class TournamentPlayer extends Players {
     }
 
     public boolean hasOpponent(int currentRound){
-        return currentRound == prevOponents.size();
+        return currentRound == prevOpponents.size();
     }
 
 
     public String writeOpponent(){
         String tmp = "";
-        for (TournamentPlayer player : prevOponents){
+        for (TournamentPlayer player : prevOpponents){
             tmp +=  (player.getName() + " ");
         }
         return tmp;
@@ -104,16 +124,6 @@ public class TournamentPlayer extends Players {
         return tmp;
     }
 
-/*
-        public Colors expectedColor(){
-            int round = prevColors.size() - 1;
-            Colors color = prevColors.get(round);
-            if (round == 1)
-                return null;
-            if (color == Colors.NO_COLOR)
-                color = prevColors.get(round);
-            return color.opposite();
-        }*/
 
         public int countColorInTheRow(){
             if (prevColors.size() == 1)
@@ -144,12 +154,4 @@ public class TournamentPlayer extends Players {
         return list;
     }
 
-
-        public boolean isColorRepatedTwoLastTimes(){
-            if (prevColors.size() > 2){
-                return prevColors.get(prevColors.size() - 1) == prevColors.get(prevColors.size() - 2);
-            }
-            else
-                return false;
-        }
 }

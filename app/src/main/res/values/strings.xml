@@ -17,6 +17,7 @@
     <string name="nothing_selected">Nie zaznaczono zawodnika</string>
     <string name="added_player">Dodano zawodnika</string>
     <string name="removed_player">Usunięto zawodnika</string>
+    <string name="removed_players">Usunięto zawodników</string>
 
 
     <!--AddNewPlayer-->
@@ -52,9 +53,10 @@
 
     <!--Tournament-->
     <string name="results">Wyniki</string>
-    <string name="title_activity_tournament_process">TournamentProcess</string>
-
     <string name="round_count_text_view">Runda %1$d</string>
+    <string name="white_player_text_view">Gracz 1 (białe)</string>
+    <string name="black_player_text_view">Gracz 2 (czarne)</string>
+    <string name="results_text_view">Wynik</string>
 
     <!--messages-->
     <string name="rounds_number_text_view">Runda %1$d</string>
@@ -80,17 +82,19 @@
 
     <!--Yes/No-->
     <string name="title_warning">Ostrzeżenie</string>
+    <string name="confirmation_removing_player">ConfirmationRemovingPlayer</string>
+    <string name="about_player_db">AboutPlayerDB</string>
     <string name="information_warning">Po zamknięciu okna zawodnik nie zostanie zapisany.
                                            Czy na pewno chcesz wyjść?</string>
     <string name="odd_number_players">Nieparzysta liczba zawodników.
                                           Kontynuować?</string>
-    <string name="remove_player_warning">Czy usunąć zawodnika:\n
-        imię: %1$s\n
-        nazwisko: %2$s\n
-        data urodzenia: %3$s\n
-        ranking polski: %4$d\n
-        ranking międzynarodowy: %5$d
+    <string name="remove_player_title_DB">Czy na pewno chcesz usunąć tego zawodnika?</string>
+    <string name="remove_player_warning">Imię: %1$s\nNazwisko: %2$s\nData urodzenia: %3$s\nRanking polski: %4$s\nRanking międzynarodowy: %5$s
                                             </string>
+    <string name="no_rank">Bez rankingu</string>
+    <string name="selected_player_remove">Czy na pewno chcesz usunąć zaznaczonych zawodników?</string>
+    <string name="no_one_selected">Nie wybrano żadnego zawodnika</string>
+    <string name="too_many_player_selected">Zaznaczono więcej niż jednego zawodnika.\nProszę zaznaczyć jedngo zawodnika aby wyświetlić o nim informację.</string>
     <string name="positive_button_warning">Tak</string>
     <string name="negative_button_warning">Nie</string>
 

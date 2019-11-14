@@ -19,6 +19,6 @@ public interface PlayersDao {
     void insertPlayer(Players players);
 
     @Delete
-    void removePlayer(Players players);
+    void removePlayer(List<Players> players);
 
 }

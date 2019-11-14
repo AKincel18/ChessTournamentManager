@@ -80,6 +80,8 @@ public class SwissAlgorithm implements Serializable {
     public void drawNextRound(){
         sortPlayerByPoints();
         groupsPlayers = prepareGroups();
+
+
         reset();
         TournamentPlayer byePlayer = null;
         if (!even) //not even, last player vs bye
@@ -150,19 +152,50 @@ public class SwissAlgorithm implements Serializable {
                 groupIterator.next();
             }
 
-
-/*            writeGroups();
-            writeTmpMatches();*/
         }
 
         if (!even)
             addMatchVersusBye(byePlayer);
 
+
         matches.add(matchesTmp);
         matchesTmp = new ArrayList<>();
     }
 
+    private void buchholzMethod(){
+        for (TournamentPlayer player : tournamentPlayers){
+            float points = 0.0f;
+            for (TournamentPlayer opponent : player.getPrevOpponents()){
+                points+=opponent.getPoints();
+            }
+            if (player.hadByeBefore()){
+                points-=0.5f;
+            }
+            player.setBuchholzPoints(points);
+        }
+    }
 
+    //todo check correctly
+    private void medianBuchholzMethod(){
+        for (TournamentPlayer player : tournamentPlayers) {
+            List<TournamentPlayer> opponents = getOrderOpponent(player.getPrevOpponents());
+            float points = 0.0f;
+            for (int i = 1; i < opponents.size() - 2; i++) {
+                points+=opponents.get(i).getPoints();
+            }
+            player.setMedianBuchholzMethod(points);
+        }
+    }
+
+    private List<TournamentPlayer> getOrderOpponent(List<TournamentPlayer> playerList){
+        Collections.sort(playerList, new Comparator<TournamentPlayer>() {
+            @Override
+            public int compare(TournamentPlayer o1, TournamentPlayer o2) {
+                return Float.compare(o1.getPoints(), o2.getPoints());
+            }
+        });
+        return playerList;
+        }
 
     private void removeMatchesInGroup(int groupNumber){
 
@@ -226,7 +259,7 @@ public class SwissAlgorithm implements Serializable {
         bye.setSurname("");
         matchesTmp.add(new Match(currentRound, player, bye));//matches.get(currentRound - 1).add(new Match(currentRound, player, bye)); //matches.add(new Match(currentRound, player, bye));
         player.setBye(true);
-        player.setPrevOponents(bye);
+        player.setPrevOpponents(bye);
         player.setPrevColors(Colors.NO_COLOR);
     }
 
@@ -242,8 +275,8 @@ public class SwissAlgorithm implements Serializable {
             player2.setPrevColors(Colors.WHITE);
         }
 
-        player1.setPrevOponents(player2);
-        player2.setPrevOponents(player1);
+        player1.setPrevOpponents(player2);
+        player2.setPrevOpponents(player1);
     }
 
     private TournamentPlayer findByePlayer(){
@@ -301,8 +334,8 @@ public class SwissAlgorithm implements Serializable {
         }
 
 
-        player1.setPrevOponents(player2);
-        player2.setPrevOponents(player1);
+        player1.setPrevOpponents(player2);
+        player2.setPrevOpponents(player1);
     }
     public void drawFirstRound(){
 
@@ -324,13 +357,14 @@ public class SwissAlgorithm implements Serializable {
 
 
 
- /*             DEBUGGING
+ /*             //DEBUGGING
 
         setResult(result());
         writeMatches(0);
 
 
         for (int i = 1; i< roundsNumber; i++){
+            buchholzMethod();
             sortPlayerByPoints();
             groupsPlayers = prepareGroups();
             writeGroups();
@@ -355,7 +389,8 @@ public class SwissAlgorithm implements Serializable {
         Log.i("", "\t\t\t\t RESULTS");
 
         for (TournamentPlayer player : tournamentPlayers){
-            Log.i("", "\t\t\t\t" + player.toString() + ", points = " + player.getPoints() + ", opponent = " + player.writeOpponent() +  ", color = " + player.writeColors() + ", white= " + player.colorsCount().get(1) + ", black = " + player.colorsCount().get(0) );
+            Log.i("", "\t\t\t\t" + player.toString() + ", points = " + player.getPoints() + ", points BUCHHOLZ = " + player.getBuchholzPoints() + ", opponent = " + player.writeOpponent() +
+                    ", color = " + player.writeColors() + ", white= " + player.colorsCount().get(1) + ", black = " + player.colorsCount().get(0) );
         }
         System.out.println(" ");
         System.out.println(" ");
@@ -365,10 +400,8 @@ public class SwissAlgorithm implements Serializable {
         //String text="";
         for (List<TournamentPlayer> list : groupsPlayers){
             Log.i("", "\t\t\t\tGRUPA = " + groupsPlayers.indexOf(list));
-           // text = "Grupa = " + groupsPlayers.indexOf(list);
             for (TournamentPlayer player : list){
-                Log.i("","\t\t\t\tZAWODNIK = " + player.toString() + ", punkty = " + player.getPoints() + ", previous opponents = " + player.writeOpponent());
-               // text += "\t\t\t\tZAWODNIK = " + player.toString() + ", punkty = " + player.getPoints() + ", previous opponents = " + player.writeOpponent();
+                Log.i("","\t\t\t\tZAWODNIK = " + player.toString() + ", punkty = " + player.getPoints() +", punkty BUCHHOLZ = "+player.getBuchholzPoints() +", previous opponents = " + player.writeOpponent());
             }
         }
 
@@ -478,6 +511,7 @@ public class SwissAlgorithm implements Serializable {
 
         if (currentRound == roundsNumber) {
             finishedTournament = true;
+            buchholzMethod();
             sortPlayerByPoints();
         }
         else {
@@ -495,6 +529,9 @@ public class SwissAlgorithm implements Serializable {
             public int compare(TournamentPlayer o1, TournamentPlayer o2) {
                 int c = Float.compare(o2.getPoints(), o1.getPoints()); //descending order
 
+                if (c == 0) {
+                    c = Float.compare(o2.getBuchholzPoints(), o1.getBuchholzPoints());
+                }
                 if (c == 0){
 
                     switch (order){
@@ -507,7 +544,7 @@ public class SwissAlgorithm implements Serializable {
 
                         case Constans.POLISH_RANKING_ORDER:
 
-                            c = Integer.compare(o1.getPolishRanking(), o2.getPolishRanking());
+                            c = Float.compare(o1.getPolishRanking(), o2.getPolishRanking());
                             if (c == 0)
                                 c = o1.getSurname().compareTo(o2.getSurname());
                             if (c == 0)
@@ -516,7 +553,7 @@ public class SwissAlgorithm implements Serializable {
 
                         case Constans.INTERNATIONAL_RANKING_ORDER:
 
-                            c = Integer.compare(o1.getInternationalRanking(), o2.getInternationalRanking());
+                            c = Float.compare(o1.getInternationalRanking(), o2.getInternationalRanking());
                             if (c == 0)
                                 c = o1.getSurname().compareTo(o2.getSurname());
                             if (c == 0)

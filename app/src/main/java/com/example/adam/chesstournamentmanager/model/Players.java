@@ -5,7 +5,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
-import android.support.annotation.Nullable;
 
 import com.example.adam.chesstournamentmanager.database.DateConverter;
 
@@ -25,12 +24,10 @@ public class Players implements Serializable {
     private String surname;
 
     @ColumnInfo(name = "polish_ranking")
-    @Nullable
-    private int polishRanking;
+    private float polishRanking;
 
     @ColumnInfo(name = "international_ranking")
-    @Nullable
-    private int internationalRanking;
+    private float internationalRanking;
 
     @ColumnInfo(name = "date_of_birth")
     @TypeConverters(DateConverter.class)
@@ -58,7 +55,7 @@ public class Players implements Serializable {
     }
 
     @Ignore
-    public Players(String name, String surname, int polishRanking, int internationalRanking, Date dateOfBirth) {
+    public Players(String name, String surname, float polishRanking, float internationalRanking, Date dateOfBirth) {
         this.name = name;
         this.surname = surname;
         this.polishRanking = polishRanking;
@@ -90,19 +87,19 @@ public class Players implements Serializable {
         this.surname = surname;
     }
 
-    public int getPolishRanking() {
+    public float getPolishRanking() {
         return polishRanking;
     }
 
-    public void setPolishRanking(int polishRanking) {
+    public void setPolishRanking(float polishRanking) {
         this.polishRanking = polishRanking;
     }
 
-    public int getInternationalRanking() {
+    public float getInternationalRanking() {
         return internationalRanking;
     }
 
-    public void setInternationalRanking(int internationalRanking) {
+    public void setInternationalRanking(float internationalRanking) {
         this.internationalRanking = internationalRanking;
     }
 

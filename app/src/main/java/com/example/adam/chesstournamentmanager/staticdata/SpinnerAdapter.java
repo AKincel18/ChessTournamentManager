@@ -15,10 +15,6 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
         super(context, resource, objects);
     }
 
-    public SpinnerAdapter(Context context, int resource) {
-        super(context, resource);
-    }
-
 
     @Override
     public int getCount() {

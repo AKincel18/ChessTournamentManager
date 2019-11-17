@@ -11,5 +11,10 @@ public class Constans {
     public static final String INTERNATIONAL_RANKING_ORDER = "Ranking międzynarodowy";
     public static final String RANDOM_ORDER = "Losowo";
 
+    //GeneralDialogBox
+    public static final String TITLE = "title";
+    public static final String MESSAGE = "msg";
+    public static final String POSITIVE_BTN = "positiveBtn";
+
 
 }

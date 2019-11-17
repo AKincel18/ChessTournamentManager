@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -247,7 +248,7 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
                         } else {
                             GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
                                     getString(R.string.wrong_rounds_title),
-                                    getString(R.string.wrong_rounds_message, roundNumber, maxNumberCount() ),
+                                    getString(R.string.wrong_rounds_message, players.size(), maxNumberCount(), roundNumber ),
                                     getString(R.string.exit_button));
                                     dialog.show(getSupportFragmentManager(), getString(R.string.wrong_rounds_title));
 
@@ -303,9 +304,10 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
         final LinearLayout linearLayout = findViewById(R.id.layout_set_round);
         final TextView textView = new TextView(this);
         editText = new EditText(this);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         editText.setGravity(Gravity.START | Gravity.CENTER);
         editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        editText.setTextColor(Color.GRAY);
+        editText.setTextColor(Color.BLACK);
 
 
         textView.setText(getString(R.string.auto_count_of_rounds, optimalCountOfRounds));

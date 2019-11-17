@@ -18,12 +18,12 @@ public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragm
     }
 
     // Create an instance of the Dialog with the input
-    public static GeneralDialogFragment newInstance(String title, String message, String possitiveBtn) {
+    public static GeneralDialogFragment newInstance(String title, String message, String positiveBtn) {
         GeneralDialogFragment frag = new GeneralDialogFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
-        args.putString("msg", message);
-        args.putString("possitiveBtn", possitiveBtn);
+        args.putString(Constans.TITLE, title);
+        args.putString(Constans.MESSAGE, message);
+        args.putString(Constans.POSITIVE_BTN, positiveBtn);
         frag.setArguments(args);
         return frag;
     }
@@ -33,9 +33,9 @@ public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragm
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder .setTitle(getArguments().getString("title"))
-                .setMessage(getArguments().getString("msg"))
-                .setPositiveButton(getArguments().getString("possitiveBtn"),
+        builder .setTitle(getArguments().getString(Constans.TITLE))
+                .setMessage(getArguments().getString(Constans.MESSAGE))
+                .setPositiveButton(getArguments().getString(Constans.POSITIVE_BTN),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Positive button clicked
@@ -45,8 +45,8 @@ public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragm
 
         );
 
-        if (getArguments().getString("title").equals(getString(R.string.title_warning)) ||
-                getArguments().getString("title").equals(getString(R.string.remove_player_title_DB)))
+        if (getArguments().getString(Constans.TITLE).equals(getString(R.string.title_warning)) ||
+                getArguments().getString(Constans.TITLE).equals(getString(R.string.remove_player_title_DB)))
             builder.setNegativeButton(getString(R.string.negative_button_warning),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {

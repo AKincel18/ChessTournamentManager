@@ -63,8 +63,8 @@ public class Match implements Serializable {
     }*/
 
 
-    public String writeMatch(){
-        return player1.getName() + " vs " + player2.getName();
+    public String writeMatch(int pos){
+        return pos + ". " + player1.getName() + " vs " + player2.getName();
     }
 
     public String writeResult(){

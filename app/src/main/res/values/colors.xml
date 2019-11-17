@@ -3,5 +3,9 @@
     <color name="colorPrimary">#FFDEAD	</color>
     <color name="colorPrimaryDark">#F4A460</color>
     <color name="colorAccent">#a0522d</color>
-    <color name="colorBackground">#FF00FF</color>
+
+    <!--medals-->
+    <color name="colorGolden">#FFD700</color>
+    <color name="colorSilver"> #aaa9ad</color>
+    <color name="colorBronze">#cd7f32</color>
 </resources>

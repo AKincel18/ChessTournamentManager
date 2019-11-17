@@ -3,9 +3,11 @@ package com.example.adam.chesstournamentmanager.activities;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -19,12 +21,14 @@ import com.example.adam.chesstournamentmanager.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
 
 import java.util.List;
+import java.util.Locale;
 
 public class FinalResults extends AppCompatActivity {
 
     private int currentRound;
 
     private Menu myMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +79,25 @@ public class FinalResults extends AppCompatActivity {
 
 
 
+    private void buildHeader(){
+        LinearLayout.LayoutParams paramsBuchholzHeader = new LinearLayout.LayoutParams(250 ,ViewGroup.LayoutParams.MATCH_PARENT);
+        paramsBuchholzHeader.setMargins(0,0,0,5);
+
+        TextView buchholzHeaderTextView = new TextView(this);
+        buchholzHeaderTextView.setTextColor(Color.BLACK);
+        buchholzHeaderTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        buchholzHeaderTextView.setGravity(Gravity.START);
+        buchholzHeaderTextView.setLayoutParams(paramsBuchholzHeader);
+
+        if (SwissAlgorithm.getINSTANCE().getPlaceOrder() == 0) {
+            buchholzHeaderTextView.setText(getString(R.string.buchholz_header_text_view));
+        } else {
+            buchholzHeaderTextView.setText(getString(R.string.median_buchholz_header_text_view));
+        }
+
+        LinearLayout headerLayout = findViewById(R.id.header_results_layout);
+        headerLayout.addView(buchholzHeaderTextView);
+    }
     private void buildView() {
 
         LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
@@ -87,11 +110,18 @@ public class FinalResults extends AppCompatActivity {
         matchesRelativeLayout.addView(linearLayout);
 
 
-        LinearLayout.LayoutParams paramsPlayerTextView = new LinearLayout.LayoutParams(200, 50);
-        paramsPlayerTextView.setMargins(5, 5, 50, 5);
+        LinearLayout.LayoutParams paramsPosition = new LinearLayout.LayoutParams(100, 50);
+        paramsPosition.setMargins(0, 5, 0, 5);
 
-        LinearLayout.LayoutParams paramsPointsTextView = new LinearLayout.LayoutParams(350, 50);
-        paramsPointsTextView.setMargins(50, 5, 100, 5);
+        LinearLayout.LayoutParams paramsPlayerTextView = new LinearLayout.LayoutParams(300, 50);
+        paramsPlayerTextView.setMargins(0, 5, 0, 5);
+
+        LinearLayout.LayoutParams paramsPointsTextView = new LinearLayout.LayoutParams(250, 50);
+        paramsPointsTextView.setMargins(0, 5, 0, 5);
+
+        if (SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
+            buildHeader();
+        }
 
         List<TournamentPlayer> playerList = SwissAlgorithm.getINSTANCE().getPlayers();
 
@@ -100,53 +130,63 @@ public class FinalResults extends AppCompatActivity {
             LinearLayout l = new LinearLayout(this);
             l.setOrientation(LinearLayout.HORIZONTAL);
 
+            TextView positionTextView = new TextView(this);
+            positionTextView.setTextSize(30);
+            positionTextView.setTextColor(Color.BLACK);
+            positionTextView.setGravity(Gravity.START);
+            positionTextView.setText(getString(R.string.lp, (i + 1)));
+            positionTextView.setLayoutParams(paramsPosition);
+            l.addView(positionTextView);
+
             TextView playerTextView = new TextView(this);
-            playerTextView.setTextSize(20);
+            playerTextView.setTextSize(30);
             playerTextView.setTextColor(Color.BLACK);
+            playerTextView.setGravity(Gravity.START);
+            playerTextView.setText(playerList.get(i).toString());
             playerTextView.setLayoutParams(paramsPlayerTextView);
 
-            String text = (i + 1) + ". " + playerList.get(i).toString();
-            playerTextView.setText(text);
+            if (i == 0){
+                playerTextView.setTextColor(getColor(R.color.colorGolden));
+                playerTextView.setTypeface(null, Typeface.BOLD);
+            }
+            if (i == 1) {
+                playerTextView.setTextColor(getColor(R.color.colorSilver));
+                playerTextView.setTypeface(null, Typeface.BOLD);
+            }
+            if (i == 2) {
+                playerTextView.setTextColor(getColor(R.color.colorBronze));
+                playerTextView.setTypeface(null, Typeface.BOLD);
+            }
 
-            playerTextView.setId(View.generateViewId());
-            playerTextView.setAutoSizeTextTypeUniformWithPresetSizes(getResources().getIntArray(R.array.autosize_text_sizes),
-                    TypedValue.COMPLEX_UNIT_SP );
             l.addView(playerTextView);
 
 
             TextView pointTextView = new TextView(this);
-            pointTextView.setTextSize(20);
+            pointTextView.setTextSize(30);
             pointTextView.setTextColor(Color.BLACK);
+            pointTextView.setGravity(Gravity.START);
             pointTextView.setLayoutParams(paramsPointsTextView);
 
-
-            String points = Float.toString(playerList.get(i).getPoints()) + " pkt";
-            pointTextView.setText(points);
-
-            pointTextView.setId(View.generateViewId());
-            pointTextView.setAutoSizeTextTypeUniformWithPresetSizes(getResources().getIntArray(R.array.autosize_text_sizes),
-                    TypedValue.COMPLEX_UNIT_SP );
+            pointTextView.setText(String.format(new Locale(getString(R.string.locale)),getString(R.string.format_float), playerList.get(i).getPoints()));
+            //pointTextView.setText(Float.toString(playerList.get(i).getPoints()));
             l.addView(pointTextView);
 
 
             if (SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
 
+
                 TextView buchholzPointsTextView = new TextView(this);
-                buchholzPointsTextView.setTextSize(20);
+                buchholzPointsTextView.setTextSize(30);
                 buchholzPointsTextView.setTextColor(Color.BLACK);
+                buchholzPointsTextView.setGravity(Gravity.START);
                 buchholzPointsTextView.setLayoutParams(paramsPointsTextView);
 
-                String buchholzPoints;
                 if (SwissAlgorithm.getINSTANCE().getPlaceOrder() == 0) {
-                    buchholzPoints = Float.toString(playerList.get(i).getBuchholzPoints()) + " Buchholz pkt";
+                    buchholzPointsTextView.setText(String.format(new Locale(getString(R.string.locale)),getString(R.string.format_float), playerList.get(i).getBuchholzPoints()));
                 } else {
-                    buchholzPoints = Float.toString(playerList.get(i).getMedianBuchholzMethod()) + " Median Buchholz pkt";
+                    buchholzPointsTextView.setText(String.format(new Locale(getString(R.string.locale)), getString(R.string.format_float), playerList.get(i).getMedianBuchholzMethod()));
                 }
-                buchholzPointsTextView.setText(buchholzPoints);
 
-                buchholzPointsTextView.setId(View.generateViewId());
-                buchholzPointsTextView.setAutoSizeTextTypeUniformWithPresetSizes(getResources().getIntArray(R.array.autosize_text_sizes),
-                        TypedValue.COMPLEX_UNIT_SP);
                 l.addView(buchholzPointsTextView);
             }
 

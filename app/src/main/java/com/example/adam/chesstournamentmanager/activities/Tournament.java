@@ -132,10 +132,6 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
                     notAllResultsEnteredDialogBox();
                 }
 
-
-
-
-
             }
         });
     }

@@ -1,9 +1,11 @@
 package com.example.adam.chesstournamentmanager.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -88,16 +90,22 @@ public class RoundResults extends AppCompatActivity {
 
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.setMargins(10,5,10,5);
         linearLayout.setLayoutParams(params);
         matchesRelativeLayout.addView(linearLayout);
 
-        LinearLayout.LayoutParams paramsTextSize = new LinearLayout.LayoutParams(200, 50);
-        paramsTextSize.setMargins(5, 5, 50, 5);
+        LinearLayout.LayoutParams paramsLp = new LinearLayout.LayoutParams(75, 50);
+        paramsLp.setMargins(0, 5, 5, 5);
 
-        LinearLayout.LayoutParams paramsResultTextSize = new LinearLayout.LayoutParams(200, 50);
-        paramsResultTextSize.setMargins(50, 5, 10, 5);
+
+        LinearLayout.LayoutParams paramsPlayer1 = new LinearLayout.LayoutParams(250, 50);
+        paramsPlayer1.setMargins(0, 5, 0, 5);
+
+        LinearLayout.LayoutParams paramsResult = new LinearLayout.LayoutParams(150, 50);
+        paramsResult.setMargins(15, 5, 0, 5);
 
         List<Match> matches = allMatches.get(currentRound - 1);
 
@@ -105,28 +113,59 @@ public class RoundResults extends AppCompatActivity {
             LinearLayout l = new LinearLayout(this);
             l.setOrientation(LinearLayout.HORIZONTAL);
 
-            TextView playersTextView = new TextView(this);
-            playersTextView.setText(matches.get(i).writeMatch());
-            playersTextView.setTextSize(20);
-            playersTextView.setLayoutParams(paramsTextSize);
-            playersTextView.setAutoSizeTextTypeUniformWithPresetSizes(getResources().getIntArray(R.array.autosize_text_sizes),
-                    TypedValue.COMPLEX_UNIT_SP );
+            TextView lpTextView = new TextView(this);
+            lpTextView.setText(getString(R.string.lp, (i + 1)));
+            lpTextView.setTextSize(30);
+            lpTextView.setGravity(Gravity.START);
+            lpTextView.setTextColor(Color.BLACK);
+            lpTextView.setLayoutParams(paramsLp);
+            l.addView(lpTextView);
 
-            l.addView(playersTextView);
+            TextView player1TextView = new TextView(this);
+            player1TextView.setText(matches.get(i).getPlayer1().toString());
+            player1TextView.setTextSize(30);
+            player1TextView.setGravity(Gravity.START);
+            player1TextView.setLayoutParams(paramsPlayer1);
+            l.addView(player1TextView);
+
+            TextView player2TextView = new TextView(this);
+            player2TextView.setText(matches.get(i).getPlayer2().toString());
+            player2TextView.setTextSize(30);
+            player2TextView.setGravity(Gravity.START);
+            player2TextView.setLayoutParams(paramsPlayer1);
+            l.addView(player2TextView);
+
 
 
             TextView resultTextView = new TextView(this);
-            resultTextView.setText(matches.get(i).writeResult());
-            resultTextView.setTextSize(20);
-            resultTextView.setLayoutParams(paramsResultTextSize);
-            resultTextView.setAutoSizeTextTypeUniformWithPresetSizes(getResources().getIntArray(R.array.autosize_text_sizes),
-                    TypedValue.COMPLEX_UNIT_SP );
-
+            resultTextView.setText(getMatchResult(player1TextView, player2TextView, matches.get(i)));
+            resultTextView.setTextSize(30);
+            resultTextView.setGravity(Gravity.START);
+            resultTextView.setTextColor(Color.BLACK);
+            resultTextView.setLayoutParams(paramsResult);
             l.addView(resultTextView);
 
 
             linearLayout.addView(l);
         }
 
+    }
+
+    private String getMatchResult(TextView p1, TextView p2, Match match){
+        switch (match.getMatchResult()){
+            case WHITE_WON:
+                p1.setTextColor(Color.GREEN);
+                p2.setTextColor(Color.RED);
+                return getString(R.string.white_won_result);
+            case DRAW:
+                p1.setTextColor(Color.BLUE);
+                p2.setTextColor(Color.BLUE);
+                return getString(R.string.draw_result);
+            case BLACK_WON:
+                p1.setTextColor(Color.RED);
+                p2.setTextColor(Color.GREEN);
+                return getString(R.string.black_won_result);
+        }
+        return null;
     }
 }

@@ -62,6 +62,8 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
 
         getWindow().setAttributes(params);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         database = Database.getInstance(this);
 
         pickDateTextView = findViewById(R.id.pick_date_text_view);
@@ -117,7 +119,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 final EditText internationalRanking = findViewById(R.id.international_ranking_number);
 
 
-                DateFormat format = new SimpleDateFormat("dd-MM-yyyy", new Locale("pl"));
+                DateFormat format = new SimpleDateFormat(getString(R.string.format_date), new Locale(getString(R.string.locale)));
 
                 formatDate = new Date();
 /*                try {

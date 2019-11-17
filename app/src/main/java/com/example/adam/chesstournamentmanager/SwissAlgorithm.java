@@ -42,14 +42,17 @@ public class SwissAlgorithm implements Serializable {
 
     private List<List<TournamentPlayer>> groupsPlayers = new ArrayList<>(); //rows -> number of group, columns -> position in a group
 
-    public SwissAlgorithm(int roundsNumber, String order) {
+    private int placeOrder;
+
+    public SwissAlgorithm(int roundsNumber, String order,  int placeOrder) {
         this.roundsNumber = roundsNumber;
         this.order = order;
+        this.placeOrder = placeOrder;
     }
 
-    public static SwissAlgorithm initSwissAlgorithm(int roundsNumber, String order){
+    public static SwissAlgorithm initSwissAlgorithm(int roundsNumber, String order, int isBuchholzMethod){
         if (INSTANCE == null){
-            INSTANCE = new SwissAlgorithm(roundsNumber, order);
+            INSTANCE = new SwissAlgorithm(roundsNumber, order, isBuchholzMethod);
         }
         return INSTANCE;
     }
@@ -157,7 +160,6 @@ public class SwissAlgorithm implements Serializable {
         if (!even)
             addMatchVersusBye(byePlayer);
 
-
         matches.add(matchesTmp);
         matchesTmp = new ArrayList<>();
     }
@@ -175,12 +177,11 @@ public class SwissAlgorithm implements Serializable {
         }
     }
 
-    //todo check correctly
     private void medianBuchholzMethod(){
         for (TournamentPlayer player : tournamentPlayers) {
             List<TournamentPlayer> opponents = getOrderOpponent(player.getPrevOpponents());
             float points = 0.0f;
-            for (int i = 1; i < opponents.size() - 2; i++) {
+            for (int i = 1; i < opponents.size() - 1; i++) {
                 points+=opponents.get(i).getPoints();
             }
             player.setMedianBuchholzMethod(points);
@@ -357,14 +358,14 @@ public class SwissAlgorithm implements Serializable {
 
 
 
- /*             //DEBUGGING
-
+              //DEBUGGING
+/*
         setResult(result());
         writeMatches(0);
 
 
         for (int i = 1; i< roundsNumber; i++){
-            buchholzMethod();
+            //buchholzMethod();
             sortPlayerByPoints();
             groupsPlayers = prepareGroups();
             writeGroups();
@@ -389,7 +390,9 @@ public class SwissAlgorithm implements Serializable {
         Log.i("", "\t\t\t\t RESULTS");
 
         for (TournamentPlayer player : tournamentPlayers){
-            Log.i("", "\t\t\t\t" + player.toString() + ", points = " + player.getPoints() + ", points BUCHHOLZ = " + player.getBuchholzPoints() + ", opponent = " + player.writeOpponent() +
+            Log.i("", "\t\t\t\t" + player.toString() + ", points = " + player.getPoints() + ", points BUCHHOLZ = " + player.getBuchholzPoints() +
+                    ", punkty SREDNI BUCHHOLZ = " + player.getMedianBuchholzMethod() +
+                    ", opponent = " + player.writeOpponent() +
                     ", color = " + player.writeColors() + ", white= " + player.colorsCount().get(1) + ", black = " + player.colorsCount().get(0) );
         }
         System.out.println(" ");
@@ -401,7 +404,10 @@ public class SwissAlgorithm implements Serializable {
         for (List<TournamentPlayer> list : groupsPlayers){
             Log.i("", "\t\t\t\tGRUPA = " + groupsPlayers.indexOf(list));
             for (TournamentPlayer player : list){
-                Log.i("","\t\t\t\tZAWODNIK = " + player.toString() + ", punkty = " + player.getPoints() +", punkty BUCHHOLZ = "+player.getBuchholzPoints() +", previous opponents = " + player.writeOpponent());
+                Log.i("","\t\t\t\tZAWODNIK = " + player.toString() + ", punkty = " + player.getPoints() +
+                        ", punkty BUCHHOLZ = "+player.getBuchholzPoints() +
+                        ", punkty SREDNI BUCHHOLZ = " + player.getMedianBuchholzMethod() +
+                        ", previous opponents = " + player.writeOpponent());
             }
         }
 
@@ -511,7 +517,12 @@ public class SwissAlgorithm implements Serializable {
 
         if (currentRound == roundsNumber) {
             finishedTournament = true;
-            buchholzMethod();
+
+            if (placeOrder == 0)
+                buchholzMethod();
+            else
+                medianBuchholzMethod();
+
             sortPlayerByPoints();
         }
         else {
@@ -530,9 +541,12 @@ public class SwissAlgorithm implements Serializable {
                 int c = Float.compare(o2.getPoints(), o1.getPoints()); //descending order
 
                 if (c == 0) {
-                    c = Float.compare(o2.getBuchholzPoints(), o1.getBuchholzPoints());
+                    if (placeOrder == 0)
+                        c = Float.compare(o2.getBuchholzPoints(), o1.getBuchholzPoints());
+                    else
+                        c = Float.compare(o2.getMedianBuchholzMethod(), o2.getMedianBuchholzMethod());
                 }
-                if (c == 0){
+/*                if (c == 0){
 
                     switch (order){
                         case Constans.ALPHABETICAL_ORDER:
@@ -564,7 +578,7 @@ public class SwissAlgorithm implements Serializable {
                             Collections.shuffle(tournamentPlayers);
                             break;
                     }
-                }
+                }*/
                 return c;
             }
         });
@@ -659,5 +673,13 @@ public class SwissAlgorithm implements Serializable {
 
     public void setFinishedTournament(boolean finishedTournament) {
         this.finishedTournament = finishedTournament;
+    }
+
+    public int getPlaceOrder() {
+        return placeOrder;
+    }
+
+    public void setPlaceOrder(int placeOrder) {
+        this.placeOrder = placeOrder;
     }
 }

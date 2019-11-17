@@ -217,15 +217,23 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         configureTournamentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (chosenPlayers.size() % 2 == 0) {
-                    Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
-                    i.putExtra(getString(R.string.players), chosenPlayers);
-                    startActivity(i);
+                if (chosenPlayers.size() < 2) {
+                    GeneralDialogFragment dialog = GeneralDialogFragment.
+                            newInstance(getString(R.string.too_many_players_title),
+                                    getString(R.string.too_many_players_message),
+                                    getString(R.string.exit_button));
+                    dialog.show(getSupportFragmentManager(), getString(R.string.too_many_players_title));
                 }
                 else {
-                    GeneralDialogFragment dialog = GeneralDialogFragment.
-                            newInstance(getString(R.string.title_warning), getString(R.string.odd_number_players), getString(R.string.positive_button_warning));
-                    dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
+                    if (chosenPlayers.size() % 2 == 0) {
+                        Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
+                        i.putExtra(getString(R.string.players), chosenPlayers);
+                        startActivity(i);
+                    } else {
+                        GeneralDialogFragment dialog = GeneralDialogFragment.
+                                newInstance(getString(R.string.title_warning), getString(R.string.odd_number_players), getString(R.string.positive_button_warning));
+                        dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
+                    }
                 }
 
             }
@@ -422,7 +430,11 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
     @Override
     public void onCancelClicked(GeneralDialogFragment dialog) {
         if (dialog.getTag().equals(getString(R.string.confirmation_removing_player))) {
-            allPlayersListView.setItemChecked(allPlayersListView.getSelectedItemPosition(), false); //todo not reseting
+            selectedAvailablePlayers.clear();
+            initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
+            CheckBox checkBox = findViewById(R.id.select_all_checkbox);
+            checkBox.setChecked(false);
+
         }
     }
 }

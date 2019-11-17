@@ -22,11 +22,11 @@ import com.example.adam.chesstournamentmanager.Match;
 import com.example.adam.chesstournamentmanager.MatchResult;
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
+import com.example.adam.chesstournamentmanager.model.Colors;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.SpinnerAdapter;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 
-import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -71,9 +71,10 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
             Intent i = getIntent();
             roundsNumber = i.getIntExtra(getString(R.string.rounds_number), 0);
             String order = i.getStringExtra(getString(R.string.order));
+            int placeOrder = i.getIntExtra(getString(R.string.place_order), 0);
             List<Players> players = (List<Players>) i.getSerializableExtra(getString(R.string.players));
 
-            swissAlgorithm = SwissAlgorithm.initSwissAlgorithm(roundsNumber, order);
+            swissAlgorithm = SwissAlgorithm.initSwissAlgorithm(roundsNumber, order, placeOrder);
             swissAlgorithm.initTournamentPlayers(players);
             swissAlgorithm.drawFirstRound();
         }
@@ -100,7 +101,7 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
             Intent i = new Intent(getApplicationContext(), FinalResults.class);
             startActivity(i);
         } else if (item.getItemId() >= 1 && item.getItemId() <= swissAlgorithm.getRoundsNumber()){
-            refreshView(item.getItemId(), false);
+                refreshView(item.getItemId(), false);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -113,21 +114,24 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
                 List<MatchResult> matchResults = getResult();
                 if (matchResults != null) {
                     swissAlgorithm.setResult(matchResults);
+                    buildMenu();
+
+
+                    if (swissAlgorithm.isFinishedTournament()) {
+                        Intent i = new Intent(getApplicationContext(), FinalResults.class);
+                        startActivity(i);
+                    }
+                    else {
+                        swissAlgorithm.drawNextRound();
+                        initTitle(swissAlgorithm.getCurrentRound());
+                        refreshView(swissAlgorithm.getCurrentRound(), true);
+                    }
+
                 }
                 else {
                     notAllResultsEnteredDialogBox();
                 }
 
-                buildMenu();
-                if (swissAlgorithm.isFinishedTournament()) {
-                    Intent i = new Intent(getApplicationContext(), FinalResults.class);
-                    startActivity(i);
-                }
-                else {
-                        swissAlgorithm.drawNextRound();
-                        initTitle(swissAlgorithm.getCurrentRound());
-                        refreshView(swissAlgorithm.getCurrentRound(), true);
-                    }
 
 
 
@@ -182,12 +186,20 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
     }
 
     private void refreshView(int goToRound, boolean nextRound){
-
+        changeTextButton();
         matches = swissAlgorithm.getMatches().get(goToRound -1);
-
         if (nextRound){
             int count = 0;
             for (int i =0; i<matches.size() * 2; i+=2) {
+                if (count == matches.size() - 1 && !swissAlgorithm.isEven()) {
+                    textViews[i].setTextColor(Color.GREEN);
+                    textViews[i + 1].setTextColor(Color.RED);
+                }
+                else {
+                    textViews[i].setTextColor(Color.BLACK);
+                    textViews[i + 1].setTextColor(Color.BLACK);
+                }
+
                 textViews[i].setText(matches.get(count).getPlayer1().toString());
                 textViews[i + 1].setText(matches.get(count).getPlayer2().toString());
                 initSpinner(spinners[count]);
@@ -246,8 +258,15 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
         titleTextView.setText(getString(R.string.round_count_text_view, round));
     }
 
+    private void changeTextButton(){
+        if (SwissAlgorithm.getINSTANCE().getCurrentRound() == SwissAlgorithm.getINSTANCE().getRoundsNumber()){
+            nextRoundButton.setText(getString(R.string.show_results_button));
+        }
+    }
+
     private void buildRoundsView(){
 
+        changeTextButton();
 
         matches = swissAlgorithm.getMatches().get(swissAlgorithm.getCurrentRound() - 1);
 
@@ -266,14 +285,20 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
 
 
-        LinearLayout.LayoutParams paramsLeftTextSize = new LinearLayout.LayoutParams(200, 50);
-        paramsLeftTextSize.setMargins(5, 5, 50, 5);
+        LinearLayout.LayoutParams paramsLeftTextSize = new LinearLayout.LayoutParams(0, 50);
+        paramsLeftTextSize.weight = 1;
+        paramsLeftTextSize.setMargins(0, 5, 0, 5);
 
-        LinearLayout.LayoutParams paramsSpinner = new LinearLayout.LayoutParams(350, 50);
-        paramsSpinner.setMargins(180, 5, 100, 5);
+        LinearLayout.LayoutParams paramsSpinner = new LinearLayout.LayoutParams(0, 50);
+        paramsSpinner.weight = 1;
+        paramsSpinner.setMargins(50, 5, 0, 5);
 
-        LinearLayout.LayoutParams paramsRightTextSize = new LinearLayout.LayoutParams(200, 50);
-        paramsRightTextSize.setMargins(50, 5, 10, 5);
+        LinearLayout.LayoutParams paramsRightTextSize = new LinearLayout.LayoutParams(0, 50);
+        paramsRightTextSize.weight = 1;
+        paramsRightTextSize.setMargins(0, 5, 0, 5);
+
+
+
 
 
         LinearLayout linearLayout = new LinearLayout(this);
@@ -283,14 +308,11 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
         linearLayout.setLayoutParams(params);
         matchesRelativeLayout.addView(linearLayout);
 
-
-
-
-
         //matches
         for (int i =0;i<matches.size() * 2; i++){
             TextView textView = new TextView(this);
             textView.setId(i);
+            textView.setTextColor(Color.BLACK);
             textViews[i] = textView;
         }
 
@@ -306,51 +328,47 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
             LinearLayout l = new LinearLayout(this);
             l.setOrientation(LinearLayout.HORIZONTAL);
 
-
-
-
-            textViews[i].setTextSize(20);
-            textViews[i].setTextColor(Color.BLACK);
+            textViews[i].setTextSize(30);
             textViews[i].setLayoutParams(paramsLeftTextSize);
+            textViews[i].setGravity(Gravity.START);
             textViews[i].setText(matches.get(count).getPlayer1().toString());
-            textViews[i].setId(View.generateViewId());
-            textViews[i].setAutoSizeTextTypeUniformWithPresetSizes(getResources().getIntArray(R.array.autosize_text_sizes),
-                    TypedValue.COMPLEX_UNIT_SP );
             l.addView(textViews[i]);
 
             if (count == matches.size() - 1 && !swissAlgorithm.isEven()){
-                TextView textView = new TextView(this);
-                textView.setTextSize(20);
-/*                LinearLayout.LayoutParams paramsResult = new LinearLayout.LayoutParams(300, 50);
-                paramsRightTextSize.setMargins(200, 5, 100, 5);
-                textView.setLayoutParams(paramsResult);*/
 
-                textView.setLayoutParams(paramsSpinner);
-                textView.setText("1-0");
+                textViews[i].setTextColor(Color.GREEN);
+                TextView textView = new TextView(this);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+
+                LinearLayout.LayoutParams paramsBye = new LinearLayout.LayoutParams(0, 50);
+                paramsBye.weight = 1;
+                paramsBye.setMargins(0, 5, 0, 5);
+
+                textView.setLayoutParams(paramsBye);
+                textView.setText(getString(R.string.white_won_result));
+                textView.setGravity(Gravity.CENTER);
                 textView.setTextColor(Color.BLACK);
-                textView.setId(View.generateViewId());
-                textView.setAutoSizeTextTypeUniformWithPresetSizes(getResources().getIntArray(R.array.autosize_text_sizes),
-                        TypedValue.COMPLEX_UNIT_SP );
+                textViews[i + 1].setTextColor(Color.RED);
                 l.addView(textView);
             }
             else {
                     initSpinner(spinners[count]);
                 spinners[count].setLayoutParams(paramsSpinner);
-                //spinners[count].setMinimumWidth(400);
-                //spinners[count].setDropDownWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                spinners[count].setGravity(Gravity.CENTER);
                 l.addView(spinners[count]);
             }
-            textViews[i + 1].setTextSize(20);
-            textViews[i + 1].setTextColor(Color.BLACK);
+
+
+            textViews[i + 1].setTextSize(30);
             textViews[i + 1].setGravity(Gravity.END);
             textViews[i + 1].setText(matches.get(count).getPlayer2().toString());
-            textViews[i + 1].setId(View.generateViewId());
             textViews[i + 1].setLayoutParams(paramsRightTextSize);
-            textViews[i + 1].setAutoSizeTextTypeUniformWithPresetSizes(getResources().getIntArray(R.array.autosize_text_sizes),
-                    TypedValue.COMPLEX_UNIT_SP );
-            l.addView(textViews[i + 1], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            l.addView(textViews[i + 1]);
+
 
             linearLayout.addView(l);
+
 
             count++;
         }
@@ -377,6 +395,8 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if (parent.getSelectedItem() != getString(R.string.set_results))
                             spinners[spinner.getId()].setSelection( parent.getSelectedItemPosition() );
+                        colorWinner(spinner.getId());
+
             }
 
             @Override
@@ -386,6 +406,23 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
         });
     }
 
+    private void colorWinner(int matchNumber){
+        switch (spinners[matchNumber].getSelectedItemPosition()){
+            case 0: //WHITE_WON
+                textViews[matchNumber * 2].setTextColor(Color.GREEN);
+                textViews[matchNumber * 2 + 1].setTextColor(Color.RED);
+                break;
+            case 1: //DRAW
+                textViews[matchNumber * 2].setTextColor(Color.BLUE);
+                textViews[matchNumber * 2 + 1].setTextColor(Color.BLUE);
+                break;
+            case 2: //BLACK_WON
+                textViews[matchNumber * 2 + 1].setTextColor(Color.GREEN);
+                textViews[matchNumber * 2].setTextColor(Color.RED);
+                break;
+
+        }
+    }
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
 

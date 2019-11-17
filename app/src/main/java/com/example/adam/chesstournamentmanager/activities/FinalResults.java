@@ -53,10 +53,10 @@ public class FinalResults extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == currentRound){
+        if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()){
             Intent i = new Intent(getApplicationContext(), Tournament.class);
             startActivity(i);
-        } else if (item.getItemId() < currentRound) {
+        } else if (item.getItemId() <= currentRound) {
             Intent i = new Intent(getApplicationContext(), RoundResults.class);
             i.putExtra(getString(R.string.go_to_round), item.getItemId());
             startActivity(i);
@@ -130,13 +130,18 @@ public class FinalResults extends AppCompatActivity {
 
 
             if (SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
+
                 TextView buchholzPointsTextView = new TextView(this);
                 buchholzPointsTextView.setTextSize(20);
                 buchholzPointsTextView.setTextColor(Color.BLACK);
                 buchholzPointsTextView.setLayoutParams(paramsPointsTextView);
 
-
-                String buchholzPoints = Float.toString(playerList.get(i).getBuchholzPoints()) + " Buchholz pkt";
+                String buchholzPoints;
+                if (SwissAlgorithm.getINSTANCE().getPlaceOrder() == 0) {
+                    buchholzPoints = Float.toString(playerList.get(i).getBuchholzPoints()) + " Buchholz pkt";
+                } else {
+                    buchholzPoints = Float.toString(playerList.get(i).getMedianBuchholzMethod()) + " Median Buchholz pkt";
+                }
                 buchholzPointsTextView.setText(buchholzPoints);
 
                 buchholzPointsTextView.setId(View.generateViewId());

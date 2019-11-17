@@ -37,10 +37,11 @@
     <string name="count_of_players_text_view" />
     <string name="set_method_text_view">Bucholtz</string>
     <string name="starting_list_text_view">Lista startowa</string>
+    <string name="config_tournament_text_view">Ustawienia turnieju</string>
     <string name="players_count_text_view">Ilość zawodników</string>
     <string name="rounds_number_edit_text">Podaj liczbę rund</string>
     <string name="start_tournament_button">Rozpocznij turniej</string>
-    <string name="count_of_number_switch">Ręczny wybór liczby rund</string>
+    <string name="count_of_number_switch">Ręczny wybór liczby rund\t</string>
     <string name="auto_count_of_rounds">Standardowa liczba rund: %1$d</string>
 
     <string-array name="pairing">
@@ -50,7 +51,10 @@
         <item>Losowo</item>
     </string-array>
 
-
+    <string-array name="place_order">
+        <item>Metoda Buchholza</item>
+        <item>Średni Buchholz</item>
+    </string-array>
     <!--Tournament-->
     <string name="results">Wyniki</string>
     <string name="round_count_text_view">Runda %1$d</string>
@@ -95,6 +99,11 @@
     <string name="selected_player_remove">Czy na pewno chcesz usunąć zaznaczonych zawodników?</string>
     <string name="no_one_selected">Nie wybrano żadnego zawodnika</string>
     <string name="too_many_player_selected">Zaznaczono więcej niż jednego zawodnika.\nProszę zaznaczyć jedngo zawodnika aby wyświetlić o nim informację.</string>
+    <string name="wrong_rounds_title">Błędna ilość rund</string>
+    <string name="wrong_rounds_message">Dla podanej liczby rund (%1$d):\n\nMinimalna ilość rund to: 1\nMaksymalna ilość rund to: %2$d</string>
+    <string name="empty_rounds_number">Nie podano ilości rund</string>
+    <string name="too_many_players_title">Za mała liczba zawodników</string>
+    <string name="too_many_players_message">Minimalna liczba zawodników w turnieju wynosi 2.</string>
     <string name="positive_button_warning">Tak</string>
     <string name="negative_button_warning">Nie</string>
 
@@ -112,6 +121,7 @@
     <string name="players">players</string>
     <string name="rounds_number">roundsNumber</string>
     <string name="order">order</string>
+    <string name="place_order">placeOrder</string>
     <string name="swiss">swiss</string>
     <string name="current_round">currentRound</string>
     <string name="go_to_round">goToRound</string>
@@ -124,4 +134,11 @@
     <!--new-->
     <string name="next_round_button">Następna runda</string>
     <string name="rounds">Rundy</string>
+    <string name="bye">Bye</string>
+
+    <string name="white_won_result">1&#8211;0</string>
+    <string name="draw_result">&#189;&#8211;&#189;</string>
+    <string name="black_won_result">0&#8211;1</string>
+
+    <string name="show_results_button">Pokaż wyniki końcowe</string>
 </resources>

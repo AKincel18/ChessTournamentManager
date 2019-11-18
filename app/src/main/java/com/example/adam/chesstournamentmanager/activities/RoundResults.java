@@ -12,14 +12,16 @@ import android.view.SubMenu;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.adam.chesstournamentmanager.Match;
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
+import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 
 import java.util.List;
 
-public class RoundResults extends AppCompatActivity {
+public class RoundResults extends AppCompatActivity implements GeneralDialogFragment.OnDialogFragmentClickListener{
 
     private Menu myMenu;
 
@@ -44,25 +46,35 @@ public class RoundResults extends AppCompatActivity {
         currentView = i.getIntExtra(getString(R.string.go_to_round), 0);
         textView = findViewById(R.id.previous_round_count_text_view);
         textView.setText(getString(R.string.round_count_text_view, currentView));
+
         buildView(currentView);
 
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()){
-            Intent i = new Intent(getApplicationContext(), Tournament.class);
-            startActivity(i);
-        }
-        else if (item.getItemId() <= currentRound) {
+        if (item.getItemId() != R.id.exit_menu) {
+            if (item.getItemId() != R.id.rounds_menu) {
+                if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
+                    Intent i = new Intent(getApplicationContext(), Tournament.class);
+                    startActivity(i);
+                } else if (item.getItemId() <= currentRound) {
 
-            LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
-            matchesRelativeLayout.removeAllViews();
-            buildView(item.getItemId());
-        }
-        else if (item.getItemId() ==  R.id.results_menu){
-            Intent i = new Intent(getApplicationContext(), FinalResults.class);
-            startActivity(i);
+                    LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
+                    matchesRelativeLayout.removeAllViews();
+                    buildView(item.getItemId());
+                } else if (item.getItemId() == R.id.results_menu) {
+                    Intent i = new Intent(getApplicationContext(), FinalResults.class);
+                    startActivity(i);
+                }
+            }
+        } else {
+            GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                    getString(R.string.title_warning),
+                    getString(R.string.exit_message),
+                    getString(R.string.positive_button_warning));
+            dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -167,5 +179,16 @@ public class RoundResults extends AppCompatActivity {
                 return getString(R.string.black_won_result);
         }
         return null;
+    }
+
+    @Override
+    public void onOkClicked(GeneralDialogFragment dialog) {
+            Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+            startActivity(i);
+    }
+
+    @Override
+    public void onCancelClicked(GeneralDialogFragment dialog) {
+
     }
 }

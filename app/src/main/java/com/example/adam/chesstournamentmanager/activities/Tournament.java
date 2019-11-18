@@ -17,12 +17,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.adam.chesstournamentmanager.Match;
 import com.example.adam.chesstournamentmanager.MatchResult;
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
-import com.example.adam.chesstournamentmanager.model.Colors;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.SpinnerAdapter;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
@@ -51,8 +51,6 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
     private int currentView;
 
-    private boolean rebuildMenu = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +61,6 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
         swissAlgorithm = SwissAlgorithm.getINSTANCE();
         if (swissAlgorithm != null){
-            rebuildMenu = true;
             roundsNumber = swissAlgorithm.getRoundsNumber();
         }
         else {
@@ -77,9 +74,8 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
             swissAlgorithm = SwissAlgorithm.initSwissAlgorithm(roundsNumber, order, placeOrder);
             swissAlgorithm.initTournamentPlayers(players);
             swissAlgorithm.drawFirstRound();
+
         }
-
-
         buildRoundsView();
         nextRoundButton();
 
@@ -89,19 +85,34 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
     public boolean onCreateOptionsMenu(Menu menu) {
         myMenu = menu;
         getMenuInflater().inflate(R.menu.menu_tournament, myMenu);
-        if (rebuildMenu){
-            rebuildMenu();
-        }
+        buildMenu();
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.results_menu && swissAlgorithm.getCurrentRound() != 1){
-            Intent i = new Intent(getApplicationContext(), FinalResults.class);
-            startActivity(i);
-        } else if (item.getItemId() >= 1 && item.getItemId() <= swissAlgorithm.getRoundsNumber()){
-                refreshView(item.getItemId(), false);
+        if (item.getItemId() != R.id.exit_menu) {
+            if (item.getItemId() != R.id.rounds_menu) {
+                if (item.getItemId() == R.id.results_menu) {
+                    if (swissAlgorithm.getCurrentRound() != 1) {
+                        Intent i = new Intent(getApplicationContext(), FinalResults.class);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(this, getString(R.string.not_finished_first_round), Toast.LENGTH_LONG).show();
+                    }
+                } else if (item.getItemId() >= 1 && item.getItemId() < swissAlgorithm.getCurrentRound()) {
+                    refreshView(item.getItemId(), false);
+                } else if (item.getItemId() >= 1 && item.getItemId() > swissAlgorithm.getCurrentRound()) {
+                    Toast.makeText(this, getString(R.string.previous_rounds_not_finished), Toast.LENGTH_LONG).show();
+                }
+            }
+        } else {
+            GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                    getString(R.string.title_warning),
+                    getString(R.string.exit_message),
+                    getString(R.string.positive_button_warning));
+                    dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -114,7 +125,6 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
                 List<MatchResult> matchResults = getResult();
                 if (matchResults != null) {
                     swissAlgorithm.setResult(matchResults);
-                    buildMenu();
 
 
                     if (swissAlgorithm.isFinishedTournament()) {
@@ -139,23 +149,14 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
     private void notAllResultsEnteredDialogBox(){
         GeneralDialogFragment generalDialogFragment =
                 GeneralDialogFragment.newInstance(getString(R.string.title_error), getString(R.string.no_result_message_error), getString(R.string.exit_button));
-        generalDialogFragment.show(getSupportFragmentManager(), getString(R.string.title_warning));
+        generalDialogFragment.show(getSupportFragmentManager(), getString(R.string.title_error));
     }
 
-    private void buildMenu() {
+    private void buildMenu(){
         MenuItem menuItem = myMenu.findItem(R.id.rounds_menu);
         SubMenu subMenu = menuItem.getSubMenu();
-        if (swissAlgorithm.isFinishedTournament())
-            subMenu.add(Menu.NONE,swissAlgorithm.getCurrentRound(), Menu.NONE,getString(R.string.round_count_text_view, swissAlgorithm.getCurrentRound()));
-        else
-            subMenu.add(Menu.NONE,swissAlgorithm.getCurrentRound() - 1, Menu.NONE,getString(R.string.round_count_text_view, swissAlgorithm.getCurrentRound() - 1));
 
-    }
-
-    private void rebuildMenu(){
-        MenuItem menuItem = myMenu.findItem(R.id.rounds_menu);
-        SubMenu subMenu = menuItem.getSubMenu();
-        for (int i =1; i <= swissAlgorithm.getCurrentRound() - 1; i++){
+        for (int i = 1; i <= swissAlgorithm.getRoundsNumber(); i++) {
             subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.round_count_text_view, i));
         }
     }
@@ -421,7 +422,10 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
     }
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
-
+        if (dialog.getTag().equals(getString(R.string.title_warning))) {
+            Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+            startActivity(i);
+        }
     }
 
     @Override

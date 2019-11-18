@@ -72,6 +72,8 @@
     <string name="white_player_text_view">Gracz 1 (białe)</string>
     <string name="black_player_text_view">Gracz 2 (czarne)</string>
     <string name="results_text_view">Wynik</string>
+    <string name="previous_rounds_not_finished">Poprzednie rundy nie zostały skończone</string>
+    <string name="not_finished_first_round">Nie skończono pierwszej rundy</string>
 
     <!--RoundResults-->
     <string name="lp_text_view">Lp.</string>
@@ -118,6 +120,9 @@
     <string name="empty_rounds_number">Nie podano ilości rund</string>
     <string name="too_many_players_title">Za mała liczba zawodników</string>
     <string name="too_many_players_message">Minimalna liczba zawodników w turnieju wynosi 2.</string>
+
+    <string name="exit_message">Czy na pewno chcesz wyjść z turnieju?\nWszystkie dane zostaną utracone!</string>
+
     <string name="positive_button_warning">Tak</string>
     <string name="negative_button_warning">Nie</string>
 
@@ -126,7 +131,7 @@
     <string name="message_error">Wybierz datę</string>
     <string name="exit_button">OK</string>
 
-    <string name="no_result_message_error">Nie wprowadzono wszytkich wyników</string>
+    <string name="no_result_message_error">Nie wprowadzono wszystkich wyników</string>
     <!--Database-->
     <string name="database_name">ChessTournamentManager.db</string>
 
@@ -148,6 +153,7 @@
     <!--new-->
     <string name="next_round_button">Następna runda</string>
     <string name="rounds">Rundy</string>
+    <string name="exit_menu">Wyjście</string>
     <string name="bye">Bye</string>
 
     <string name="white_won_result">1&#8211;0</string>

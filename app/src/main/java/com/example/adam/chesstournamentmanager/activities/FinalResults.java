@@ -19,11 +19,12 @@ import android.widget.TextView;
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
+import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 
 import java.util.List;
 import java.util.Locale;
 
-public class FinalResults extends AppCompatActivity {
+public class FinalResults extends AppCompatActivity implements GeneralDialogFragment.OnDialogFragmentClickListener{
 
     private int currentRound;
 
@@ -57,13 +58,21 @@ public class FinalResults extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()){
-            Intent i = new Intent(getApplicationContext(), Tournament.class);
-            startActivity(i);
-        } else if (item.getItemId() <= currentRound) {
-            Intent i = new Intent(getApplicationContext(), RoundResults.class);
-            i.putExtra(getString(R.string.go_to_round), item.getItemId());
-            startActivity(i);
+        if (item.getItemId() != R.id.exit_menu) {
+            if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
+                Intent i = new Intent(getApplicationContext(), Tournament.class);
+                startActivity(i);
+            } else if (item.getItemId() <= currentRound) {
+                Intent i = new Intent(getApplicationContext(), RoundResults.class);
+                i.putExtra(getString(R.string.go_to_round), item.getItemId());
+                startActivity(i);
+            }
+        } else {
+            GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                    getString(R.string.title_warning),
+                    getString(R.string.exit_message),
+                    getString(R.string.positive_button_warning));
+            dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
         }
 
         return super.onOptionsItemSelected(item);
@@ -197,4 +206,14 @@ public class FinalResults extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onOkClicked(GeneralDialogFragment dialog) {
+            Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+            startActivity(i);
+    }
+
+    @Override
+    public void onCancelClicked(GeneralDialogFragment dialog) {
+
+    }
 }

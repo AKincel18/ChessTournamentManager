@@ -61,6 +61,9 @@ public class SwissAlgorithm implements Serializable {
         return INSTANCE;
     }
 
+    public static void resetTournament(){
+        INSTANCE = null;
+    }
     public void initTournamentPlayers(List<Players> players){
 
         tournamentPlayers = new ArrayList<>();

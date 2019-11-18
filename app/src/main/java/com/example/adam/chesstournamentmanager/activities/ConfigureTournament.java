@@ -23,6 +23,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.R;
+import com.example.adam.chesstournamentmanager.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
@@ -38,9 +39,12 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
     private ArrayList<Players> players;
     private ListView listView;
     private Switch switch1;
+    private Switch switch2;
     private String order;
     private int placeOrder;
     private EditText editText;
+    private Spinner spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +55,58 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
         players = (ArrayList<Players>) i.getSerializableExtra(getString(R.string.players));
         countOfPlayersTextView.setText(String.valueOf(players.size()));
         listView = findViewById(R.id.players_list_view);
-        Spinner spinner = findViewById(R.id.pairing_type_spinner);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+
+        //String []pairingType = getResources().getStringArray(R.array.pairing);
+        //Spinner spinner = findViewById(R.id.pairing_type_spinner);
+
+
+        switch1 = findViewById(R.id.count_of_number_switch);
+        switch2 = findViewById(R.id.order_place_switch);
+
+        initSpinnerPlaceOrder();
+        initSpinnerPlayerOrder();
+        comparatorByStandardOrder();
+
+        int optimalCountOfRounds =(int)Math.ceil(Math.log(players.size()) / Math.log(2)); // ceil(log2(player's number)),  log2 = (Math.log(x) / Math.log(2));
+        choiceRoundsSwitchImplementation(optimalCountOfRounds);
+        orderPlayerSwitchImplementation();
+        startTournament(optimalCountOfRounds);
+        //losuj();
+
+
+    }
+
+
+    private void initSpinnerPlaceOrder(){
+        Spinner spinner = findViewById(R.id.place_order_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.place_order, R.layout.spinner_item_config_tournament);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                placeOrder = parent.getSelectedItemPosition();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+
+    private void initSpinnerPlayerOrder(){
+        spinner = new Spinner(this);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.pairing, R.layout.spinner_item_config_tournament);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         //final String []pairingType = getResources().getStringArray(R.array.pairing);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -91,35 +141,7 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
             }
         });
 
-        switch1 = findViewById(R.id.count_of_number_switch);
-
-        int optimalCountOfRounds =(int)Math.ceil(Math.log(players.size()) / Math.log(2)); // ceil(log2(player's number)),  log2 = (Math.log(x) / Math.log(2));
-        switchImplementation(optimalCountOfRounds);
-        startTournament(optimalCountOfRounds);
-        //losuj();
-        initSpinnerPlaceOrder();
-
     }
-
-    private void initSpinnerPlaceOrder(){
-        Spinner spinner = findViewById(R.id.place_order_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.place_order, R.layout.spinner_item_config_tournament);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                placeOrder = parent.getSelectedItemPosition();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
     private void initListView(){
 
         ArrayAdapter<Players> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, players);
@@ -215,6 +237,28 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
         });
     }
 
+    private void comparatorByStandardOrder(){
+        Collections.sort(players, new Comparator<Players>() {
+            @Override
+            public int compare(Players o1, Players o2) {
+                int c = Float.compare(o2.getInternationalRanking(), o1.getInternationalRanking());
+                if (c == 0) {
+                    c = Float.compare(o2.getPolishRanking(), o1.getPolishRanking());
+                    if (c == 0) {
+                        c = o1.getSurname().compareTo(o2.getSurname());
+                        if (c == 0) {
+                            c = o1.getName().compareTo(o2.getName());
+                        }
+                    }
+                }
+                return c;
+            }
+        });
+
+
+        initListView();
+    }
+
 
 /*    private void losuj(){
         Button button = findViewById(R.id.button);
@@ -275,6 +319,7 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
                     i.putExtra(getString(R.string.players), players);
                     i.putExtra(getString(R.string.order), order);
                     i.putExtra(getString(R.string.place_order), placeOrder);
+                    SwissAlgorithm.resetTournament();
                     startActivity(i);
                 }
 
@@ -298,7 +343,7 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
             return players.size();
     }
 
-    private void switchImplementation(int optimalCountOfRounds){
+    private void choiceRoundsSwitchImplementation(int optimalCountOfRounds){
 /*        final TextView textView = findViewById(R.id.auto_count_of_rounds);
         final EditText editText = findViewById(R.id.rounds_number_edit_text);*/
         final LinearLayout linearLayout = findViewById(R.id.layout_set_round);
@@ -312,12 +357,11 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
 
         textView.setText(getString(R.string.auto_count_of_rounds, optimalCountOfRounds));
 
-        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1);
 
         int startMargins = (int)(10 * Resources.getSystem().getDisplayMetrics().density + 0.5f);
         params.setMargins(startMargins, 0 , 0,0);
 
-        params.weight = 1;
         textView.setGravity(Gravity.START | Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
         textView.setTextColor(Color.GRAY);
@@ -338,6 +382,46 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
                     linearLayout.removeView(editText);
                     linearLayout.addView(textView);
 
+                }
+            }
+        });
+    }
+
+    private void orderPlayerSwitchImplementation(){
+
+        final LinearLayout linearLayout = findViewById(R.id.layout_order_player);
+
+        final TextView textView = new TextView(this);
+
+
+
+        textView.setText(getString(R.string.auto_order_player));
+
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1);
+
+        int startMargins = (int)(10 * Resources.getSystem().getDisplayMetrics().density + 0.5f);
+        params.setMargins(startMargins, 0 , 0,0);
+
+        textView.setGravity(Gravity.START | Gravity.CENTER);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        textView.setTextColor(Color.GRAY);
+        textView.setLayoutParams(params);
+        linearLayout.addView(textView);
+
+
+        switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    spinner.setLayoutParams(params);
+                    linearLayout.removeView(textView);
+                    linearLayout.addView(spinner);
+                }
+                else{
+                    textView.setLayoutParams(params);
+                    linearLayout.removeView(spinner);
+                    linearLayout.addView(textView);
+                    comparatorByStandardOrder();
                 }
             }
         });

@@ -53,7 +53,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
         int width = displayMetrics.widthPixels;
         int height = displayMetrics.heightPixels;
 
-        getWindow().setLayout((int) (width*.6), (int) (height*.6));
+        getWindow().setLayout((int) (width*.6), (int) (height*.66));
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = Gravity.CENTER;

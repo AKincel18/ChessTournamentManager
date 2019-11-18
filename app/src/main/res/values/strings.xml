@@ -58,6 +58,13 @@
         <item>Metoda Buchholza</item>
         <item>Średni Buchholz</item>
     </string-array>
+
+    <string-array name="results_array">
+        <item>1&#8211;0</item>
+        <item>&#189;&#8211;&#189;</item>
+        <item>0&#8211;1</item>
+    </string-array>
+
     <!--Tournament-->
     <string name="results">Wyniki</string>
     <string name="round_count_text_view">Runda %1$d</string>
@@ -77,6 +84,8 @@
     <string name="median_buchholz_header_text_view">Średni Buchholz</string>
     <string name="format_float">%.1f</string>
 
+    <!--AboutPlayer-->
+    <string name="about_player_title_text_view">Informacje o zawodniku</string>
 
     <!--messages-->
     <string name="rounds_number_text_view">Runda %1$d</string>
@@ -84,11 +93,7 @@
     <string name="current_results">Wyniki po %1$d rundzie</string>
     <string name="set_results">Wprowadź wynik</string>
 
-    <string-array name="results_array">
-        <item>1&#8211;0</item>
-        <item>&#189;&#8211;&#189;</item>
-        <item>0&#8211;1</item>
-    </string-array>
+
 
     <!--DialogBoxes-->
 

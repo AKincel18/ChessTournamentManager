@@ -67,11 +67,10 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
             Intent i = getIntent();
             roundsNumber = i.getIntExtra(getString(R.string.rounds_number), 0);
-            String order = i.getStringExtra(getString(R.string.order));
             int placeOrder = i.getIntExtra(getString(R.string.place_order), 0);
             List<Players> players = (List<Players>) i.getSerializableExtra(getString(R.string.players));
 
-            swissAlgorithm = SwissAlgorithm.initSwissAlgorithm(roundsNumber, order, placeOrder);
+            swissAlgorithm = SwissAlgorithm.initSwissAlgorithm(roundsNumber, placeOrder);
             swissAlgorithm.initTournamentPlayers(players);
             swissAlgorithm.drawFirstRound();
 

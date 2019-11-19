@@ -46,7 +46,11 @@
     <string name="start_tournament_button">Rozpocznij turniej</string>
     <string name="count_of_number_switch">Ręczny wybór liczby rund\t</string>
     <string name="auto_count_of_rounds">Standardowa liczba rund: %1$d</string>
-    <string name="auto_order_player">Standardowe uszeregowanie:\n1. Ranking międzynarodowy\n2. Ranking polski\n3. Alfabetycznie\n4. Losowo</string>
+    <string name="auto_order_player">Standardowe uszeregowanie:\n\n1. Ranking międzynarodowy\n2. Ranking polski\n3. Alfabetycznie</string>
+
+    <string name="name_player_header">Zawodnik</string>
+    <string name="international_ranking_header">Ranking międzynarodowy</string>
+    <string name="polish_ranking_header">Ranking polski</string>
 
     <string-array name="pairing">
         <item>Alfabetycznie</item>
@@ -161,4 +165,5 @@
     <string name="black_won_result">0&#8211;1</string>
 
     <string name="show_results_button">Pokaż wyniki końcowe</string>
+
 </resources>

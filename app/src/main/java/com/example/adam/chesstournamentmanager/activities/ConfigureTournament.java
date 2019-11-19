@@ -25,25 +25,22 @@ import android.widget.TextView;
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.model.Players;
-import com.example.adam.chesstournamentmanager.staticdata.Constans;
+import com.example.adam.chesstournamentmanager.staticdata.ListAdapter;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Formatter;
+import java.util.List;
 
 public class ConfigureTournament extends AppCompatActivity implements GeneralDialogFragment.OnDialogFragmentClickListener{
 
     private ArrayList<Players> players;
     private ListView listView;
     private Switch switch1;
-    private Switch switch2;
-    private String order;
     private int placeOrder;
     private EditText editText;
-    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +60,14 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
 
 
         switch1 = findViewById(R.id.count_of_number_switch);
-        switch2 = findViewById(R.id.order_place_switch);
 
         initSpinnerPlaceOrder();
-        initSpinnerPlayerOrder();
+        //initSpinnerPlayerOrder();
         comparatorByStandardOrder();
 
         int optimalCountOfRounds =(int)Math.ceil(Math.log(players.size()) / Math.log(2)); // ceil(log2(player's number)),  log2 = (Math.log(x) / Math.log(2));
         choiceRoundsSwitchImplementation(optimalCountOfRounds);
-        orderPlayerSwitchImplementation();
+        //orderPlayerSwitchImplementation();
         startTournament(optimalCountOfRounds);
         //losuj();
 
@@ -99,142 +95,22 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
     }
 
 
-    private void initSpinnerPlayerOrder(){
-        spinner = new Spinner(this);
+    private void initListViewHeader() {
+        //ListView listView = findViewById(R.id.players_list_view);
+        ViewGroup headerView = (ViewGroup) getLayoutInflater().inflate(R.layout.header, listView, false);
+        listView.addHeaderView(headerView);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.pairing, R.layout.spinner_item_config_tournament);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        //final String []pairingType = getResources().getStringArray(R.array.pairing);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                switch (order = parent.getSelectedItem().toString()){
-                    case (Constans.ALPHABETICAL_ORDER):
-                        comparatorBySurnameName();
-                        initListView();
-                        break;
-
-                    case (Constans.POLISH_RANKING_ORDER):
-                        comparatorByPolishRanking();
-                        polishRanking();
-                        break;
-
-                    case (Constans.INTERNATIONAL_RANKING_ORDER):
-                        comparatorByInternationalRanking();
-                        internationalRanking();
-                        break;
-
-                    case (Constans.RANDOM_ORDER):
-                        Collections.shuffle(players);
-                        initListView();
-                        break;
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-    }
-    private void initListView(){
-
-        ArrayAdapter<Players> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, players);
-        listView.setAdapter(adapter);
-
-    }
-
-    private void initListViewByRanking(ArrayList<String> strings){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, strings);
+        ListAdapter adapter = new ListAdapter(this, R.layout.row_layout, R.id.name_player_row_layout, getPlayerList());
         listView.setAdapter(adapter);
     }
 
-    //TODO improve formatting in viewlist
-    //TODO two the same functions -> change to one :)
-    private void polishRanking(){
-        ArrayList<String> s = new ArrayList<>();
-        for (Players p : players) {
-            Formatter fmt = new Formatter();
-            String tmp = p.toString();
-            if (p.getPolishRanking() != -1){
-                fmt.format("%10f", p.getPolishRanking());
-                s.add(tmp + fmt.toString());
-            }
-            else{
-                s.add(tmp);
-            }
-        initListViewByRanking(s);
-
+    private List<String> getPlayerList(){
+        List<String> list = new ArrayList<>();
+        for (Players player : players) {
+            String tmp = player.toString() + "," + player.getInternationalRanking() + "," + player.getPolishRanking();
+            list.add(tmp);
         }
-
-    }
-
-    private void internationalRanking(){
-
-        ArrayList<String> s = new ArrayList<>();
-        for (Players p : players) {
-            Formatter fmt = new Formatter();
-            if (p.getInternationalRanking() != -1){
-                fmt.format("%1s %20s %15f", p.getSurname(), p.getName(), p.getInternationalRanking());
-                s.add(fmt.toString());
-            }
-            else{
-                fmt.format("%1s %20s", p.getSurname(), p.getName());
-                s.add(fmt.toString());
-            }
-        initListViewByRanking(s);
-        }
-    }
-
-
-    private void comparatorBySurnameName(){
-
-        Collections.sort(players, new Comparator<Players>() {
-            @Override
-            public int compare(Players o1, Players o2) {
-                int c = o1.getSurname().compareTo(o2.getSurname());
-
-                if (c == 0)
-                    return o1.getName().compareTo(o2.getName());
-                return c;
-            }
-        });
-
-    }
-
-    private void comparatorByPolishRanking(){
-        Collections.sort(players, new Comparator<Players>() {
-            @Override
-            public int compare(Players o1, Players o2) {
-                int c = Float.compare(o2.getPolishRanking(), o1.getPolishRanking());
-                if (c == 0)
-                    c = o1.getSurname().compareTo(o2.getSurname());
-                if (c == 0)
-                    return o1.getName().compareTo(o2.getName());
-
-                return c;
-
-            }
-        });
-    }
-
-    private void comparatorByInternationalRanking(){
-        Collections.sort(players, new Comparator<Players>() {
-            @Override
-            public int compare(Players o1, Players o2) {
-                int c = Float.compare(o2.getInternationalRanking(), o1.getInternationalRanking());
-                if (c == 0)
-                    c = o1.getSurname().compareTo(o2.getSurname());
-                if (c == 0)
-                    return o1.getName().compareTo(o2.getName());
-                return c;
-            }
-        });
+        return list;
     }
 
     private void comparatorByStandardOrder(){
@@ -256,7 +132,8 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
         });
 
 
-        initListView();
+        //initListView();
+        initListViewHeader();
     }
 
 
@@ -317,7 +194,6 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
 
                 if (startActivity){
                     i.putExtra(getString(R.string.players), players);
-                    i.putExtra(getString(R.string.order), order);
                     i.putExtra(getString(R.string.place_order), placeOrder);
                     SwissAlgorithm.resetTournament();
                     startActivity(i);
@@ -382,46 +258,6 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
                     linearLayout.removeView(editText);
                     linearLayout.addView(textView);
 
-                }
-            }
-        });
-    }
-
-    private void orderPlayerSwitchImplementation(){
-
-        final LinearLayout linearLayout = findViewById(R.id.layout_order_player);
-
-        final TextView textView = new TextView(this);
-
-
-
-        textView.setText(getString(R.string.auto_order_player));
-
-        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1);
-
-        int startMargins = (int)(10 * Resources.getSystem().getDisplayMetrics().density + 0.5f);
-        params.setMargins(startMargins, 0 , 0,0);
-
-        textView.setGravity(Gravity.START | Gravity.CENTER);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        textView.setTextColor(Color.GRAY);
-        textView.setLayoutParams(params);
-        linearLayout.addView(textView);
-
-
-        switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    spinner.setLayoutParams(params);
-                    linearLayout.removeView(textView);
-                    linearLayout.addView(spinner);
-                }
-                else{
-                    textView.setLayoutParams(params);
-                    linearLayout.removeView(spinner);
-                    linearLayout.addView(textView);
-                    comparatorByStandardOrder();
                 }
             }
         });

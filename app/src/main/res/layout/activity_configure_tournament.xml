@@ -15,7 +15,7 @@
             android:id="@+id/config_tournament_text_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.4"
             android:gravity="center"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
@@ -27,7 +27,7 @@
             android:id="@+id/starting_list_text_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.6"
             android:gravity="center"
             android:textSize="30sp"
             android:layout_marginBottom="10dp"
@@ -44,7 +44,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.43"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
@@ -100,7 +100,7 @@
                     android:gravity="center|start"
                     android:text="@string/count_of_players_text_view"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="30sp" />
+                    android:textSize="25sp" />
 
             </LinearLayout>
 
@@ -114,17 +114,27 @@
                 android:orientation="horizontal">
 
 
-<!--                <TextView
+                <TextView
                     android:id="@+id/pairing_type_text_view"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:textSize="20sp"
-                    android:gravity="center"
+                    android:gravity="start|center"
                     android:textColor="@android:color/black"
-                    android:text="@string/pairing_type_text_view" />-->
+                    android:text="@string/pairing_type_text_view" />
 
-                <Switch
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:gravity="center|start"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/auto_order_player" />
+<!--                <Switch
                     android:id="@+id/order_place_switch"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -132,15 +142,7 @@
                     android:gravity="start|center"
                     android:text="@string/pairing_type_text_view"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp" />
-
-
-<!--                <Spinner
-                    android:id="@+id/pairing_type_spinner"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1"/>-->
+                    android:textSize="20sp" />-->
 
             </LinearLayout>
 
@@ -192,7 +194,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.6"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
@@ -206,18 +208,16 @@
                 android:layout_height="475dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="50dp"
                 android:background="@drawable/layout_border_list_view" />
 
 
             <Button
                 android:id="@+id/start_tournament_button"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="400dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="50dp"
                 android:text="@string/start_tournament_button" />
         </LinearLayout>
 

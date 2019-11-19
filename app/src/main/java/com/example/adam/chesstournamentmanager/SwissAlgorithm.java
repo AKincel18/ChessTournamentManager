@@ -34,8 +34,6 @@ public class SwissAlgorithm implements Serializable {
 
     private List<Match> matchesTmp = new ArrayList<>();
 
-    private String order;
-
     private boolean finishedTournament = false;
 
     private boolean even;
@@ -44,15 +42,14 @@ public class SwissAlgorithm implements Serializable {
 
     private int placeOrder;
 
-    public SwissAlgorithm(int roundsNumber, String order,  int placeOrder) {
+    public SwissAlgorithm(int roundsNumber, int placeOrder) {
         this.roundsNumber = roundsNumber;
-        this.order = order;
         this.placeOrder = placeOrder;
     }
 
-    public static SwissAlgorithm initSwissAlgorithm(int roundsNumber, String order, int isBuchholzMethod){
+    public static SwissAlgorithm initSwissAlgorithm(int roundsNumber, int isBuchholzMethod){
         if (INSTANCE == null){
-            INSTANCE = new SwissAlgorithm(roundsNumber, order, isBuchholzMethod);
+            INSTANCE = new SwissAlgorithm(roundsNumber, isBuchholzMethod);
         }
         return INSTANCE;
     }

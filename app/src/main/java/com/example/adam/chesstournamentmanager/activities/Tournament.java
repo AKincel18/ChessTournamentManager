@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,8 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
     private int currentView;
 
+    private ScrollView scrollView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,7 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
         setContentView(R.layout.activity_tournament);
         nextRoundButton = findViewById(R.id.next_round_button);
         titleTextView = findViewById(R.id.round_count_text_view);
+        scrollView = findViewById(R.id.scroll_view);
 
         swissAlgorithm = SwissAlgorithm.getINSTANCE();
         if (swissAlgorithm != null){
@@ -106,14 +110,17 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
                 }
             }
         } else {
-            GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
-                    getString(R.string.title_warning),
-                    getString(R.string.exit_message),
-                    getString(R.string.positive_button_warning));
-                    dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
+            GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+            dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+        dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
     }
 
     private void nextRoundButton(){
@@ -125,7 +132,6 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
                 if (matchResults != null) {
                     swissAlgorithm.setResult(matchResults);
 
-
                     if (swissAlgorithm.isFinishedTournament()) {
                         Intent i = new Intent(getApplicationContext(), FinalResults.class);
                         startActivity(i);
@@ -133,6 +139,7 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
                     else {
                         swissAlgorithm.drawNextRound();
                         initTitle(swissAlgorithm.getCurrentRound());
+                        scrollView.scrollTo(0,0);
                         refreshView(swissAlgorithm.getCurrentRound(), true);
                     }
 
@@ -161,11 +168,7 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
     }
 
     private List<MatchResult> getResult(){
-        int matchCount;
-        if (swissAlgorithm.isEven())
-            matchCount = matches.size();
-        else
-            matchCount = matches.size() - 1;
+        int matchCount = swissAlgorithm.isEven() ? matches.size() : matches.size() - 1;
 
         List<MatchResult> results = new ArrayList<>();
         for (int i=0; i < matchCount; i++){
@@ -324,10 +327,11 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
             LinearLayout l = new LinearLayout(this);
             l.setOrientation(LinearLayout.HORIZONTAL);
 
-            textViews[i].setTextSize(30);
+            //textViews[i].setTextSize(30);
             textViews[i].setLayoutParams(paramsLeftTextSize);
             textViews[i].setGravity(Gravity.START);
             textViews[i].setText(matches.get(count).getPlayer1().toString());
+            textViews[i].setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
             l.addView(textViews[i]);
 
             if (count == matches.size() - 1 && !swissAlgorithm.isEven()){
@@ -355,12 +359,14 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
             }
 
 
-            textViews[i + 1].setTextSize(30);
+            //textViews[i + 1].setTextSize(30);
             textViews[i + 1].setGravity(Gravity.END);
             textViews[i + 1].setText(matches.get(count).getPlayer2().toString());
             textViews[i + 1].setLayoutParams(paramsRightTextSize);
+            textViews[i + 1].setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
 
             l.addView(textViews[i + 1]);
+
 
 
             linearLayout.addView(l);
@@ -392,6 +398,7 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
                         if (parent.getSelectedItem() != getString(R.string.set_results))
                             spinners[spinner.getId()].setSelection( parent.getSelectedItemPosition() );
                         colorWinner(spinner.getId());
+
 
             }
 

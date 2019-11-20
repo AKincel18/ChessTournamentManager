@@ -68,14 +68,17 @@ public class FinalResults extends AppCompatActivity implements GeneralDialogFrag
                 startActivity(i);
             }
         } else {
-            GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
-                    getString(R.string.title_warning),
-                    getString(R.string.exit_message),
-                    getString(R.string.positive_button_warning));
+            GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
             dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+        dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
     }
 
     private void buildMenu() {
@@ -122,8 +125,8 @@ public class FinalResults extends AppCompatActivity implements GeneralDialogFrag
         LinearLayout.LayoutParams paramsPosition = new LinearLayout.LayoutParams(100, 50);
         paramsPosition.setMargins(0, 5, 0, 5);
 
-        LinearLayout.LayoutParams paramsPlayerTextView = new LinearLayout.LayoutParams(300, 50);
-        paramsPlayerTextView.setMargins(0, 5, 0, 5);
+        LinearLayout.LayoutParams paramsPlayerTextView = new LinearLayout.LayoutParams(450, 50);
+        paramsPlayerTextView.setMargins(0, 5, 5, 5);
 
         LinearLayout.LayoutParams paramsPointsTextView = new LinearLayout.LayoutParams(250, 50);
         paramsPointsTextView.setMargins(0, 5, 0, 5);
@@ -140,7 +143,7 @@ public class FinalResults extends AppCompatActivity implements GeneralDialogFrag
             l.setOrientation(LinearLayout.HORIZONTAL);
 
             TextView positionTextView = new TextView(this);
-            positionTextView.setTextSize(30);
+            positionTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
             positionTextView.setTextColor(Color.BLACK);
             positionTextView.setGravity(Gravity.START);
             positionTextView.setText(getString(R.string.lp, (i + 1)));
@@ -148,7 +151,7 @@ public class FinalResults extends AppCompatActivity implements GeneralDialogFrag
             l.addView(positionTextView);
 
             TextView playerTextView = new TextView(this);
-            playerTextView.setTextSize(30);
+            playerTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
             playerTextView.setTextColor(Color.BLACK);
             playerTextView.setGravity(Gravity.START);
             playerTextView.setText(playerList.get(i).toString());
@@ -171,7 +174,7 @@ public class FinalResults extends AppCompatActivity implements GeneralDialogFrag
 
 
             TextView pointTextView = new TextView(this);
-            pointTextView.setTextSize(30);
+            pointTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
             pointTextView.setTextColor(Color.BLACK);
             pointTextView.setGravity(Gravity.START);
             pointTextView.setLayoutParams(paramsPointsTextView);
@@ -185,9 +188,9 @@ public class FinalResults extends AppCompatActivity implements GeneralDialogFrag
 
 
                 TextView buchholzPointsTextView = new TextView(this);
-                buchholzPointsTextView.setTextSize(30);
                 buchholzPointsTextView.setTextColor(Color.BLACK);
                 buchholzPointsTextView.setGravity(Gravity.START);
+                buchholzPointsTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
                 buchholzPointsTextView.setLayoutParams(paramsPointsTextView);
 
                 if (SwissAlgorithm.getINSTANCE().getPlaceOrder() == 0) {

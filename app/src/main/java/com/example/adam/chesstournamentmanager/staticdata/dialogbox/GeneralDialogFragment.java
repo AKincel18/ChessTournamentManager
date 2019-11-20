@@ -3,6 +3,7 @@ package com.example.adam.chesstournamentmanager.staticdata.dialogbox;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
@@ -26,6 +27,11 @@ public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragm
         args.putString(Constans.POSITIVE_BTN, positiveBtn);
         frag.setArguments(args);
         return frag;
+    }
+
+    public static GeneralDialogFragment exixDialogBox(){
+        return GeneralDialogFragment.newInstance(
+                Constans.WARNING_TITLE, Constans.EXIT_MESSAGE, Constans.POSITIVE_BUTTON);
     }
     // Create a Dialog using default AlertDialog builder , if not inflate custom view in onCreateView
     @NonNull

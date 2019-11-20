@@ -40,11 +40,16 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
 
     private Date formatDate;
 
+    private boolean addNewPlayer;
+
+    private Players editPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_add_new_player);
+
+
 
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -100,11 +105,52 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
         Intent i = getIntent();
         allPlayers = (ArrayList<Players>) i.getSerializableExtra(getString(R.string.available_players));
 
-        //buttons
+        editPlayer = (Players) i.getSerializableExtra(getString(R.string.player));
+        addNewPlayer = editPlayer == null;
+
         confirmNewPlayer();
         close();
 
+        if (!addNewPlayer) {
+            setValues(editPlayer);
+        }
+
     }
+
+    //todo duplicates
+    private String getFormatDate(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        int month;
+        if ((month = calendar.get(Calendar.MONTH)) < 10) {
+            month++;
+        }
+        String monthString = String.valueOf(month);
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+        return day + '-' + monthString + '-' + year;
+    }
+
+
+    private void setValues(Players player){
+        EditText name = findViewById(R.id.name_edit_text);
+        name.setText(player.getName());
+
+        EditText surname = findViewById(R.id.surname_edit_text);
+        surname.setText(player.getSurname());
+
+        TextView date = findViewById(R.id.pick_date_text_view);
+        date.setText(getFormatDate(player.getDateOfBirth()));
+
+        EditText polishRank = findViewById(R.id.polish_ranking_number);
+        polishRank.setText(player.getPolishRanking() != -1 ? String.valueOf(player.getPolishRanking()) : getString(R.string.no_rank));
+
+        EditText internationalRank = findViewById(R.id.international_ranking_number);
+        internationalRank.setText(player.getInternationalRanking() != -1 ? String.valueOf(player.getInternationalRanking()) : getString(R.string.no_rank));
+    }
+
+
+
 
     public void confirmNewPlayer(){
 
@@ -141,35 +187,71 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 );
 
                 try{
-                    players.setPolishRanking(Float.valueOf(polishRanking.getText().toString()));
+                    players.setPolishRanking(Integer.valueOf(polishRanking.getText().toString()));
                 }
                 catch (NumberFormatException e){
                     players.setPolishRanking(-1);
                     }
                 try {
-                    players.setInternationalRanking(Float.valueOf(internationalRanking.getText().toString()));
+                    players.setInternationalRanking(Integer.valueOf(internationalRanking.getText().toString()));
                 }
                 catch (NumberFormatException e){
                     players.setInternationalRanking(-1);
                 }
 
-                Executors.newSingleThreadExecutor().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        database.playersDao().insertPlayer(players);
+                if (addNewPlayer) {
+                    saveNewPlayer(players);
+                } else {
+                    updatePlayer(players);
+                }
 
-                    }
-                });
 
-                Intent i = new Intent(getApplicationContext(), CreateTournament.class);
-                if (allPlayers == null)
-                    allPlayers = new ArrayList<>();
-
-                allPlayers.add(players);
-                i.putExtra(getString(R.string.available_players), allPlayers);
-                startActivity(i);
             }
         });
+
+    }
+
+    private void saveNewPlayer(final Players player){
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                database.playersDao().insertPlayer(player);
+
+            }
+        });
+
+        Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+        if (allPlayers == null)
+            allPlayers = new ArrayList<>();
+
+        allPlayers.add(player);
+        i.putExtra(getString(R.string.available_players), allPlayers);
+        startActivity(i);
+    }
+
+    private void updatePlayer(final Players player){
+
+        allPlayers.remove(editPlayer); //todo not removing from listview
+
+        editPlayer.setName(player.getName());
+        editPlayer.setSurname(player.getSurname());
+        editPlayer.setPolishRanking(player.getPolishRanking());
+        editPlayer.setInternationalRanking(player.getInternationalRanking());
+        editPlayer.setDateOfBirth(player.getDateOfBirth());
+
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                database.playersDao().updatePlayer(editPlayer);
+            }
+        });
+
+        Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+        if (allPlayers == null)
+            allPlayers = new ArrayList<>();
+        allPlayers.add(editPlayer);
+        i.putExtra(getString(R.string.available_players), allPlayers);
+        startActivity(i);
 
     }
 

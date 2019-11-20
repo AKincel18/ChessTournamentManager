@@ -6,4 +6,4 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:textColor="#000000"
-    android:textSize="30sp" />
+    android:textSize="30sp"/>

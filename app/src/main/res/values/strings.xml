@@ -6,6 +6,7 @@
     <string name="chosen_players_text_view">Wybrani zawodnicy</string>
     <string name="add_player_button">Dodaj zawodnika</string>
     <string name="about_player">Informacje o zawodniku</string>
+    <string name="edit_player">Edytuj zawodnika</string>
     <string name="remove_player">Usuń zawodnika</string>
     <string name="move_to_chosen_players_button"><![CDATA[->]]></string>
     <string name="move_to_available_players_button"><![CDATA[<-]]></string>
@@ -33,7 +34,6 @@
     <string name="locale">pl</string>
 
 
-
     <!--ConfigureTournament-->
     <string name="pairing_type_text_view">Ręczne uszeregowanie zawodników</string>
     <string name="method_text_view">Metoda przy jednakowych wynikach</string>
@@ -47,6 +47,7 @@
     <string name="count_of_number_switch">Ręczny wybór liczby rund\t</string>
     <string name="auto_count_of_rounds">Standardowa liczba rund: %1$d</string>
     <string name="auto_order_player">Standardowe uszeregowanie:\n\n1. Ranking międzynarodowy\n2. Ranking polski\n3. Alfabetycznie</string>
+    <!--    <string name="no_ranking">Brak</string>-->
 
     <string name="name_player_header">Zawodnik</string>
     <string name="international_ranking_header">Ranking międzynarodowy</string>
@@ -101,7 +102,6 @@
     <string name="set_results">Wprowadź wynik</string>
 
 
-
     <!--DialogBoxes-->
 
     <!--Yes/No-->
@@ -125,8 +125,6 @@
     <string name="too_many_players_title">Za mała liczba zawodników</string>
     <string name="too_many_players_message">Minimalna liczba zawodników w turnieju wynosi 2.</string>
 
-    <string name="exit_message">Czy na pewno chcesz wyjść z turnieju?\nWszystkie dane zostaną utracone!</string>
-
     <string name="positive_button_warning">Tak</string>
     <string name="negative_button_warning">Nie</string>
 
@@ -142,6 +140,7 @@
     <!--Intent-->
     <string name="available_players">availablePlayers</string>
     <string name="players">players</string>
+    <string name="player">player</string>
     <string name="rounds_number">roundsNumber</string>
     <string name="order">order</string>
     <string name="place_order">placeOrder</string>

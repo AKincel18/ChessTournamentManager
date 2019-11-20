@@ -75,6 +75,7 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
     }
 
 
+
     private void initSpinnerPlaceOrder(){
         Spinner spinner = findViewById(R.id.place_order_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.place_order, R.layout.spinner_item_config_tournament);
@@ -106,9 +107,13 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
 
     private List<String> getPlayerList(){
         List<String> list = new ArrayList<>();
+        int counter = 1;
         for (Players player : players) {
-            String tmp = player.toString() + "," + player.getInternationalRanking() + "," + player.getPolishRanking();
+            String internationalRanking = (player.getInternationalRanking() == -1 ? getString(R.string.no_rank) : String.valueOf(player.getInternationalRanking()));
+            String polishRanking = (player.getPolishRanking() == -1 ? getString(R.string.no_rank) : String.valueOf(player.getPolishRanking()));
+            String tmp = String.valueOf(counter) + ". " + player.toString() + "," + internationalRanking + "," + polishRanking;
             list.add(tmp);
+            counter++;
         }
         return list;
     }
@@ -121,18 +126,13 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
                 if (c == 0) {
                     c = Float.compare(o2.getPolishRanking(), o1.getPolishRanking());
                     if (c == 0) {
-                        c = o1.getSurname().compareTo(o2.getSurname());
-                        if (c == 0) {
-                            c = o1.getName().compareTo(o2.getName());
-                        }
+                        c = o1.toString().compareTo(o2.toString());
                     }
                 }
                 return c;
             }
         });
 
-
-        //initListView();
         initListViewHeader();
     }
 
@@ -227,7 +227,7 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
         editText = new EditText(this);
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         editText.setGravity(Gravity.START | Gravity.CENTER);
-        editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         editText.setTextColor(Color.BLACK);
 
 
@@ -239,7 +239,7 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
         params.setMargins(startMargins, 0 , 0,0);
 
         textView.setGravity(Gravity.START | Gravity.CENTER);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         textView.setTextColor(Color.GRAY);
         textView.setLayoutParams(params);
         linearLayout.addView(textView);

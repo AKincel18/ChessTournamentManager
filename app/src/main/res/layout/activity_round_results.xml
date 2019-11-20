@@ -30,8 +30,9 @@
 
         <TextView
             android:id="@+id/lp_text_view"
-            android:layout_width="75dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.05"
             android:gravity="start"
             android:text="@string/lp_text_view"
             android:layout_marginBottom="5dp"
@@ -40,8 +41,9 @@
             android:textSize="25sp" />
         <TextView
             android:id="@+id/white_player_text_view"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.35"
             android:gravity="start"
             android:text="@string/white_player_text_view"
             android:layout_marginBottom="5dp"
@@ -52,8 +54,9 @@
 
         <TextView
             android:id="@+id/black_player_text_view"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.35"
             android:gravity="start"
             android:textSize="25sp"
             android:textColor="@android:color/black"
@@ -63,8 +66,9 @@
 
         <TextView
             android:id="@+id/results_text_view"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.25"
             android:layout_marginEnd="5dp"
             android:gravity="start"
             android:text="@string/results_text_view"

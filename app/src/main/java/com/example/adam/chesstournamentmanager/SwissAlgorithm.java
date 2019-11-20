@@ -6,7 +6,6 @@ import android.util.Log;
 import com.example.adam.chesstournamentmanager.model.Colors;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
-import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -81,7 +80,7 @@ public class SwissAlgorithm implements Serializable {
     }
 
     public void drawNextRound(){
-        sortPlayerByPoints();
+        sortPlayerDuringTournament();
         groupsPlayers = prepareGroups();
 
 
@@ -366,7 +365,7 @@ public class SwissAlgorithm implements Serializable {
 
         for (int i = 1; i< roundsNumber; i++){
             //buchholzMethod();
-            sortPlayerByPoints();
+            sortPlayerDuringTournament();
             groupsPlayers = prepareGroups();
             writeGroups();
             drawNextRound();
@@ -376,7 +375,7 @@ public class SwissAlgorithm implements Serializable {
             writeMatches(i);
         }
 
-        sortPlayerByPoints();
+        sortPlayerAfterTournament();
         writeEndResults();*/
 
     }
@@ -523,7 +522,7 @@ public class SwissAlgorithm implements Serializable {
             else
                 medianBuchholzMethod();
 
-            sortPlayerByPoints();
+            sortPlayerAfterTournament();
         }
         else {
             currentRound++;
@@ -532,8 +531,27 @@ public class SwissAlgorithm implements Serializable {
 
     }
 
+    private void sortPlayerDuringTournament(){
+        Collections.sort(tournamentPlayers, new Comparator<TournamentPlayer>() {
+            @Override
+            public int compare(TournamentPlayer o1, TournamentPlayer o2) {
+                int c = Float.compare(o2.getPoints(), o1.getPoints()); //descending order
+                if (c == 0) {
+                    c = Integer.compare(o2.getInternationalRanking(), o1.getInternationalRanking());
+                    if (c == 0) {
+                        c = Integer.compare(o2.getPolishRanking(), o1.getPolishRanking());
+                        if (c == 0) {
+                            c = o1.toString().compareTo(o2.toString());
+                        }
+                    }
+                }
+                return c;
+            }
+        });
 
-    private void sortPlayerByPoints(){
+    }
+
+    private void sortPlayerAfterTournament(){
 
         Collections.sort(tournamentPlayers, new Comparator<TournamentPlayer>() {
             @Override
@@ -544,41 +562,8 @@ public class SwissAlgorithm implements Serializable {
                     if (placeOrder == 0)
                         c = Float.compare(o2.getBuchholzPoints(), o1.getBuchholzPoints());
                     else
-                        c = Float.compare(o2.getMedianBuchholzMethod(), o2.getMedianBuchholzMethod());
+                        c = Float.compare(o2.getMedianBuchholzMethod(), o1.getMedianBuchholzMethod());
                 }
-/*                if (c == 0){
-
-                    switch (order){
-                        case Constans.ALPHABETICAL_ORDER:
-
-                            c = o1.getSurname().compareTo(o2.getSurname());
-                            if (c == 0)
-                                return o1.getName().compareTo(o2.getName());
-                            return c;
-
-                        case Constans.POLISH_RANKING_ORDER:
-
-                            c = Float.compare(o1.getPolishRanking(), o2.getPolishRanking());
-                            if (c == 0)
-                                c = o1.getSurname().compareTo(o2.getSurname());
-                            if (c == 0)
-                                return o1.getName().compareTo(o2.getName());
-                            return c;
-
-                        case Constans.INTERNATIONAL_RANKING_ORDER:
-
-                            c = Float.compare(o1.getInternationalRanking(), o2.getInternationalRanking());
-                            if (c == 0)
-                                c = o1.getSurname().compareTo(o2.getSurname());
-                            if (c == 0)
-                                return o1.getName().compareTo(o2.getName());
-                            return c;
-
-                        case Constans.RANDOM_ORDER:
-                            Collections.shuffle(tournamentPlayers);
-                            break;
-                    }
-                }*/
                 return c;
             }
         });

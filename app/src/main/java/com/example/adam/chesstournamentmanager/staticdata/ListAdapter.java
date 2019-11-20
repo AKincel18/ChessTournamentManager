@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.R;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class ListAdapter extends ArrayAdapter<String> {

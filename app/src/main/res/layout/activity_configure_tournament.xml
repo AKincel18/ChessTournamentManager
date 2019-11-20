@@ -100,7 +100,7 @@
                     android:gravity="center|start"
                     android:text="@string/count_of_players_text_view"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 

@@ -27,7 +27,9 @@
             android:screenOrientation="landscape" />
         <activity android:name=".activities.Tournament" />
         <activity android:name=".activities.RoundResults" />
-        <activity android:name=".activities.FinalResults"></activity>
+        <activity android:name=".activities.FinalResults" />
+        <activity android:name=".activities.EditPlayer"
+            android:theme="@style/AppTheme.PopUp"></activity>
     </application>
 
 </manifest>

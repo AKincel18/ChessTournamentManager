@@ -24,10 +24,10 @@ public class Players implements Serializable {
     private String surname;
 
     @ColumnInfo(name = "polish_ranking")
-    private float polishRanking;
+    private int polishRanking;
 
     @ColumnInfo(name = "international_ranking")
-    private float internationalRanking;
+    private int internationalRanking;
 
     @ColumnInfo(name = "date_of_birth")
     @TypeConverters(DateConverter.class)
@@ -55,7 +55,7 @@ public class Players implements Serializable {
     }
 
     @Ignore
-    public Players(String name, String surname, float polishRanking, float internationalRanking, Date dateOfBirth) {
+    public Players(String name, String surname, int polishRanking, int internationalRanking, Date dateOfBirth) {
         this.name = name;
         this.surname = surname;
         this.polishRanking = polishRanking;
@@ -87,19 +87,19 @@ public class Players implements Serializable {
         this.surname = surname;
     }
 
-    public float getPolishRanking() {
+    public int getPolishRanking() {
         return polishRanking;
     }
 
-    public void setPolishRanking(float polishRanking) {
+    public void setPolishRanking(int polishRanking) {
         this.polishRanking = polishRanking;
     }
 
-    public float getInternationalRanking() {
+    public int getInternationalRanking() {
         return internationalRanking;
     }
 
-    public void setInternationalRanking(float internationalRanking) {
+    public void setInternationalRanking(int internationalRanking) {
         this.internationalRanking = internationalRanking;
     }
 

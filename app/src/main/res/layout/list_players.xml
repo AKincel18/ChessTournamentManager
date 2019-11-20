@@ -2,12 +2,13 @@
 
 <CheckedTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/simple_checked_text_view"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="50dp"
     android:gravity="center_vertical"
     android:textColor="#000"
-    android:textSize="25sp"
+    android:textSize="20sp"
     android:layout_marginStart="10dp"
     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
     android:text="@string/checked_text_view" />

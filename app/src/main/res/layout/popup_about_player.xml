@@ -33,27 +33,15 @@
 
         <TextView
             android:id="@+id/about_set_name_text_view"
-            android:layout_width="200dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="150dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginEnd="5dp"
             android:textStyle="bold"
-            android:gravity="end"
+            android:gravity="center"
             android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/about_set_surname_text_view"
-            android:layout_width="200dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="200dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="5dp"
-            android:textStyle="bold"
-            android:gravity="start"
-            android:textSize="30sp" />
 
 
     </LinearLayout>

@@ -81,6 +81,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         configureTournament();
         aboutPlayer();
         removePlayer();
+        editPlayer();
 
         selectedAll(R.id.select_all_checkbox, allPlayersListView, selectedAvailablePlayers);
         selectedAll(R.id.select_all_checkbox2, chosenPlayerListView, selectedChosenPlayers);
@@ -97,7 +98,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
             public void run() {
                 //availablePlayers.addAll(database.playersDao().getAllPlayers());
                 for (int i = 1; i<= 15; i++) {
-                    Players players = new Players(String.valueOf(i),"", new Random().nextFloat(),new Random().nextFloat(), new Date());
+                    Players players = new Players(String.valueOf(i),"", new Random().nextInt(10000) + 1,new Random().nextInt(10000) +1, new Date());
                     database.playersDao().insertPlayer(players);
                 }
             }
@@ -109,6 +110,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         }catch (Exception e){
             e.printStackTrace();
         }*/
+
    }
 
 
@@ -248,18 +250,16 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
             public void onClick(View v) {
                 dialog.setContentView(R.layout.popup_about_player);
                 TextView name = dialog.findViewById(R.id.about_set_name_text_view);
-                TextView surname = dialog.findViewById(R.id.about_set_surname_text_view);
                 TextView date = dialog.findViewById(R.id.about_set_date_of_birth_text_view);
                 TextView polishRank = dialog.findViewById(R.id.about_set_polish_ranking_text_view);
                 TextView internationalRank = dialog.findViewById(R.id.about_set_international_ranking_text_view);
 
                 if (selectedAvailablePlayers.size() == 1) {
                     Players p = selectedAvailablePlayers.get(0);
-                    name.setText(p.getName());
-                    surname.setText(p.getSurname());
+                    name.setText(p.toString());
                     date.setText(getFormatDate(p.getDateOfBirth()));
-                    setRankInTextView(p.getPolishRanking(), polishRank);
-                    setRankInTextView(p.getInternationalRanking(), internationalRank);
+                    polishRank.setText(p.getPolishRanking() != -1 ? String.valueOf(p.getPolishRanking()) : getString(R.string.no_rank));
+                    internationalRank.setText(p.getInternationalRanking() != -1 ? String.valueOf(p.getInternationalRanking()) : getString(R.string.no_rank));
                     dialog.show();
                 } else if (selectedAvailablePlayers.size() > 1) {
                     GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
@@ -293,57 +293,20 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         return day + '-' + monthString + '-' + year;
     }
 
-    private void setRankInTextView(float rank, TextView textView){
-        if (rank != -1)
-            textView.setText(String.valueOf(rank));
-        else
-            textView.setText(getString(R.string.no_rank));
-
-    }
-
     private GeneralDialogFragment getDialog(Players player){
-        if (player.getPolishRanking() == -1 && player.getInternationalRanking() != -1) {
-            return GeneralDialogFragment.newInstance(
-                    getString(R.string.remove_player_title_DB),
-                    getString(R.string.remove_player_warning,
-                            player.getName(),
-                            player.getSurname(),
-                            getFormatDate(player.getDateOfBirth()),
-                            getString(R.string.no_rank),
-                            String.valueOf(player.getInternationalRanking())),
-                    getString(R.string.positive_button_warning));
-        } else if (player.getPolishRanking() != -1 && player.getInternationalRanking() == -1){
-            return GeneralDialogFragment.newInstance(
-                    getString(R.string.remove_player_title_DB),
-                    getString(R.string.remove_player_warning,
-                            player.getName(),
-                            player.getSurname(),
-                            getFormatDate(player.getDateOfBirth()),
-                            String.valueOf(player.getPolishRanking()),
-                            getString(R.string.no_rank)),
-                    getString(R.string.positive_button_warning));
-        } else if (player.getPolishRanking() == -1 && player.getInternationalRanking() == -1){
-            return GeneralDialogFragment.newInstance(
-                    getString(R.string.remove_player_title_DB),
-                    getString(R.string.remove_player_warning,
-                            player.getName(),
-                            player.getSurname(),
-                            getFormatDate(player.getDateOfBirth()),
-                            getString(R.string.no_rank),
-                            getString(R.string.no_rank)),
-                    getString(R.string.positive_button_warning));
-        } else {
-            return GeneralDialogFragment.newInstance(
-                    getString(R.string.remove_player_title_DB),
-                    getString(R.string.remove_player_warning,
-                            player.getName(),
-                            player.getSurname(),
-                            getFormatDate(player.getDateOfBirth()),
-                            String.valueOf(player.getPolishRanking()),
-                            String.valueOf(player.getInternationalRanking())),
-                    getString(R.string.positive_button_warning));
-        }
+        String polishRanking = player.getPolishRanking() != -1 ? String.valueOf(player.getPolishRanking()) : getString(R.string.no_rank);
+        String internationalRanking = player.getInternationalRanking() != -1 ? String.valueOf(player.getInternationalRanking()) : getString(R.string.no_rank);
+
+        return GeneralDialogFragment.newInstance(
+                getString(R.string.remove_player_title_DB),
+                getString(R.string.remove_player_warning,
+                player.getName(),
+                player.getSurname(),
+                getFormatDate(player.getDateOfBirth()),
+                polishRanking,
+                internationalRanking), getString(R.string.positive_button_warning));
     }
+
     private void removePlayer(){
         Button removePlayerButton = findViewById(R.id.remove_player);
         removePlayerButton.setOnClickListener(new View.OnClickListener() {
@@ -372,6 +335,34 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         });
     }
 
+    private void editPlayer(){
+        Button editPlayerButton = findViewById(R.id.edit_player);
+        editPlayerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedAvailablePlayers.size() == 1) {
+                    Intent i = new Intent(getApplicationContext(), AddNewPlayer.class);
+                    i.putExtra(getString(R.string.available_players), availablePlayers);
+                    i.putExtra(getString(R.string.player), selectedAvailablePlayers.get(0));
+                    startActivity(i);
+                } else if (selectedAvailablePlayers.size() > 1) {
+                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                            getString(R.string.title_error),
+                            getString(R.string.too_many_player_selected),
+                            getString(R.string.positive_button_warning));
+                    dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
+
+
+                } else  {
+                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                            getString(R.string.title_error),
+                            getString(R.string.no_one_selected),
+                            getString(R.string.positive_button_warning));
+                    dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
+                }
+            }
+        });
+    }
     public void selectedAll(int idCheckBox, final ListView listView, final ArrayList<Players> list ){
         final CheckBox selectAllCheckBox = findViewById(idCheckBox);
 

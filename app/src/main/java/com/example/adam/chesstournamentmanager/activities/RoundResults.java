@@ -70,10 +70,7 @@ public class RoundResults extends AppCompatActivity implements GeneralDialogFrag
                 }
             }
         } else {
-            GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
-                    getString(R.string.title_warning),
-                    getString(R.string.exit_message),
-                    getString(R.string.positive_button_warning));
+            GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
             dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
         }
         return super.onOptionsItemSelected(item);
@@ -86,6 +83,13 @@ public class RoundResults extends AppCompatActivity implements GeneralDialogFrag
         buildMenu();
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+        dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
+    }
+
 
     private void buildMenu() {
         MenuItem menuItem = myMenu.findItem(R.id.rounds_menu);
@@ -109,14 +113,14 @@ public class RoundResults extends AppCompatActivity implements GeneralDialogFrag
         linearLayout.setLayoutParams(params);
         matchesRelativeLayout.addView(linearLayout);
 
-        LinearLayout.LayoutParams paramsLp = new LinearLayout.LayoutParams(75, 50);
+        LinearLayout.LayoutParams paramsLp = new LinearLayout.LayoutParams(0, 50, 0.05f);
         paramsLp.setMargins(0, 5, 5, 5);
 
 
-        LinearLayout.LayoutParams paramsPlayer1 = new LinearLayout.LayoutParams(250, 50);
-        paramsPlayer1.setMargins(0, 5, 0, 5);
+        LinearLayout.LayoutParams paramsPlayer1 = new LinearLayout.LayoutParams(0, 50, 0.35f);
+        paramsPlayer1.setMargins(0, 5, 5, 5);
 
-        LinearLayout.LayoutParams paramsResult = new LinearLayout.LayoutParams(150, 50);
+        LinearLayout.LayoutParams paramsResult = new LinearLayout.LayoutParams(0, 50, 0.25f);
         paramsResult.setMargins(15, 5, 0, 5);
 
         List<Match> matches = allMatches.get(currentRound - 1);
@@ -127,7 +131,7 @@ public class RoundResults extends AppCompatActivity implements GeneralDialogFrag
 
             TextView lpTextView = new TextView(this);
             lpTextView.setText(getString(R.string.lp, (i + 1)));
-            lpTextView.setTextSize(30);
+            lpTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
             lpTextView.setGravity(Gravity.START);
             lpTextView.setTextColor(Color.BLACK);
             lpTextView.setLayoutParams(paramsLp);
@@ -135,14 +139,14 @@ public class RoundResults extends AppCompatActivity implements GeneralDialogFrag
 
             TextView player1TextView = new TextView(this);
             player1TextView.setText(matches.get(i).getPlayer1().toString());
-            player1TextView.setTextSize(30);
+            player1TextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
             player1TextView.setGravity(Gravity.START);
             player1TextView.setLayoutParams(paramsPlayer1);
             l.addView(player1TextView);
 
             TextView player2TextView = new TextView(this);
             player2TextView.setText(matches.get(i).getPlayer2().toString());
-            player2TextView.setTextSize(30);
+            player2TextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
             player2TextView.setGravity(Gravity.START);
             player2TextView.setLayoutParams(paramsPlayer1);
             l.addView(player2TextView);
@@ -151,7 +155,7 @@ public class RoundResults extends AppCompatActivity implements GeneralDialogFrag
 
             TextView resultTextView = new TextView(this);
             resultTextView.setText(getMatchResult(player1TextView, player2TextView, matches.get(i)));
-            resultTextView.setTextSize(30);
+            resultTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
             resultTextView.setGravity(Gravity.START);
             resultTextView.setTextColor(Color.BLACK);
             resultTextView.setLayoutParams(paramsResult);

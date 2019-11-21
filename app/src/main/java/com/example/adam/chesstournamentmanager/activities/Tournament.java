@@ -113,7 +113,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
                         }
                     }
                 } else {
-                    GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+                    GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
                     dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
 
                 }
@@ -156,7 +156,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
 
     @Override
     public void onBackPressed() {
-        GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+        GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
         dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
     }
 
@@ -233,8 +233,8 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
                     textViews[i + 1].setTextColor(Color.RED);
                 }
                 else {
-                    textViews[i].setTextColor(Color.BLACK);
-                    textViews[i + 1].setTextColor(Color.BLACK);
+                    textViews[i].setTextColor(getColor(R.color.colorPrimaryDark));
+                    textViews[i + 1].setTextColor(getColor(R.color.colorPrimaryDark));
                 }
 
                 textViews[i].setText(matches.get(count).getPlayer1().toString());
@@ -349,7 +349,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         for (int i =0;i<matches.size() * 2; i++){
             TextView textView = new TextView(this);
             textView.setId(i);
-            textView.setTextColor(Color.BLACK);
+            textView.setTextColor(getColor(R.color.colorPrimaryDark));
             textViews[i] = textView;
         }
 
@@ -385,7 +385,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
                 textView.setLayoutParams(paramsBye);
                 textView.setText(getString(R.string.white_won_result));
                 textView.setGravity(Gravity.CENTER);
-                textView.setTextColor(Color.BLACK);
+                textView.setTextColor(getColor(R.color.colorPrimaryDark));
                 textViews[i + 1].setTextColor(Color.RED);
                 l.addView(textView);
             }
@@ -424,9 +424,9 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
 
         List<String> list = new ArrayList<>(Arrays.asList(this.getResources().getStringArray(R.array.results_array)));
         list.add(getString(R.string.set_results)); //add hint
-        SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_item, list);
+        SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_result, list);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_result);
         spinner.setAdapter(adapter);
         spinner.setSelection(adapter.getCount());
 

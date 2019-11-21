@@ -51,8 +51,6 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
         setContentView(R.layout.popup_add_new_player);
 
 
-
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 

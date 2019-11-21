@@ -14,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -84,25 +82,6 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
 
 
         dialog = new Dialog(this);
-
-
-/*        Executors.newSingleThreadExecutor().execute(    new Runnable() {
-            @Override
-            public void run() {
-                //availablePlayers.addAll(database.playersDao().getAllPlayers());
-                for (int i = 1; i<= 15; i++) {
-                    Players players = new Players(String.valueOf(i),"", new Random().nextInt(10000) + 1,new Random().nextInt(10000) +1, new Date());
-                    database.playersDao().insertPlayer(players);
-                }
-            }
-        });
-        try {
-
-            Thread.sleep(100);//wait to fetching data from database
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }*/
 
    }
 

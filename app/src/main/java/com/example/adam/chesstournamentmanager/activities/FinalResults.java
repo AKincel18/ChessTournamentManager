@@ -86,7 +86,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
                         startActivity(i);
                     }
                 } else {
-                    GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+                    GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
                     dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
                 }
                 return true;
@@ -115,7 +115,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
     @Override
     public void onBackPressed() {
-        GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+        GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
         dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
     }
 
@@ -134,7 +134,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
         paramsBuchholzHeader.setMargins(0,0,0,5);
 
         TextView buchholzHeaderTextView = new TextView(this);
-        buchholzHeaderTextView.setTextColor(Color.BLACK);
+        buchholzHeaderTextView.setTextColor(getColor(R.color.colorAccent));
         buchholzHeaderTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
         buchholzHeaderTextView.setGravity(Gravity.START);
         buchholzHeaderTextView.setLayoutParams(paramsBuchholzHeader);
@@ -182,7 +182,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
             TextView positionTextView = new TextView(this);
             positionTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            positionTextView.setTextColor(Color.BLACK);
+            positionTextView.setTextColor(getColor(R.color.colorPrimaryDark));
             positionTextView.setGravity(Gravity.START);
             positionTextView.setText(getString(R.string.lp, (i + 1)));
             positionTextView.setLayoutParams(paramsPosition);
@@ -190,7 +190,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
             TextView playerTextView = new TextView(this);
             playerTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            playerTextView.setTextColor(Color.BLACK);
+            playerTextView.setTextColor(getColor(R.color.colorPrimaryDark));
             playerTextView.setGravity(Gravity.START);
             playerTextView.setText(playerList.get(i).toString());
             playerTextView.setLayoutParams(paramsPlayerTextView);
@@ -213,7 +213,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
             TextView pointTextView = new TextView(this);
             pointTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            pointTextView.setTextColor(Color.BLACK);
+            pointTextView.setTextColor(getColor(R.color.colorPrimaryDark));
             pointTextView.setGravity(Gravity.START);
             pointTextView.setLayoutParams(paramsPointsTextView);
 
@@ -226,7 +226,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
 
                 TextView buchholzPointsTextView = new TextView(this);
-                buchholzPointsTextView.setTextColor(Color.BLACK);
+                buchholzPointsTextView.setTextColor(getColor(R.color.colorPrimaryDark));
                 buchholzPointsTextView.setGravity(Gravity.START);
                 buchholzPointsTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
                 buchholzPointsTextView.setLayoutParams(paramsPointsTextView);

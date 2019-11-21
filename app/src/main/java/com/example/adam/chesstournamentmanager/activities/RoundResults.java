@@ -96,7 +96,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
                     }
                     //}
                 } else {
-                    GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+                    GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
                     dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
                 }
                 return true;
@@ -124,7 +124,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
     @Override
     public void onBackPressed() {
-        GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+        GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
         dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
     }
 
@@ -171,7 +171,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
             lpTextView.setText(getString(R.string.lp, (i + 1)));
             lpTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
             lpTextView.setGravity(Gravity.START);
-            lpTextView.setTextColor(Color.BLACK);
+            lpTextView.setTextColor(getColor(R.color.colorPrimaryDark));
             lpTextView.setLayoutParams(paramsLp);
             l.addView(lpTextView);
 
@@ -195,7 +195,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
             resultTextView.setText(getMatchResult(player1TextView, player2TextView, matches.get(i)));
             resultTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
             resultTextView.setGravity(Gravity.START);
-            resultTextView.setTextColor(Color.BLACK);
+            resultTextView.setTextColor(getColor(R.color.colorPrimaryDark));
             resultTextView.setLayoutParams(paramsResult);
             l.addView(resultTextView);
 

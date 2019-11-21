@@ -2,7 +2,6 @@ package com.example.adam.chesstournamentmanager.activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -79,8 +78,8 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
 
     private void initSpinnerPlaceOrder(){
         Spinner spinner = findViewById(R.id.place_order_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.place_order, R.layout.spinner_item_config_tournament);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.place_order, R.layout.color_spinner_config_layout);
+        adapter.setDropDownViewResource(R.layout.spinner_config_tournament);
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -99,7 +98,7 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
 
     private void initListViewHeader() {
         //ListView listView = findViewById(R.id.players_list_view);
-        ViewGroup headerView = (ViewGroup) getLayoutInflater().inflate(R.layout.header, listView, false);
+        ViewGroup headerView = (ViewGroup) getLayoutInflater().inflate(R.layout.start_list_header, listView, false);
         listView.addHeaderView(headerView);
 
         ListAdapter adapter = new ListAdapter(this, R.layout.row_layout, R.id.name_player_row_layout, getPlayerList());
@@ -229,7 +228,7 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         editText.setGravity(Gravity.START | Gravity.CENTER);
         editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        editText.setTextColor(Color.BLACK);
+        editText.setTextColor(getColor(R.color.colorPrimaryDark));
 
 
         textView.setText(getString(R.string.auto_count_of_rounds, optimalCountOfRounds));
@@ -241,7 +240,7 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
 
         textView.setGravity(Gravity.START | Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        textView.setTextColor(Color.GRAY);
+        textView.setTextColor(getColor(R.color.colorPrimaryDark));
         textView.setLayoutParams(params);
         linearLayout.addView(textView);
 

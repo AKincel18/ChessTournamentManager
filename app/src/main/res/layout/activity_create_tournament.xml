@@ -5,17 +5,6 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-<!--    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="75dp">
-
-
-
-
-
-    </LinearLayout>-->
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,8 +26,9 @@
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="@string/available_players_text_view"
-                android:textColor="@android:color/black"
-                android:textSize="30sp" />
+                android:textColor="@color/colorAccent"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <ListView
                 android:id="@+id/available_players_list_view"
@@ -54,7 +44,9 @@
                 android:layout_height="46dp"
                 android:layout_marginStart="340dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/select_all_checkbox" />
+                android:text="@string/select_all_checkbox"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,30 +56,35 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:orientation="horizontal"
                     android:layout_marginStart="50dp"
-                    android:layout_marginEnd="50dp">
+                    android:layout_marginEnd="50dp"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/about_player"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="8dp"
-                        android:text="@string/about_player" />
-
+                        android:layout_weight="1"
+                        android:background="@drawable/layout_border_button"
+                        android:text="@string/about_player"
+                        android:textColor="@color/colorAccent" />
 
                     <Button
-                        android:id="@+id/remove_player"
+                        android:id="@+id/add_player_button"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="8dp"
-                        android:text="@string/remove_player" />
+                        android:layout_weight="1"
+                        android:background="@drawable/layout_border_button"
+                        android:text="@string/add_player_button"
+                        android:textColor="@color/colorAccent" />
+
+
 
 
                 </LinearLayout>
@@ -95,31 +92,39 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
                     android:layout_marginStart="50dp"
-                    android:layout_marginEnd="50dp">
+                    android:layout_marginEnd="50dp"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/edit_player"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginBottom="10dp"
-                        android:text="@string/edit_player" />
+                        android:layout_weight="1"
+                        android:background="@drawable/layout_border_button"
+                        android:text="@string/edit_player"
+                        android:textColor="@color/colorAccent" />
+
+
+
 
                     <Button
-                        android:id="@+id/add_player_button"
+                        android:id="@+id/remove_player"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginBottom="10dp"
-                        android:text="@string/add_player_button" />
+                        android:layout_weight="1"
+                        android:background="@drawable/layout_border_button"
+                        android:text="@string/remove_player"
+                        android:textColor="@color/colorAccent" />
+
 
                 </LinearLayout>
 
@@ -142,7 +147,9 @@
                 android:layout_marginTop="170dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="75dp"
+                android:background="@drawable/layout_border_button"
                 android:text="@string/move_to_chosen_players_button"
+                android:textColor="@color/colorAccent"
                 android:textSize="30sp" />
 
             <Button
@@ -153,7 +160,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:background="@drawable/layout_border_button"
                 android:text="@string/move_to_available_players_button"
+                android:textColor="@color/colorAccent"
                 android:textSize="30sp" />
 
 
@@ -174,9 +183,10 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:textColor="@android:color/black"
                 android:text="@string/chosen_players_text_view"
-                android:textSize="30sp" />
+                android:textColor="@color/colorAccent"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <ListView
                 android:id="@+id/chosen_players_list_view"
@@ -193,7 +203,9 @@
                 android:layout_marginStart="340dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/select_all_checkbox" />
+                android:text="@string/select_all_checkbox"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -203,12 +215,14 @@
                     android:id="@+id/config_tournament_button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center|center_vertical"
                     android:layout_marginStart="60dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="60dp"
                     android:layout_marginBottom="30dp"
-                    android:layout_gravity="center|center_vertical"
-                    android:text="@string/config_tournament_button" />
+                    android:background="@drawable/layout_border_button"
+                    android:text="@string/config_tournament_button"
+                    android:textColor="@color/colorAccent" />
 
             </LinearLayout>
 
@@ -216,20 +230,6 @@
 
 
     </LinearLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

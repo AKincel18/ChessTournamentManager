@@ -168,6 +168,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
                 DateFormat format = new SimpleDateFormat(getString(R.string.format_date), new Locale(getString(R.string.locale)));
 
                 formatDate = new Date();
+                //todo wazne odkomentować
 /*                try {
                     formatDate = format.parse(date.getText().toString());
                 }
@@ -226,12 +227,12 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
 
         allPlayers.add(player);
         i.putExtra(getString(R.string.available_players), allPlayers);
+        i.putExtra(getString(R.string.toast_message),getString(R.string.added_player));
         startActivity(i);
     }
 
     private void updatePlayer(final Players player){
 
-        allPlayers.remove(editPlayer); //todo not removing from listview
 
         editPlayer.setName(player.getName());
         editPlayer.setSurname(player.getSurname());
@@ -249,8 +250,10 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
         Intent i = new Intent(getApplicationContext(), CreateTournament.class);
         if (allPlayers == null)
             allPlayers = new ArrayList<>();
+
         allPlayers.add(editPlayer);
         i.putExtra(getString(R.string.available_players), allPlayers);
+        i.putExtra(getString(R.string.toast_message),getString(R.string.edited_player));
         startActivity(i);
 
     }
@@ -280,6 +283,14 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
     public void onOkClicked(GeneralDialogFragment dialog) {
         if (dialog.getArguments().getString(getString(R.string.title)).equals(getString(R.string.title_warning))) {
             Intent i = new Intent(this, CreateTournament.class);
+            if (!addNewPlayer) {
+                allPlayers.add(editPlayer);
+                i.putExtra(getString(R.string.toast_message),getString(R.string.not_edit_player));
+            }
+            else {
+                i.putExtra(getString(R.string.toast_message),getString(R.string.not_added_player));
+            }
+            i.putExtra(getString(R.string.available_players), allPlayers);
             startActivity(i);
         }
     }

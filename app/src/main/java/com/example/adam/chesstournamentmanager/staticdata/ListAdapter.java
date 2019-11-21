@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.R;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class ListAdapter extends ArrayAdapter<String> {
@@ -30,6 +28,8 @@ public class ListAdapter extends ArrayAdapter<String> {
 
     private static class ViewHolder {
 
+        private TextView lpColumn;
+
         private TextView nameColumn;
 
         private TextView internationalRankColumn;
@@ -45,6 +45,7 @@ public class ListAdapter extends ArrayAdapter<String> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rowView = inflater.inflate(vg, parent, false);
             ViewHolder holder = new ViewHolder();
+            holder.lpColumn = rowView.findViewById(R.id.lp_row_layout);
             holder.nameColumn = rowView.findViewById(R.id.name_player_row_layout);
             holder.internationalRankColumn = rowView.findViewById(R.id.international_ranking_row_layout);
             holder.polishRankColumn = rowView.findViewById(R.id.polish_ranking_row_layout);
@@ -54,9 +55,10 @@ public class ListAdapter extends ArrayAdapter<String> {
         String[] items = items_list.get(position).split(",");//items_list[position].split(",");
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
-        holder.nameColumn.setText(items[0]);
-        holder.internationalRankColumn.setText(items[1]);
-        holder.polishRankColumn.setText(items[2]);
+        holder.lpColumn.setText(items[0]);
+        holder.nameColumn.setText(items[1]);
+        holder.internationalRankColumn.setText(items[2]);
+        holder.polishRankColumn.setText(items[3]);
 
         return rowView;
     }

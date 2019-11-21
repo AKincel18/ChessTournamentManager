@@ -14,11 +14,14 @@
     <string name="checked_text_view">Checked Text View</string>
     <string name="select_all_checkbox">Zaznacz wszystko</string>
 
-    <!--Messages-->
+    <!--Toast-->
     <string name="nothing_selected">Nie zaznaczono zawodnika</string>
     <string name="added_player">Dodano zawodnika</string>
     <string name="removed_player">Usunięto zawodnika</string>
     <string name="removed_players">Usunięto zawodników</string>
+    <string name="edited_player">Edytowano zawodnika</string>
+    <string name="not_added_player">Nie dodano zawodnika</string>
+    <string name="not_edit_player">Nie edytowano zawodnika</string>
 
 
     <!--AddNewPlayer-->
@@ -147,6 +150,7 @@
     <string name="swiss">swiss</string>
     <string name="current_round">currentRound</string>
     <string name="go_to_round">goToRound</string>
+    <string name="toast_message">stringMessage</string>
 
 
     <!--Bundle-->

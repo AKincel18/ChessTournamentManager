@@ -38,7 +38,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
     static private ArrayList<Players> availablePlayers = new ArrayList<>();
     static private ArrayList<Players> chosenPlayers = new ArrayList<>();
 
-    static boolean isInitPlayers = true;
+    //static boolean isInitPlayers = true;
 
     private Database database;
 
@@ -59,10 +59,18 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         if (i.getSerializableExtra(getString(R.string.available_players)) !=  null){
             availablePlayers =(ArrayList<Players>)i.getSerializableExtra(getString(R.string.available_players));
             Toast.makeText(this, getString(R.string.added_player), Toast.LENGTH_LONG).show();
+            initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
+        }
+        else {
+            initPlayers();
         }
 
+        String message;
+        if ( (message = i.getStringExtra(getString(R.string.toast_message))) != null) {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        }
 
-        if (isInitPlayers) {
+/*        if (isInitPlayers) {
             initPlayers(); //fetch players from database
             try {
 
@@ -71,7 +79,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
             }catch (Exception e){
                 e.printStackTrace();
             }
-        }
+        }*/
 
 
         //buttons
@@ -87,7 +95,6 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         selectedAll(R.id.select_all_checkbox2, chosenPlayerListView, selectedChosenPlayers);
 
         initListView(chosenPlayerListView, chosenPlayers, selectedChosenPlayers);
-        initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
 
 
         dialog = new Dialog(this);
@@ -115,11 +122,11 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
 
 
-    @Override
+/*    @Override
     protected void onPause(){
         super.onPause();
         isInitPlayers = false;
-    }
+    }*/
 
 
 
@@ -129,7 +136,9 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
             @Override
             public void run() {
                 availablePlayers.addAll(database.playersDao().getAllPlayers());
+                initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
             }
+
         });
     }
 
@@ -262,19 +271,9 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
                     internationalRank.setText(p.getInternationalRanking() != -1 ? String.valueOf(p.getInternationalRanking()) : getString(R.string.no_rank));
                     dialog.show();
                 } else if (selectedAvailablePlayers.size() > 1) {
-                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
-                            getString(R.string.title_error),
-                            getString(R.string.too_many_player_selected),
-                            getString(R.string.positive_button_warning));
-                    dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
-
-
+                    moreThanOnePlayerSelectedDialogBox();
                 } else  {
-                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
-                            getString(R.string.title_error),
-                            getString(R.string.no_one_selected),
-                            getString(R.string.positive_button_warning));
-                    dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
+                    noOnePlayerSelectedDialogBox();
                 }
             }
         });
@@ -324,11 +323,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
                             getString(R.string.positive_button_warning));
                     dialog.show(getSupportFragmentManager(), getString(R.string.confirmation_removing_player));
                 } else  {
-                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
-                            getString(R.string.title_error),
-                            getString(R.string.no_one_selected),
-                            getString(R.string.positive_button_warning));
-                    dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
+                    noOnePlayerSelectedDialogBox();
             }
 
             }
@@ -341,27 +336,35 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
             @Override
             public void onClick(View v) {
                 if (selectedAvailablePlayers.size() == 1) {
+                    availablePlayers.remove(selectedAvailablePlayers.get(0));
                     Intent i = new Intent(getApplicationContext(), AddNewPlayer.class);
                     i.putExtra(getString(R.string.available_players), availablePlayers);
                     i.putExtra(getString(R.string.player), selectedAvailablePlayers.get(0));
                     startActivity(i);
                 } else if (selectedAvailablePlayers.size() > 1) {
-                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
-                            getString(R.string.title_error),
-                            getString(R.string.too_many_player_selected),
-                            getString(R.string.positive_button_warning));
-                    dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
-
-
+                    moreThanOnePlayerSelectedDialogBox();
                 } else  {
-                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
-                            getString(R.string.title_error),
-                            getString(R.string.no_one_selected),
-                            getString(R.string.positive_button_warning));
-                    dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
+                    noOnePlayerSelectedDialogBox();
                 }
             }
         });
+    }
+
+    private void moreThanOnePlayerSelectedDialogBox() {
+        GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                getString(R.string.title_error),
+                getString(R.string.too_many_player_selected),
+                getString(R.string.positive_button_warning));
+        dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
+    }
+
+    private void noOnePlayerSelectedDialogBox() {
+
+        GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                getString(R.string.title_error),
+                getString(R.string.no_one_selected),
+                getString(R.string.positive_button_warning));
+        dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
     }
     public void selectedAll(int idCheckBox, final ListView listView, final ArrayList<Players> list ){
         final CheckBox selectAllCheckBox = findViewById(idCheckBox);

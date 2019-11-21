@@ -12,7 +12,17 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.4"
+            android:layout_weight="0.06"
+            android:id="@+id/lp_row_layout"
+            android:padding="5dp"
+            android:gravity="start"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.34"
             android:id="@+id/name_player_row_layout"
             android:padding="5dp"
             android:gravity="start"

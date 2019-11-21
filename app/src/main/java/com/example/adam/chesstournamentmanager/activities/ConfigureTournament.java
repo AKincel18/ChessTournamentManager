@@ -111,7 +111,7 @@ public class ConfigureTournament extends AppCompatActivity implements GeneralDia
         for (Players player : players) {
             String internationalRanking = (player.getInternationalRanking() == -1 ? getString(R.string.no_rank) : String.valueOf(player.getInternationalRanking()));
             String polishRanking = (player.getPolishRanking() == -1 ? getString(R.string.no_rank) : String.valueOf(player.getPolishRanking()));
-            String tmp = String.valueOf(counter) + ". " + player.toString() + "," + internationalRanking + "," + polishRanking;
+            String tmp = String.valueOf(counter) + ".," + player.toString() + "," + internationalRanking + "," + polishRanking;
             list.add(tmp);
             counter++;
         }

@@ -1,8 +1,10 @@
-package com.example.adam.chesstournamentmanager;
+package com.example.adam.chesstournamentmanager.swissalgorithm;
 
 
 import android.util.Log;
 
+import com.example.adam.chesstournamentmanager.matches.Match;
+import com.example.adam.chesstournamentmanager.matches.MatchResult;
 import com.example.adam.chesstournamentmanager.model.Colors;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;

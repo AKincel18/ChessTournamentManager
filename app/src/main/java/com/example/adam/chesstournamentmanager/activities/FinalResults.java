@@ -1,7 +1,6 @@
 package com.example.adam.chesstournamentmanager.activities;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
@@ -15,21 +14,20 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.adam.chesstournamentmanager.R;
-import com.example.adam.chesstournamentmanager.SwissAlgorithm;
+import com.example.adam.chesstournamentmanager.swissalgorithm.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
+import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
 
 import java.util.List;
 import java.util.Locale;
 
-public class FinalResults extends AppCompatActivity implements GeneralDialogFragment.OnDialogFragmentClickListener{
+public class FinalResults extends AppCompatActivity implements OnDialogFragmentClickListener {
 
     private int currentRound;
 

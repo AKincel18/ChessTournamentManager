@@ -14,20 +14,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Executors;
 
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.database.Database;
 import com.example.adam.chesstournamentmanager.model.Players;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
+import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
 
-public class CreateTournament extends AppCompatActivity implements GeneralDialogFragment.OnDialogFragmentClickListener {
+import static com.example.adam.chesstournamentmanager.staticdata.FormatDateToString.getFormatDate;
+
+public class CreateTournament extends AppCompatActivity implements OnDialogFragmentClickListener {
 
     private ArrayList<Players> selectedAvailablePlayers = new ArrayList<>();
     private ArrayList<Players> selectedChosenPlayers = new ArrayList<>();
@@ -37,8 +37,6 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
     static private ArrayList<Players> availablePlayers = new ArrayList<>();
     static private ArrayList<Players> chosenPlayers = new ArrayList<>();
-
-    //static boolean isInitPlayers = true;
 
     private Database database;
 
@@ -56,31 +54,19 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         database = Database.getInstance(this);
 
         Intent i = getIntent();
-        if (i.getSerializableExtra(getString(R.string.available_players)) !=  null){ //todo po zakonczeniu turnieju dubluja sie zawodnicy
+        if (i.getSerializableExtra(getString(R.string.available_players)) !=  null){
             availablePlayers =(ArrayList<Players>)i.getSerializableExtra(getString(R.string.available_players));
             Toast.makeText(this, getString(R.string.added_player), Toast.LENGTH_LONG).show();
             initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
         }
         else {
-            initPlayers();
+            fetchPlayers();
         }
 
         String message;
         if ( (message = i.getStringExtra(getString(R.string.toast_message))) != null) {
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         }
-
-/*        if (isInitPlayers) {
-            initPlayers(); //fetch players from database
-            try {
-
-                Thread.sleep(100);//wait to fetching data from database
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }*/
-
 
         //buttons
         moveToChosenPlayers();
@@ -122,16 +108,12 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
 
 
 
-/*    @Override
-    protected void onPause(){
-        super.onPause();
-        isInitPlayers = false;
-    }*/
 
 
+    private void fetchPlayers(){
 
-    private void initPlayers(){
-
+        chosenPlayers.clear();
+        availablePlayers.clear();
         Executors.newSingleThreadExecutor().execute(    new Runnable() {
             @Override
             public void run() {
@@ -279,19 +261,6 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         });
     }
 
-    private String getFormatDate(Date date){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        int month;
-        if ((month = calendar.get(Calendar.MONTH)) < 10) {
-            month++;
-        }
-        String monthString = String.valueOf(month);
-        String year = String.valueOf(calendar.get(Calendar.YEAR));
-        return day + '-' + monthString + '-' + year;
-    }
-
     private GeneralDialogFragment getDialog(Players player){
         String polishRanking = player.getPolishRanking() != -1 ? String.valueOf(player.getPolishRanking()) : getString(R.string.no_rank);
         String internationalRanking = player.getInternationalRanking() != -1 ? String.valueOf(player.getInternationalRanking()) : getString(R.string.no_rank);
@@ -366,6 +335,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
                 getString(R.string.positive_button_warning));
         dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
     }
+
     public void selectedAll(int idCheckBox, final ListView listView, final ArrayList<Players> list ){
         final CheckBox selectAllCheckBox = findViewById(idCheckBox);
 
@@ -428,7 +398,6 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
             initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
             CheckBox checkBox = findViewById(R.id.select_all_checkbox);
             checkBox.setChecked(false);
-
         }
     }
 }

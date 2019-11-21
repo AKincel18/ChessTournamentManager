@@ -1,4 +1,4 @@
-package com.example.adam.chesstournamentmanager;
+package com.example.adam.chesstournamentmanager.matches;
 
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
 

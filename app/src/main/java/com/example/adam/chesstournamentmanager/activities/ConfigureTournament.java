@@ -23,10 +23,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.R;
-import com.example.adam.chesstournamentmanager.SwissAlgorithm;
+import com.example.adam.chesstournamentmanager.swissalgorithm.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.model.Players;
-import com.example.adam.chesstournamentmanager.staticdata.ListAdapter;
+import com.example.adam.chesstournamentmanager.staticdata.adapters.ListAdapter;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
+import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
 
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ConfigureTournament extends AppCompatActivity implements GeneralDialogFragment.OnDialogFragmentClickListener{
+public class ConfigureTournament extends AppCompatActivity implements OnDialogFragmentClickListener {
 
     private ArrayList<Players> players;
     private ListView listView;

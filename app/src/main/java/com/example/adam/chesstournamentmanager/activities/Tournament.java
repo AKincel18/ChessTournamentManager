@@ -24,19 +24,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.adam.chesstournamentmanager.Match;
-import com.example.adam.chesstournamentmanager.MatchResult;
+import com.example.adam.chesstournamentmanager.matches.Match;
+import com.example.adam.chesstournamentmanager.matches.MatchResult;
 import com.example.adam.chesstournamentmanager.R;
-import com.example.adam.chesstournamentmanager.SwissAlgorithm;
+import com.example.adam.chesstournamentmanager.swissalgorithm.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.model.Players;
-import com.example.adam.chesstournamentmanager.staticdata.SpinnerAdapter;
+import com.example.adam.chesstournamentmanager.staticdata.adapters.SpinnerAdapter;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
+import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Tournament extends AppCompatActivity implements GeneralDialogFragment.OnDialogFragmentClickListener{
+public class Tournament extends AppCompatActivity implements OnDialogFragmentClickListener {
 
     private TextView[] textViews;
 

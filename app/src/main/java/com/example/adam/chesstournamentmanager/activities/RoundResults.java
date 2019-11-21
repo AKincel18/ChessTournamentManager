@@ -17,16 +17,16 @@ import android.view.SubMenu;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.adam.chesstournamentmanager.Match;
+import com.example.adam.chesstournamentmanager.matches.Match;
 import com.example.adam.chesstournamentmanager.R;
-import com.example.adam.chesstournamentmanager.SwissAlgorithm;
+import com.example.adam.chesstournamentmanager.swissalgorithm.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
+import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
 
 import java.util.List;
 
-public class RoundResults extends AppCompatActivity implements GeneralDialogFragment.OnDialogFragmentClickListener{
+public class RoundResults extends AppCompatActivity implements OnDialogFragmentClickListener {
 
     private Menu myMenu;
 

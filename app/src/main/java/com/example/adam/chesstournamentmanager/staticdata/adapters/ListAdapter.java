@@ -1,4 +1,4 @@
-package com.example.adam.chesstournamentmanager.staticdata;
+package com.example.adam.chesstournamentmanager.staticdata.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -10,13 +10,7 @@ import android.support.annotation.NonNull;
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
-public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragment.OnDialogFragmentClickListener> {
-
-    // interface to handle the dialog click back to the Activity
-    public interface OnDialogFragmentClickListener {
-        void onOkClicked(GeneralDialogFragment dialog);
-        void onCancelClicked(GeneralDialogFragment dialog);
-    }
+public class GeneralDialogFragment extends BaseDialogFragment<OnDialogFragmentClickListener> {
 
     // Create an instance of the Dialog with the input
     public static GeneralDialogFragment newInstance(String title, String message, String positiveBtn) {
@@ -33,6 +27,7 @@ public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragm
         return GeneralDialogFragment.newInstance(
                 Constans.WARNING_TITLE, Constans.EXIT_MESSAGE, Constans.POSITIVE_BUTTON);
     }
+
     // Create a Dialog using default AlertDialog builder , if not inflate custom view in onCreateView
     @NonNull
     @Override

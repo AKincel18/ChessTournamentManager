@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,10 +25,12 @@ import java.util.concurrent.Executors;
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.database.Database;
 import com.example.adam.chesstournamentmanager.model.Players;
-import com.example.adam.chesstournamentmanager.staticdata.Constans;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
+import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
 
-public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragment.OnDialogFragmentClickListener {
+import static com.example.adam.chesstournamentmanager.staticdata.FormatDateToString.getFormatDate;
+
+public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentClickListener {
 
     private TextView pickDateTextView;
     private DatePickerDialog.OnDateSetListener dateSetListener;
@@ -117,19 +118,7 @@ public class AddNewPlayer extends FragmentActivity implements GeneralDialogFragm
 
     }
 
-    //todo duplicates
-    private String getFormatDate(Date date){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        int month;
-        if ((month = calendar.get(Calendar.MONTH)) < 10) {
-            month++;
-        }
-        String monthString = String.valueOf(month);
-        String year = String.valueOf(calendar.get(Calendar.YEAR));
-        return day + '-' + monthString + '-' + year;
-    }
+
 
 
     private void setValues(Players player){

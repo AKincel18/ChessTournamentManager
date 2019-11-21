@@ -49,18 +49,9 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
 
     private List<Match> matches;
 
-    private int roundsNumber;
-
     private Button nextRoundButton;
 
-
     private Menu myMenu;
-
-    private int currentView;
-
-    private ScrollView scrollView;
-
-    private DrawerLayout drawerLayout;
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
@@ -73,10 +64,46 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         setContentView(R.layout.activity_tournament);
         nextRoundButton = findViewById(R.id.next_round_button);
         titleTextView = findViewById(R.id.round_count_text_view);
-        scrollView = findViewById(R.id.scroll_view);
 
 
-        drawerLayout = findViewById(R.id.drawer_layout);
+
+
+        swissAlgorithm = SwissAlgorithm.getINSTANCE();
+
+        if (swissAlgorithm == null) {
+
+            Intent i = getIntent();
+            int roundsNumber = i.getIntExtra(getString(R.string.rounds_number), 0);
+            int placeOrder = i.getIntExtra(getString(R.string.place_order), 0);
+            List<Players> players = (List<Players>) i.getSerializableExtra(getString(R.string.players));
+
+            swissAlgorithm = SwissAlgorithm.initSwissAlgorithm(roundsNumber, placeOrder);
+            swissAlgorithm.initTournamentPlayers(players);
+            swissAlgorithm.drawFirstRound();
+
+        }
+
+        initNavigationMenu();
+        buildRoundsView();
+        nextRoundButton();
+        buildMenu();
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item) || actionBarDrawerToggle.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
+        dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
+    }
+
+    private void initNavigationMenu(){
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
 
@@ -84,19 +111,15 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         navigationView = findViewById(R.id.nav_view);
-
         myMenu = navigationView.getMenu();
-
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //int id = item.getItemId();
                 if (item.getItemId() != R.id.exit_menu) {
                     if (item.getItemId() != R.id.rounds_menu) {
                         if (item.getItemId() == R.id.results_menu) {
@@ -120,44 +143,6 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
                 return true;
             }
         });
-
-
-        swissAlgorithm = SwissAlgorithm.getINSTANCE();
-        if (swissAlgorithm != null){
-            roundsNumber = swissAlgorithm.getRoundsNumber();
-        }
-        else {
-
-            Intent i = getIntent();
-            roundsNumber = i.getIntExtra(getString(R.string.rounds_number), 0);
-            int placeOrder = i.getIntExtra(getString(R.string.place_order), 0);
-            List<Players> players = (List<Players>) i.getSerializableExtra(getString(R.string.players));
-
-            swissAlgorithm = SwissAlgorithm.initSwissAlgorithm(roundsNumber, placeOrder);
-            swissAlgorithm.initTournamentPlayers(players);
-            swissAlgorithm.drawFirstRound();
-
-        }
-        buildRoundsView();
-        nextRoundButton();
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        buildMenu();
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item) || actionBarDrawerToggle.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
-        dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
     }
 
     private void nextRoundButton(){
@@ -175,7 +160,8 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
                     }
                     else {
                         swissAlgorithm.drawNextRound();
-                        initTitle(swissAlgorithm.getCurrentRound());
+                        titleTextView.setText(getString(R.string.round_count_text_view, swissAlgorithm.getCurrentRound()));
+                        ScrollView scrollView = findViewById(R.id.scroll_view);
                         scrollView.scrollTo(0,0);
                         refreshView(swissAlgorithm.getCurrentRound(), true);
                     }
@@ -244,10 +230,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
             }
         }
         else {
-
             Intent intent = new Intent(getApplicationContext(), RoundResults.class);
-/*            intent.putExtra("matches", (Serializable) swissAlgorithm.getMatches());
-            intent.putExtra(getString(R.string.current_round), swissAlgorithm.getCurrentRound());*/
             intent.putExtra(getString(R.string.go_to_round), goToRound);
             startActivity(intent);
         }
@@ -269,7 +252,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         return null; //not selected result
     }
 
-    private void init(){
+    private void initSpinnersAndTextViews(){
 
         textViews = new TextView[matches.size() * 2];
         spinners = new Spinner[matches.size()];
@@ -278,6 +261,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         for (int i =0;i<matches.size() * 2; i++){
             TextView textView = new TextView(this);
             textView.setId(i);
+            textView.setTextColor(getColor(R.color.colorPrimaryDark));
             textViews[i] = textView;
         }
 
@@ -290,10 +274,6 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         }
     }
 
-    private void initTitle(int round){
-        //title
-        titleTextView.setText(getString(R.string.round_count_text_view, round));
-    }
 
     private void changeTextButton(){
         if (SwissAlgorithm.getINSTANCE().getCurrentRound() == SwissAlgorithm.getINSTANCE().getRoundsNumber()){
@@ -307,8 +287,8 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
 
         matches = swissAlgorithm.getMatches().get(swissAlgorithm.getCurrentRound() - 1);
 
-        init();
-        initTitle(swissAlgorithm.getCurrentRound());
+        initSpinnersAndTextViews();
+        titleTextView.setText(getString(R.string.round_count_text_view, swissAlgorithm.getCurrentRound()));
 
 
 
@@ -336,8 +316,6 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
 
 
 
-
-
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -345,34 +323,18 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         linearLayout.setLayoutParams(params);
         matchesRelativeLayout.addView(linearLayout);
 
-        //matches
-        for (int i =0;i<matches.size() * 2; i++){
-            TextView textView = new TextView(this);
-            textView.setId(i);
-            textView.setTextColor(getColor(R.color.colorPrimaryDark));
-            textViews[i] = textView;
-        }
-
-        //spinners
-        for (int i = 0; i<matches.size(); i++){
-            Spinner spinner = new Spinner(this);
-            spinner.setId(i);
-            spinners[i] = spinner;
-        }
-
-        int count = 0;
+        int matchNumber = 0;
         for (int i =0; i<matches.size() * 2;i+=2){
             LinearLayout l = new LinearLayout(this);
             l.setOrientation(LinearLayout.HORIZONTAL);
 
-            //textViews[i].setTextSize(30);
             textViews[i].setLayoutParams(paramsLeftTextSize);
             textViews[i].setGravity(Gravity.START);
-            textViews[i].setText(matches.get(count).getPlayer1().toString());
+            textViews[i].setText(matches.get(matchNumber).getPlayer1().toString());
             textViews[i].setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
             l.addView(textViews[i]);
 
-            if (count == matches.size() - 1 && !swissAlgorithm.isEven()){
+            if (matchNumber == matches.size() - 1 && !swissAlgorithm.isEven()){
 
                 textViews[i].setTextColor(Color.GREEN);
                 TextView textView = new TextView(this);
@@ -390,32 +352,24 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
                 l.addView(textView);
             }
             else {
-                    initSpinner(spinners[count]);
-                spinners[count].setLayoutParams(paramsSpinner);
-                spinners[count].setGravity(Gravity.CENTER);
-                l.addView(spinners[count]);
+                initSpinner(spinners[matchNumber]);
+                spinners[matchNumber].setLayoutParams(paramsSpinner);
+                spinners[matchNumber].setGravity(Gravity.CENTER);
+                l.addView(spinners[matchNumber]);
             }
 
-
-            //textViews[i + 1].setTextSize(30);
             textViews[i + 1].setGravity(Gravity.END);
-            textViews[i + 1].setText(matches.get(count).getPlayer2().toString());
+            textViews[i + 1].setText(matches.get(matchNumber).getPlayer2().toString());
             textViews[i + 1].setLayoutParams(paramsRightTextSize);
             textViews[i + 1].setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
 
             l.addView(textViews[i + 1]);
 
-
-
             linearLayout.addView(l);
 
 
-            count++;
+            matchNumber++;
         }
-
-
-
-
 
 
     }

@@ -54,23 +54,15 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
         listView = findViewById(R.id.players_list_view);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-
-        //String []pairingType = getResources().getStringArray(R.array.pairing);
-        //Spinner spinner = findViewById(R.id.pairing_type_spinner);
-
-
         switch1 = findViewById(R.id.count_of_number_switch);
 
         initSpinnerPlaceOrder();
-        //initSpinnerPlayerOrder();
         comparatorByStandardOrder();
 
         int optimalCountOfRounds =(int)Math.ceil(Math.log(players.size()) / Math.log(2)); // ceil(log2(player's number)),  log2 = (Math.log(x) / Math.log(2));
         choiceRoundsSwitchImplementation(optimalCountOfRounds);
-        //orderPlayerSwitchImplementation();
         startTournament(optimalCountOfRounds);
         //losuj();
-
 
     }
 
@@ -97,7 +89,6 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
 
 
     private void initListViewHeader() {
-        //ListView listView = findViewById(R.id.players_list_view);
         ViewGroup headerView = (ViewGroup) getLayoutInflater().inflate(R.layout.start_list_header, listView, false);
         listView.addHeaderView(headerView);
 
@@ -159,10 +150,9 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
                 Intent i = new Intent(getApplicationContext(), Tournament.class);
                 boolean startActivity = false;
                 if (switch1.isChecked()){
-
                     try {
                         int roundNumber = Integer.valueOf(editText.getText().toString());
-                        if (isGoodNumberOfRounds(roundNumber)) {
+                        if (maxNumberCount() >= roundNumber && roundNumber != 0 ) {
                             startActivity = true;
                             i.putExtra(getString(R.string.rounds_number), roundNumber);
 
@@ -172,10 +162,7 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
                                     getString(R.string.wrong_rounds_message, players.size(), maxNumberCount(), roundNumber ),
                                     getString(R.string.exit_button));
                                     dialog.show(getSupportFragmentManager(), getString(R.string.wrong_rounds_title));
-
-
                             }
-
 
                     } catch (NumberFormatException e) {
                             GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
@@ -184,7 +171,6 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
                                     getString(R.string.exit_button));
                                     dialog.show(getSupportFragmentManager(),getString(R.string.title_error));
                     }
-
 
                 }
                 else {
@@ -205,13 +191,6 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
 
     }
 
-    private boolean isGoodNumberOfRounds(int roundsNumber){
-        if (players.size() % 2 == 0)
-            return players.size() > roundsNumber && roundsNumber != 0;
-        else
-            return players.size() >= roundsNumber && roundsNumber != 0;
-    }
-
     private int maxNumberCount(){
         if (players.size() % 2 == 0)
             return players.size() - 1;
@@ -220,8 +199,6 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
     }
 
     private void choiceRoundsSwitchImplementation(int optimalCountOfRounds){
-/*        final TextView textView = findViewById(R.id.auto_count_of_rounds);
-        final EditText editText = findViewById(R.id.rounds_number_edit_text);*/
         final LinearLayout linearLayout = findViewById(R.id.layout_set_round);
         final TextView textView = new TextView(this);
         editText = new EditText(this);

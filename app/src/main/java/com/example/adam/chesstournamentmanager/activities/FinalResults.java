@@ -33,11 +33,8 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
     private Menu myMenu;
 
-    private DrawerLayout drawerLayout;
-
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +42,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
         setContentView(R.layout.activity_final_results);
         currentRound = SwissAlgorithm.getINSTANCE().getCurrentRound();
         TextView textView = findViewById(R.id.current_results);
+
         if (SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
             textView.setText(getString(R.string.final_result));
         }
@@ -52,11 +50,16 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
             textView.setText(getString(R.string.current_results, (currentRound - 1)));
         }
 
+        initNavigationView();
+        buildMenu();
+        buildView();
+
+    }
+
+    private void initNavigationView() {
 
 
-
-
-        drawerLayout = findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
 
@@ -68,7 +71,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
         myMenu = navigationView.getMenu();
 
@@ -92,20 +95,6 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
                 return true;
             }
         });
-
-
-
-
-
-        buildView();
-
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        buildMenu();
-        return true;
     }
 
     @Override
@@ -148,6 +137,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
         LinearLayout headerLayout = findViewById(R.id.header_results_layout);
         headerLayout.addView(buchholzHeaderTextView);
     }
+
     private void buildView() {
 
         LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
@@ -218,7 +208,6 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
             pointTextView.setLayoutParams(paramsPointsTextView);
 
             pointTextView.setText(String.format(new Locale(getString(R.string.locale)),getString(R.string.format_float), playerList.get(i).getPoints()));
-            //pointTextView.setText(Float.toString(playerList.get(i).getPoints()));
             l.addView(pointTextView);
 
 

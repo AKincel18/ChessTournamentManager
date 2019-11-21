@@ -2,7 +2,6 @@ package com.example.adam.chesstournamentmanager.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -15,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +33,7 @@ import static com.example.adam.chesstournamentmanager.staticdata.FormatDateToStr
 public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentClickListener {
 
     private TextView pickDateTextView;
+
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
     private ArrayList<Players> allPlayers;
@@ -49,7 +50,6 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_add_new_player);
-
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -70,9 +70,28 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
         database = Database.getInstance(this);
 
+
+
+        Intent i = getIntent();
+        allPlayers = (ArrayList<Players>) i.getSerializableExtra(getString(R.string.available_players));
+
+        editPlayer = (Players) i.getSerializableExtra(getString(R.string.player));
+        addNewPlayer = editPlayer == null;
+
+
+        if (!addNewPlayer) { //edit player popup
+            setValues(editPlayer);
+        }
+
+        confirmNewPlayer();
+        pickDateListener();
+        close();
+
+    }
+
+
+    private void pickDateListener(){
         pickDateTextView = findViewById(R.id.pick_date_text_view);
-/*        Locale locale = new Locale("pl");
-        Locale.setDefault(locale);*/
 
         pickDateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +103,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
                 DatePickerDialog dialog = new DatePickerDialog(
                         AddNewPlayer.this,
-                        android.R.style.Theme_DeviceDefault_Light_Dialog_MinWidth,
+                        R.style.datePicker,
                         dateSetListener,
                         year, month, day);
 
@@ -97,26 +116,9 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String date = dayOfMonth + "-" + (month + 1) + "-" + year; //begin value in month = 0
                 pickDateTextView.setText(date);
-                pickDateTextView.setTextColor(Color.BLACK);
             }
         };
-
-        Intent i = getIntent();
-        allPlayers = (ArrayList<Players>) i.getSerializableExtra(getString(R.string.available_players));
-
-        editPlayer = (Players) i.getSerializableExtra(getString(R.string.player));
-        addNewPlayer = editPlayer == null;
-
-        confirmNewPlayer();
-        close();
-
-        if (!addNewPlayer) {
-            setValues(editPlayer);
-        }
-
     }
-
-
 
 
     private void setValues(Players player){
@@ -138,7 +140,6 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
 
 
-
     public void confirmNewPlayer(){
 
         Button confirmPlayerButton = findViewById(R.id.confirm_new_player_button);
@@ -155,8 +156,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
                 DateFormat format = new SimpleDateFormat(getString(R.string.format_date), new Locale(getString(R.string.locale)));
 
                 formatDate = new Date();
-                //todo wazne odkomentować
-/*                try {
+                try {
                     formatDate = format.parse(date.getText().toString());
                 }
                 catch (ParseException exc) {
@@ -166,7 +166,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
                     return;
 
 
-                }*/
+                }
 
                 final Players players = new Players(
                         name.getText().toString(),
@@ -187,10 +187,19 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
                     players.setInternationalRanking(-1);
                 }
 
-                if (addNewPlayer) {
-                    saveNewPlayer(players);
+                if (players.getName().equals(getString(R.string.empty_string)) || players.getSurname().equals(getString(R.string.empty_string))) {
+                    GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                            getString(R.string.title_error),
+                            getString(R.string.required_fields),
+                            getString(R.string.exit_button));
+                    dialog.show(getSupportFragmentManager(), getString(R.string.title_error));
+
                 } else {
-                    updatePlayer(players);
+                    if (addNewPlayer) {
+                        saveNewPlayer(players);
+                    } else {
+                        updatePlayer(players);
+                    }
                 }
 
 
@@ -204,7 +213,6 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
             @Override
             public void run() {
                 database.playersDao().insertPlayer(player);
-
             }
         });
 
@@ -219,7 +227,6 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
     }
 
     private void updatePlayer(final Players player){
-
 
         editPlayer.setName(player.getName());
         editPlayer.setSurname(player.getSurname());

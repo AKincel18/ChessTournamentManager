@@ -34,16 +34,9 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
     private int currentRound;
 
-    private int currentView;
-
     private TextView textView;
 
-
-    private DrawerLayout drawerLayout;
-
     private ActionBarDrawerToggle actionBarDrawerToggle;
-
-    private NavigationView navigationView;
 
 
     @Override
@@ -53,13 +46,20 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
         Intent i = getIntent();
         allMatches = SwissAlgorithm.getINSTANCE().getMatches();
         currentRound = SwissAlgorithm.getINSTANCE().getCurrentRound();
-        currentView = i.getIntExtra(getString(R.string.go_to_round), 0);
+        int currentView = i.getIntExtra(getString(R.string.go_to_round), 0);
         textView = findViewById(R.id.previous_round_count_text_view);
         textView.setText(getString(R.string.round_count_text_view, currentView));
 
 
+        initNavigationMenu();
+        buildMenu();
+        buildView(currentView);
 
-        drawerLayout = findViewById(R.id.drawer_layout);
+    }
+
+    private void initNavigationMenu(){
+
+        final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
 
@@ -70,8 +70,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
         myMenu = navigationView.getMenu();
 
@@ -80,7 +79,6 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() != R.id.exit_menu) {
-                    //if (item.getItemId() != R.id.rounds_menu) {
                     if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
                         Intent i = new Intent(getApplicationContext(), Tournament.class);
                         startActivity(i);
@@ -94,7 +92,6 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
                         Intent i = new Intent(getApplicationContext(), FinalResults.class);
                         startActivity(i);
                     }
-                    //}
                 } else {
                     GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
                     dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
@@ -102,14 +99,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
                 return true;
             }
         });
-
-
-
-
-        buildView(currentView);
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,17 +107,10 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        buildMenu();
-        return true;
-    }
-
-    @Override
     public void onBackPressed() {
         GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
         dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
     }
-
 
     private void buildMenu() {
         MenuItem menuItem = myMenu.findItem(R.id.rounds_menu);

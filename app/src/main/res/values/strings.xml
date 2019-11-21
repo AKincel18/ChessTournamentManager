@@ -35,6 +35,8 @@
     <string name="international_ranking_text_view">Ranking międzynarodowy</string>
     <string name="format_date">dd-MM-yyyy</string>
     <string name="locale">pl</string>
+    <string name="empty_string"></string>
+    <string name="required_fields">Imię oraz nazwisko nie może pozostać puste.</string>
 
 
     <!--ConfigureTournament-->

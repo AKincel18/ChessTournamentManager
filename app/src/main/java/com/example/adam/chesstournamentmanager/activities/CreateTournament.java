@@ -40,8 +40,6 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
 
     private Dialog dialog;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +52,6 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
         Intent i = getIntent();
         if (i.getSerializableExtra(getString(R.string.available_players)) !=  null){
             availablePlayers =(ArrayList<Players>)i.getSerializableExtra(getString(R.string.available_players));
-            Toast.makeText(this, getString(R.string.added_player), Toast.LENGTH_LONG).show();
             initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
         }
         else {
@@ -79,7 +76,6 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
         selectedAll(R.id.select_all_checkbox2, chosenPlayerListView, selectedChosenPlayers);
 
         initListView(chosenPlayerListView, chosenPlayers, selectedChosenPlayers);
-
 
         dialog = new Dialog(this);
 
@@ -137,11 +133,9 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
             remove.removeAll(selected);
             selected.clear();
 
-            //ArrayList<String> fullName = playersToString(availablePlayers);
             ArrayAdapter<Players> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simple_checked_text_view, availablePlayers);
             allPlayersListView.setAdapter(adapter);
 
-            //fullName = playersToString(chosenPlayers);
             adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simple_checked_text_view, chosenPlayers);
             chosenPlayerListView.setAdapter(adapter);
         }

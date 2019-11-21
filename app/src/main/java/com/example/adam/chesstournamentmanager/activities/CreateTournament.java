@@ -56,7 +56,7 @@ public class CreateTournament extends AppCompatActivity implements GeneralDialog
         database = Database.getInstance(this);
 
         Intent i = getIntent();
-        if (i.getSerializableExtra(getString(R.string.available_players)) !=  null){
+        if (i.getSerializableExtra(getString(R.string.available_players)) !=  null){ //todo po zakonczeniu turnieju dubluja sie zawodnicy
             availablePlayers =(ArrayList<Players>)i.getSerializableExtra(getString(R.string.available_players));
             Toast.makeText(this, getString(R.string.added_player), Toast.LENGTH_LONG).show();
             initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);

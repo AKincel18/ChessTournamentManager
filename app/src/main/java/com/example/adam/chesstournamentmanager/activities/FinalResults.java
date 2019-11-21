@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -15,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.SwissAlgorithm;
@@ -30,6 +35,12 @@ public class FinalResults extends AppCompatActivity implements GeneralDialogFrag
 
     private Menu myMenu;
 
+    private DrawerLayout drawerLayout;
+
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+
+    private NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +54,51 @@ public class FinalResults extends AppCompatActivity implements GeneralDialogFrag
             textView.setText(getString(R.string.current_results, (currentRound - 1)));
         }
 
+
+
+
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        navigationView = findViewById(R.id.nav_view);
+
+        myMenu = navigationView.getMenu();
+
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() != R.id.exit_menu) {
+                    if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
+                        Intent i = new Intent(getApplicationContext(), Tournament.class);
+                        startActivity(i);
+                    } else if (item.getItemId() <= currentRound) {
+                        Intent i = new Intent(getApplicationContext(), RoundResults.class);
+                        i.putExtra(getString(R.string.go_to_round), item.getItemId());
+                        startActivity(i);
+                    }
+                } else {
+                    GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+                    dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
+                }
+                return true;
+            }
+        });
+
+
+
+
+
         buildView();
 
     }
@@ -50,29 +106,13 @@ public class FinalResults extends AppCompatActivity implements GeneralDialogFrag
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        myMenu = menu;
-        getMenuInflater().inflate(R.menu.menu_tournament, myMenu);
         buildMenu();
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() != R.id.exit_menu) {
-            if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
-                Intent i = new Intent(getApplicationContext(), Tournament.class);
-                startActivity(i);
-            } else if (item.getItemId() <= currentRound) {
-                Intent i = new Intent(getApplicationContext(), RoundResults.class);
-                i.putExtra(getString(R.string.go_to_round), item.getItemId());
-                startActivity(i);
-            }
-        } else {
-            GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
-            dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
-        }
-
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item) || actionBarDrawerToggle.onOptionsItemSelected(item);
     }
 
     @Override

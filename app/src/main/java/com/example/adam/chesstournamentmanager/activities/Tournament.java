@@ -3,6 +3,10 @@ package com.example.adam.chesstournamentmanager.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -48,11 +52,18 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
     private Button nextRoundButton;
 
+
     private Menu myMenu;
 
     private int currentView;
 
     private ScrollView scrollView;
+
+    private DrawerLayout drawerLayout;
+
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +73,53 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
         nextRoundButton = findViewById(R.id.next_round_button);
         titleTextView = findViewById(R.id.round_count_text_view);
         scrollView = findViewById(R.id.scroll_view);
+
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        navigationView = findViewById(R.id.nav_view);
+
+        myMenu = navigationView.getMenu();
+
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //int id = item.getItemId();
+                if (item.getItemId() != R.id.exit_menu) {
+                    if (item.getItemId() != R.id.rounds_menu) {
+                        if (item.getItemId() == R.id.results_menu) {
+                            if (swissAlgorithm.getCurrentRound() != 1) {
+                                Intent i = new Intent(getApplicationContext(), FinalResults.class);
+                                startActivity(i);
+                            } else {
+                                Toast.makeText(getApplicationContext(), getString(R.string.not_finished_first_round), Toast.LENGTH_LONG).show();
+                            }
+                        } else if (item.getItemId() >= 1 && item.getItemId() < swissAlgorithm.getCurrentRound()) {
+                            refreshView(item.getItemId(), false);
+                        } else if (item.getItemId() >= 1 && item.getItemId() > swissAlgorithm.getCurrentRound()) {
+                            Toast.makeText(getApplicationContext(), getString(R.string.previous_rounds_not_finished), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                } else {
+                    GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+                    dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
+
+                }
+                return true;
+            }
+        });
+
 
         swissAlgorithm = SwissAlgorithm.getINSTANCE();
         if (swissAlgorithm != null){
@@ -86,35 +144,13 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        myMenu = menu;
-        getMenuInflater().inflate(R.menu.menu_tournament, myMenu);
         buildMenu();
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() != R.id.exit_menu) {
-            if (item.getItemId() != R.id.rounds_menu) {
-                if (item.getItemId() == R.id.results_menu) {
-                    if (swissAlgorithm.getCurrentRound() != 1) {
-                        Intent i = new Intent(getApplicationContext(), FinalResults.class);
-                        startActivity(i);
-                    } else {
-                        Toast.makeText(this, getString(R.string.not_finished_first_round), Toast.LENGTH_LONG).show();
-                    }
-                } else if (item.getItemId() >= 1 && item.getItemId() < swissAlgorithm.getCurrentRound()) {
-                    refreshView(item.getItemId(), false);
-                } else if (item.getItemId() >= 1 && item.getItemId() > swissAlgorithm.getCurrentRound()) {
-                    Toast.makeText(this, getString(R.string.previous_rounds_not_finished), Toast.LENGTH_LONG).show();
-                }
-            }
-        } else {
-            GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
-            dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
-
-        }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item) || actionBarDrawerToggle.onOptionsItemSelected(item);
     }
 
     @Override
@@ -161,10 +197,11 @@ public class Tournament extends AppCompatActivity implements GeneralDialogFragme
     private void buildMenu(){
         MenuItem menuItem = myMenu.findItem(R.id.rounds_menu);
         SubMenu subMenu = menuItem.getSubMenu();
-
         for (int i = 1; i <= swissAlgorithm.getRoundsNumber(); i++) {
             subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.round_count_text_view, i));
         }
+        navigationView.invalidate();
+
     }
 
     private List<MatchResult> getResult(){

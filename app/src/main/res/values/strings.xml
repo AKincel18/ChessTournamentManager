@@ -169,4 +169,7 @@
 
     <string name="show_results_button">Pokaż wyniki końcowe</string>
 
+    <string name="open">open</string>
+    <string name="close">close</string>
+
 </resources>

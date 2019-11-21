@@ -2,6 +2,11 @@ package com.example.adam.chesstournamentmanager.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -34,18 +39,72 @@ public class RoundResults extends AppCompatActivity implements GeneralDialogFrag
     private TextView textView;
 
 
+    private DrawerLayout drawerLayout;
+
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+
+    private NavigationView navigationView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_round_results);
         Intent i = getIntent();
-/*        allMatches = (List<List<Match>>) i.getSerializableExtra("matches");
-        currentRound = i.getIntExtra(getString(R.string.current_round), 0);*/
         allMatches = SwissAlgorithm.getINSTANCE().getMatches();
         currentRound = SwissAlgorithm.getINSTANCE().getCurrentRound();
         currentView = i.getIntExtra(getString(R.string.go_to_round), 0);
         textView = findViewById(R.id.previous_round_count_text_view);
         textView.setText(getString(R.string.round_count_text_view, currentView));
+
+
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        navigationView = findViewById(R.id.nav_view);
+
+        myMenu = navigationView.getMenu();
+
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() != R.id.exit_menu) {
+                    //if (item.getItemId() != R.id.rounds_menu) {
+                    if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
+                        Intent i = new Intent(getApplicationContext(), Tournament.class);
+                        startActivity(i);
+                    } else if (item.getItemId() <= currentRound) {
+
+                        LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
+                        matchesRelativeLayout.removeAllViews();
+                        buildView(item.getItemId());
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                    } else if (item.getItemId() == R.id.results_menu) {
+                        Intent i = new Intent(getApplicationContext(), FinalResults.class);
+                        startActivity(i);
+                    }
+                    //}
+                } else {
+                    GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
+                    dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
+                }
+                return true;
+            }
+        });
+
+
+
 
         buildView(currentView);
 
@@ -54,32 +113,11 @@ public class RoundResults extends AppCompatActivity implements GeneralDialogFrag
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() != R.id.exit_menu) {
-            if (item.getItemId() != R.id.rounds_menu) {
-                if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
-                    Intent i = new Intent(getApplicationContext(), Tournament.class);
-                    startActivity(i);
-                } else if (item.getItemId() <= currentRound) {
-
-                    LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
-                    matchesRelativeLayout.removeAllViews();
-                    buildView(item.getItemId());
-                } else if (item.getItemId() == R.id.results_menu) {
-                    Intent i = new Intent(getApplicationContext(), FinalResults.class);
-                    startActivity(i);
-                }
-            }
-        } else {
-            GeneralDialogFragment dialog = GeneralDialogFragment.exixDialogBox();
-            dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
-        }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item) || actionBarDrawerToggle.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        myMenu = menu;
-        getMenuInflater().inflate(R.menu.menu_tournament, myMenu);
         buildMenu();
         return true;
     }

@@ -41,16 +41,16 @@ public class SwissAlgorithm implements Serializable {
 
     private List<List<TournamentPlayer>> groupsPlayers = new ArrayList<>(); //rows -> number of group, columns -> position in a group
 
-    private int placeOrder;
+    private boolean placeOrder; // true - buchholz, false - median buchholz
 
-    public SwissAlgorithm(int roundsNumber, int placeOrder) {
+    private SwissAlgorithm(int roundsNumber, boolean placeOrder) {
         this.roundsNumber = roundsNumber;
         this.placeOrder = placeOrder;
     }
 
-    public static SwissAlgorithm initSwissAlgorithm(int roundsNumber, int isBuchholzMethod){
+    public static SwissAlgorithm initSwissAlgorithm(int roundsNumber, boolean placeOrder){
         if (INSTANCE == null){
-            INSTANCE = new SwissAlgorithm(roundsNumber, isBuchholzMethod);
+            INSTANCE = new SwissAlgorithm(roundsNumber, placeOrder);
         }
         return INSTANCE;
     }
@@ -519,10 +519,12 @@ public class SwissAlgorithm implements Serializable {
         if (currentRound == roundsNumber) {
             finishedTournament = true;
 
-            if (placeOrder == 0)
+            if (placeOrder) {
                 buchholzMethod();
-            else
+            }
+            else {
                 medianBuchholzMethod();
+            }
 
             sortPlayerAfterTournament();
         }
@@ -561,7 +563,7 @@ public class SwissAlgorithm implements Serializable {
                 int c = Float.compare(o2.getPoints(), o1.getPoints()); //descending order
 
                 if (c == 0) {
-                    if (placeOrder == 0)
+                    if (placeOrder)
                         c = Float.compare(o2.getBuchholzPoints(), o1.getBuchholzPoints());
                     else
                         c = Float.compare(o2.getMedianBuchholzMethod(), o1.getMedianBuchholzMethod());
@@ -662,11 +664,11 @@ public class SwissAlgorithm implements Serializable {
         this.finishedTournament = finishedTournament;
     }
 
-    public int getPlaceOrder() {
+    public boolean getPlaceOrder() {
         return placeOrder;
     }
 
-    public void setPlaceOrder(int placeOrder) {
+    public void setPlaceOrder(boolean placeOrder) {
         this.placeOrder = placeOrder;
     }
 }

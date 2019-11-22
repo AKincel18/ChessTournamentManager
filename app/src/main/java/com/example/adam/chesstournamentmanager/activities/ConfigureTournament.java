@@ -37,9 +37,13 @@ import java.util.List;
 public class ConfigureTournament extends AppCompatActivity implements OnDialogFragmentClickListener {
 
     private ArrayList<Player> players;
+
     private ListView listView;
+
     private Switch switch1;
-    private int placeOrder;
+
+    private boolean placeOrder = true; // true - buchholz, false - median buchholz
+
     private EditText editText;
 
     @Override
@@ -77,7 +81,7 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                placeOrder = parent.getSelectedItemPosition();
+                    placeOrder = parent.getSelectedItemPosition() == 0;
             }
 
             @Override

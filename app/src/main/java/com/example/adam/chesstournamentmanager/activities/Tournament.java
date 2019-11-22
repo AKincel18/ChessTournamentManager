@@ -77,7 +77,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
 
             Intent i = getIntent();
             int roundsNumber = i.getIntExtra(getString(R.string.rounds_number), 0);
-            int placeOrder = i.getIntExtra(getString(R.string.place_order), 0);
+            boolean placeOrder = i.getBooleanExtra(getString(R.string.place_order), true);
             List<Player> players = (List<Player>) i.getSerializableExtra(getString(R.string.players));
 
             swissAlgorithm = SwissAlgorithm.initSwissAlgorithm(roundsNumber, placeOrder);

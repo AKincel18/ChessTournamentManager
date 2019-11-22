@@ -141,7 +141,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
         buchholzHeaderTextView.setGravity(Gravity.START);
         buchholzHeaderTextView.setLayoutParams(paramsBuchholzHeader);
 
-        if (SwissAlgorithm.getINSTANCE().getPlaceOrder() == 0) {
+        if (SwissAlgorithm.getINSTANCE().getPlaceOrder()) {
             buchholzHeaderTextView.setText(getString(R.string.buchholz_header_text_view));
         } else {
             buchholzHeaderTextView.setText(getString(R.string.median_buchholz_header_text_view));
@@ -233,7 +233,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
                 buchholzPointsTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
                 buchholzPointsTextView.setLayoutParams(paramsPointsTextView);
 
-                if (SwissAlgorithm.getINSTANCE().getPlaceOrder() == 0) {
+                if (SwissAlgorithm.getINSTANCE().getPlaceOrder()) {
                     buchholzPointsTextView.setText(String.format(new Locale(getString(R.string.locale)),getString(R.string.format_float), playerList.get(i).getBuchholzPoints()));
                 } else {
                     buchholzPointsTextView.setText(String.format(new Locale(getString(R.string.locale)), getString(R.string.format_float), playerList.get(i).getMedianBuchholzMethod()));

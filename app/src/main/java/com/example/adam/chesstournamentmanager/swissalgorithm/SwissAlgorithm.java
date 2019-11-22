@@ -6,7 +6,7 @@ import android.util.Log;
 import com.example.adam.chesstournamentmanager.matches.Match;
 import com.example.adam.chesstournamentmanager.matches.MatchResult;
 import com.example.adam.chesstournamentmanager.model.Colors;
-import com.example.adam.chesstournamentmanager.model.Players;
+import com.example.adam.chesstournamentmanager.model.Player;
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
 
 import java.io.Serializable;
@@ -62,11 +62,11 @@ public class SwissAlgorithm implements Serializable {
     public static void resetTournament(){
         INSTANCE = null;
     }
-    public void initTournamentPlayers(List<Players> players){
+    public void initTournamentPlayers(List<Player> players){
 
         tournamentPlayers = new ArrayList<>();
 
-        for (Players p : players){
+        for (Player p : players){
             tournamentPlayers.add(new TournamentPlayer(p));
         }
         playersNumber = tournamentPlayers.size();

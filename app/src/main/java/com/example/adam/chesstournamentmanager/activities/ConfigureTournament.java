@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.swissalgorithm.SwissAlgorithm;
-import com.example.adam.chesstournamentmanager.model.Players;
+import com.example.adam.chesstournamentmanager.model.Player;
 import com.example.adam.chesstournamentmanager.staticdata.adapters.ListAdapter;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
@@ -36,7 +36,7 @@ import java.util.List;
 
 public class ConfigureTournament extends AppCompatActivity implements OnDialogFragmentClickListener {
 
-    private ArrayList<Players> players;
+    private ArrayList<Player> players;
     private ListView listView;
     private Switch switch1;
     private int placeOrder;
@@ -49,7 +49,7 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
 
         TextView countOfPlayersTextView = findViewById(R.id.count_of_players_text_view);
         Intent i = getIntent();
-        players = (ArrayList<Players>) i.getSerializableExtra(getString(R.string.players));
+        players = (ArrayList<Player>) i.getSerializableExtra(getString(R.string.players));
         countOfPlayersTextView.setText(String.valueOf(players.size()));
         listView = findViewById(R.id.players_list_view);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -99,7 +99,7 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
     private List<String> getPlayerList(){
         List<String> list = new ArrayList<>();
         int counter = 1;
-        for (Players player : players) {
+        for (Player player : players) {
             String internationalRanking = (player.getInternationalRanking() == -1 ? getString(R.string.no_rank) : String.valueOf(player.getInternationalRanking()));
             String polishRanking = (player.getPolishRanking() == -1 ? getString(R.string.no_rank) : String.valueOf(player.getPolishRanking()));
             String tmp = String.valueOf(counter) + ".," + player.toString() + "," + internationalRanking + "," + polishRanking;
@@ -110,9 +110,9 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
     }
 
     private void comparatorByStandardOrder(){
-        Collections.sort(players, new Comparator<Players>() {
+        Collections.sort(players, new Comparator<Player>() {
             @Override
-            public int compare(Players o1, Players o2) {
+            public int compare(Player o1, Player o2) {
                 int c = Float.compare(o2.getInternationalRanking(), o1.getInternationalRanking());
                 if (c == 0) {
                     c = Float.compare(o2.getPolishRanking(), o1.getPolishRanking());

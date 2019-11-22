@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TournamentPlayer extends Players {
+public class TournamentPlayer extends Player {
 
     private float points;
 
@@ -25,7 +25,7 @@ public class TournamentPlayer extends Players {
     public TournamentPlayer() {
     }
 
-    public TournamentPlayer(Players player) {
+    public TournamentPlayer(Player player) {
         super(player);
     }
 

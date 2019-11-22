@@ -6,23 +6,23 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.example.adam.chesstournamentmanager.model.Players;
+import com.example.adam.chesstournamentmanager.model.Player;
 
 import java.util.List;
 
 @Dao
 public interface PlayersDao {
 
-    @Query("SELECT * FROM PLAYERS ORDER BY surname, name")
-    List<Players> getAllPlayers();
+    @Query("SELECT * FROM Players ORDER BY surname, name")
+    List<Player> getAllPlayers();
 
     @Insert
-    void insertPlayer(Players players);
+    void insertPlayer(Player player);
 
     @Delete
-    void removePlayer(List<Players> players);
+    void removePlayer(List<Player> players);
 
     @Update
-    void updatePlayer(Players players);
+    void updatePlayer(Player player);
 
 }

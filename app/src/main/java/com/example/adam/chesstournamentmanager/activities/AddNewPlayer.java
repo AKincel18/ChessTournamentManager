@@ -24,7 +24,7 @@ import java.util.concurrent.Executors;
 
 import com.example.adam.chesstournamentmanager.R;
 import com.example.adam.chesstournamentmanager.database.Database;
-import com.example.adam.chesstournamentmanager.model.Players;
+import com.example.adam.chesstournamentmanager.model.Player;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
 
@@ -36,7 +36,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
-    private ArrayList<Players> allPlayers;
+    private ArrayList<Player> allPlayers;
 
     private Database database;
 
@@ -44,7 +44,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
     private boolean addNewPlayer;
 
-    private Players editPlayer;
+    private Player editPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +73,9 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
 
         Intent i = getIntent();
-        allPlayers = (ArrayList<Players>) i.getSerializableExtra(getString(R.string.available_players));
+        allPlayers = (ArrayList<Player>) i.getSerializableExtra(getString(R.string.available_players));
 
-        editPlayer = (Players) i.getSerializableExtra(getString(R.string.player));
+        editPlayer = (Player) i.getSerializableExtra(getString(R.string.player));
         addNewPlayer = editPlayer == null;
 
 
@@ -121,7 +121,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
     }
 
 
-    private void setValues(Players player){
+    private void setValues(Player player){
         EditText name = findViewById(R.id.name_edit_text);
         name.setText(player.getName());
 
@@ -168,26 +168,26 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
                 }
 
-                final Players players = new Players(
+                final Player player = new Player(
                         name.getText().toString(),
                         surname.getText().toString(),
                         formatDate
                 );
 
                 try{
-                    players.setPolishRanking(Integer.valueOf(polishRanking.getText().toString()));
+                    player.setPolishRanking(Integer.valueOf(polishRanking.getText().toString()));
                 }
                 catch (NumberFormatException e){
-                    players.setPolishRanking(-1);
+                    player.setPolishRanking(-1);
                     }
                 try {
-                    players.setInternationalRanking(Integer.valueOf(internationalRanking.getText().toString()));
+                    player.setInternationalRanking(Integer.valueOf(internationalRanking.getText().toString()));
                 }
                 catch (NumberFormatException e){
-                    players.setInternationalRanking(-1);
+                    player.setInternationalRanking(-1);
                 }
 
-                if (players.getName().equals(getString(R.string.empty_string)) || players.getSurname().equals(getString(R.string.empty_string))) {
+                if (player.getName().equals(getString(R.string.empty_string)) || player.getSurname().equals(getString(R.string.empty_string))) {
                     GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
                             getString(R.string.title_error),
                             getString(R.string.required_fields),
@@ -196,9 +196,9 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
                 } else {
                     if (addNewPlayer) {
-                        saveNewPlayer(players);
+                        saveNewPlayer(player);
                     } else {
-                        updatePlayer(players);
+                        updatePlayer(player);
                     }
                 }
 
@@ -208,7 +208,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
     }
 
-    private void saveNewPlayer(final Players player){
+    private void saveNewPlayer(final Player player){
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
@@ -226,7 +226,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
         startActivity(i);
     }
 
-    private void updatePlayer(final Players player){
+    private void updatePlayer(final Player player){
 
         editPlayer.setName(player.getName());
         editPlayer.setSurname(player.getSurname());

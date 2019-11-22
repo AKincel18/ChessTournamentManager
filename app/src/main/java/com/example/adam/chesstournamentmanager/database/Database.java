@@ -4,10 +4,10 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import com.example.adam.chesstournamentmanager.model.Players;
+import com.example.adam.chesstournamentmanager.model.Player;
 import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
-@android.arch.persistence.room.Database(entities = Players.class, version = 4, exportSchema = false)
+@android.arch.persistence.room.Database(entities = Player.class, version = 5, exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
     private static Database instance;

@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity(tableName = "players")
-public class Players implements Serializable {
+public class Player implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
@@ -35,11 +35,11 @@ public class Players implements Serializable {
 
 
     @Ignore
-    public Players() {
+    public Player() {
     }
 
     @Ignore
-    public Players(Players player) {
+    public Player(Player player) {
         this.name = player.getName();
         this.surname = player.getSurname();
         this.polishRanking = player.getPolishRanking();
@@ -48,14 +48,14 @@ public class Players implements Serializable {
     }
 
 
-    public Players(String name, String surname, Date dateOfBirth) {
+    public Player(String name, String surname, Date dateOfBirth) {
         this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
     }
 
     @Ignore
-    public Players(String name, String surname, int polishRanking, int internationalRanking, Date dateOfBirth) {
+    public Player(String name, String surname, int polishRanking, int internationalRanking, Date dateOfBirth) {
         this.name = name;
         this.surname = surname;
         this.polishRanking = polishRanking;

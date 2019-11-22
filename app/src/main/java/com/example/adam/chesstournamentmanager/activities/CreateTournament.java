@@ -14,7 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Executors;
 
 import com.example.adam.chesstournamentmanager.R;
@@ -50,16 +52,15 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
         database = Database.getInstance(this);
 
         Intent i = getIntent();
-        if (i.getSerializableExtra(getString(R.string.available_players)) !=  null){
-            availablePlayers =(ArrayList<Player>)i.getSerializableExtra(getString(R.string.available_players));
+        if (i.getSerializableExtra(getString(R.string.available_players)) != null) {
+            availablePlayers = (ArrayList<Player>) i.getSerializableExtra(getString(R.string.available_players));
             initListView(allPlayersListView, availablePlayers, selectedAvailablePlayers);
-        }
-        else {
+        } else {
             fetchPlayers();
         }
 
         String message;
-        if ( (message = i.getStringExtra(getString(R.string.toast_message))) != null) {
+        if ((message = i.getStringExtra(getString(R.string.toast_message))) != null) {
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         }
 
@@ -79,17 +80,14 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
 
         dialog = new Dialog(this);
 
-   }
+    }
 
 
-
-
-
-    private void fetchPlayers(){
+    private void fetchPlayers() {
 
         chosenPlayers.clear();
         availablePlayers.clear();
-        Executors.newSingleThreadExecutor().execute(    new Runnable() {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
                 availablePlayers.addAll(database.playersDao().getAllPlayers());
@@ -99,7 +97,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
         });
     }
 
-    public void moveToChosenPlayers(){ //'->' button
+    public void moveToChosenPlayers() { //'->' button
         Button nextButton = findViewById(R.id.move_to_chosen_players_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +111,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
     }
 
 
-    public void moveToAvailablePlayers(){ //'<-' button
+    public void moveToAvailablePlayers() { //'<-' button
         Button backButton = findViewById(R.id.move_to_available_players_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +123,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
         });
     }
 
-    private void movement(ArrayList<Player> add, ArrayList<Player> remove, ArrayList<Player> selected){
+    private void movement(ArrayList<Player> add, ArrayList<Player> remove, ArrayList<Player> selected) {
         if (selected.isEmpty())
             Toast.makeText(this, getString(R.string.nothing_selected), Toast.LENGTH_LONG).show();
         else {
@@ -141,12 +139,12 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
         }
     }
 
-    private void initListView(ListView listView, ArrayList<Player> playersList, final ArrayList<Player> selected){
+    private void initListView(ListView listView, ArrayList<Player> playersList, final ArrayList<Player> selected) {
 
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        ArrayAdapter<Player> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simple_checked_text_view,playersList );
+        ArrayAdapter<Player> adapter = new ArrayAdapter<>(this, R.layout.list_players, R.id.simple_checked_text_view, playersList);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -162,8 +160,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
     }
 
 
-
-    private void addNewPlayer(){
+    private void addNewPlayer() {
         Button addPlayerButton = findViewById(R.id.add_player_button);
 
         addPlayerButton.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +175,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
 
     }
 
-    private void configureTournament(){
+    private void configureTournament() {
         Button configureTournamentButton = findViewById(R.id.config_tournament_button);
         configureTournamentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,8 +186,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
                                     getString(R.string.too_many_players_message),
                                     getString(R.string.exit_button));
                     dialog.show(getSupportFragmentManager(), getString(R.string.too_many_players_title));
-                }
-                else {
+                } else {
                     if (chosenPlayers.size() % 2 == 0) {
                         Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
                         i.putExtra(getString(R.string.players), chosenPlayers);
@@ -207,7 +203,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
     }
 
 
-    private void aboutPlayer(){
+    private void aboutPlayer() {
         Button aboutPlayerButton = findViewById(R.id.about_player);
         aboutPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,28 +223,28 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
                     dialog.show();
                 } else if (selectedAvailablePlayers.size() > 1) {
                     moreThanOnePlayerSelectedDialogBox();
-                } else  {
+                } else {
                     noOnePlayerSelectedDialogBox();
                 }
             }
         });
     }
 
-    private GeneralDialogFragment getDialog(Player player){
+    private GeneralDialogFragment getDialog(Player player) {
         String polishRanking = player.getPolishRanking() != -1 ? String.valueOf(player.getPolishRanking()) : getString(R.string.no_rank);
         String internationalRanking = player.getInternationalRanking() != -1 ? String.valueOf(player.getInternationalRanking()) : getString(R.string.no_rank);
 
         return GeneralDialogFragment.newInstance(
                 getString(R.string.remove_player_title_DB),
                 getString(R.string.remove_player_warning,
-                player.getName(),
-                player.getSurname(),
-                parseDateFromDatabase(player.getDateOfBirth()),
-                polishRanking,
-                internationalRanking), getString(R.string.positive_button_warning));
+                        player.getName(),
+                        player.getSurname(),
+                        parseDateFromDatabase(player.getDateOfBirth()),
+                        polishRanking,
+                        internationalRanking), getString(R.string.positive_button_warning));
     }
 
-    private void removePlayer(){
+    private void removePlayer() {
         Button removePlayerButton = findViewById(R.id.remove_player);
         removePlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,21 +254,21 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
                     GeneralDialogFragment dialog = getDialog(player);
                     dialog.show(getSupportFragmentManager(), getString(R.string.confirmation_removing_player));
 
-            } else if (selectedAvailablePlayers.size() > 1) {
+                } else if (selectedAvailablePlayers.size() > 1) {
                     GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
                             getString(R.string.title_warning),
                             getString(R.string.selected_player_remove),
                             getString(R.string.positive_button_warning));
                     dialog.show(getSupportFragmentManager(), getString(R.string.confirmation_removing_player));
-                } else  {
+                } else {
                     noOnePlayerSelectedDialogBox();
-            }
+                }
 
             }
         });
     }
 
-    private void editPlayer(){
+    private void editPlayer() {
         Button editPlayerButton = findViewById(R.id.edit_player);
         editPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,7 +281,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
                     startActivity(i);
                 } else if (selectedAvailablePlayers.size() > 1) {
                     moreThanOnePlayerSelectedDialogBox();
-                } else  {
+                } else {
                     noOnePlayerSelectedDialogBox();
                 }
             }
@@ -309,7 +305,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
         dialog.show(getSupportFragmentManager(), getString(R.string.about_player_db));
     }
 
-    public void selectedAll(int idCheckBox, final ListView listView, final ArrayList<Player> list ){
+    public void selectedAll(int idCheckBox, final ListView listView, final ArrayList<Player> list) {
         final CheckBox selectAllCheckBox = findViewById(idCheckBox);
 
         selectAllCheckBox.setOnClickListener(new View.OnClickListener() {
@@ -320,12 +316,12 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
                 list.clear();
 
                 if (selectAllCheckBox.isChecked()) { //select all
-                    for(int i=0 ; i < itemCount ; i++){
+                    for (int i = 0; i < itemCount; i++) {
                         listView.setItemChecked(i, true);
                         list.add((Player) listView.getItemAtPosition(i));
                     }
                 } else {
-                    for(int i=0 ; i < itemCount ; i++){ //deselect all
+                    for (int i = 0; i < itemCount; i++) { //deselect all
                         listView.setItemChecked(i, false);
                     }
                 }
@@ -338,7 +334,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
     public void onOkClicked(GeneralDialogFragment dialog) {
         final List<Player> playersList = new ArrayList<>(selectedAvailablePlayers);
 
-        if (dialog.getTag().equals(getString(R.string.confirmation_removing_player))){
+        if (dialog.getTag().equals(getString(R.string.confirmation_removing_player))) {
             Executors.newSingleThreadExecutor().execute(new Runnable() {
                 @Override
                 public void run() {
@@ -356,8 +352,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
             else
                 Toast.makeText(this, getString(R.string.removed_players), Toast.LENGTH_LONG).show();
 
-        }
-        else if (dialog.getTag().equals(getString(R.string.title_warning))){
+        } else if (dialog.getTag().equals(getString(R.string.title_warning))) {
             Intent i = new Intent(getApplicationContext(), ConfigureTournament.class);
             i.putExtra(getString(R.string.players), chosenPlayers);
             startActivity(i);

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:stretchColumns="*">
@@ -10,46 +9,43 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/lp_row_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.06"
-            android:id="@+id/lp_row_layout"
-            android:padding="5dp"
             android:gravity="start"
+            android:padding="5dp"
             android:textColor="@color/colorAccent"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/name_player_row_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.34"
-            android:id="@+id/name_player_row_layout"
-            android:padding="5dp"
             android:gravity="start"
+            android:padding="5dp"
             android:textColor="@color/colorAccent"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/international_ranking_row_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.30"
-            android:padding="5dp"
             android:gravity="start"
+            android:padding="5dp"
             android:textColor="@color/colorAccent"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
+
         <TextView
             android:id="@+id/polish_ranking_row_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.30"
             android:gravity="start"
-            android:textSize="20sp"
-            android:textColor="@color/colorAccent"
             android:padding="5dp"
-            />
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp" />
     </TableRow>
 </TableLayout>

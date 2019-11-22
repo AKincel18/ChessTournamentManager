@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:stretchColumns="*">
@@ -13,15 +12,15 @@
             android:id="@+id/name_player_header"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.4"
             android:layout_column="0"
+            android:layout_weight="0.4"
+            android:background="@color/colorPrimary"
+            android:gravity="start|center_vertical"
             android:padding="5dp"
             android:text="@string/name_player_header"
-            android:textStyle="bold"
-            android:gravity="start|center_vertical"
-            android:textSize="20sp"
-            android:background="@color/colorPrimary"
             android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:textStyle="bold"
 
 
             />
@@ -30,29 +29,28 @@
             android:id="@+id/international_ranking_header"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.3"
             android:layout_column="1"
+            android:layout_weight="0.3"
+            android:background="@color/colorPrimary"
+            android:gravity="start|center_vertical"
             android:padding="5dp"
             android:text="@string/international_ranking_header"
-            android:textStyle="bold"
-            android:gravity="start|center_vertical"
-            android:textSize="20sp"
-            android:background="@color/colorPrimary"
             android:textColor="@color/colorAccent"
-            />
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/polish_ranking_header"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.3"
             android:layout_column="1"
+            android:layout_weight="0.3"
+            android:background="@color/colorPrimary"
+            android:gravity="start|center_vertical"
             android:padding="5dp"
             android:text="@string/polish_ranking_header"
-            android:textStyle="bold"
-            android:gravity="start|center_vertical"
-            android:textSize="20sp"
-            android:background="@color/colorPrimary"
             android:textColor="@color/colorAccent"
-            />
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </TableRow>
 </TableLayout>

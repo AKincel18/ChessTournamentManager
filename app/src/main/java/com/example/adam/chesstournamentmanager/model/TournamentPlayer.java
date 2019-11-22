@@ -1,7 +1,6 @@
 package com.example.adam.chesstournamentmanager.model;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class TournamentPlayer extends Player {
         return prevColors;
     }
 
-    public Colors getLastColor(){
+    public Colors getLastColor() {
         return prevColors.get(prevColors.size() - 1);
     }
 
@@ -90,60 +89,60 @@ public class TournamentPlayer extends Player {
         this.medianBuchholzMethod = medianBuchholzMethod;
     }
 
-    public void removeLastMatch(){
+    public void removeLastMatch() {
         prevOpponents.remove(prevOpponents.size() - 1);
         prevColors.remove(prevColors.size() - 1);
     }
 
-    public boolean isPlayedTogether(TournamentPlayer player){
-        for (TournamentPlayer tournamentPlayer : prevOpponents){
+    public boolean isPlayedTogether(TournamentPlayer player) {
+        for (TournamentPlayer tournamentPlayer : prevOpponents) {
             if (tournamentPlayer == player)
                 return true;
         }
         return false;
     }
 
-    public boolean hasOpponent(int currentRound){
+    public boolean hasOpponent(int currentRound) {
         return currentRound == prevOpponents.size();
     }
 
 
-    public String writeOpponent(){
+    public String writeOpponent() {
         String tmp = "";
-        for (TournamentPlayer player : prevOpponents){
-            tmp +=  (player.getName() + " ");
+        for (TournamentPlayer player : prevOpponents) {
+            tmp += (player.getName() + " ");
         }
         return tmp;
     }
 
-    public String writeColors(){
+    public String writeColors() {
         String tmp = "";
-        for (Colors colors : prevColors){
+        for (Colors colors : prevColors) {
             tmp += (colors.name() + " ");
         }
         return tmp;
     }
 
 
-        public int countColorInTheRow(){
-            if (prevColors.size() == 1)
-                return 1;
-            int counter = 1;
-            for (int i=prevColors.size() - 1; i >= 1; i--){
-                if (prevColors.get(i) != Colors.NO_COLOR && prevColors.get(i) == prevColors.get(i - 1)){
-                    counter++;
-                }else
-                    return counter;
-            }
-            return counter;
+    public int countColorInTheRow() {
+        if (prevColors.size() == 1)
+            return 1;
+        int counter = 1;
+        for (int i = prevColors.size() - 1; i >= 1; i--) {
+            if (prevColors.get(i) != Colors.NO_COLOR && prevColors.get(i) == prevColors.get(i - 1)) {
+                counter++;
+            } else
+                return counter;
         }
+        return counter;
+    }
 
 
-    public List<Integer> colorsCount(){
+    public List<Integer> colorsCount() {
         List<Integer> list = new ArrayList<>();
         int black = 0;
         int white = 0;
-        for (Colors color : prevColors){
+        for (Colors color : prevColors) {
             if (color == Colors.WHITE)
                 white++;
             else if (color == Colors.BLACK)

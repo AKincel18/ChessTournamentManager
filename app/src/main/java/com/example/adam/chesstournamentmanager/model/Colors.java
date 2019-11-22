@@ -3,7 +3,7 @@ package com.example.adam.chesstournamentmanager.model;
 public enum Colors {
     WHITE, BLACK, NO_COLOR;
 
-    public Colors opposite(){
+    public Colors opposite() {
         switch (this) {
             case WHITE:
                 return BLACK;

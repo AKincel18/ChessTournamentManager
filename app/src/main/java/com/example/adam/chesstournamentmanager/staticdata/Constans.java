@@ -14,8 +14,16 @@ public class Constans {
     public static final String WARNING_TITLE = "Ostrzeżenie";
     public static final String POSITIVE_BUTTON = "Tak";
 
+    //SwissAlgorithm
+    public static final String BYE = "Bye";
+    public static final String EMPTY = "";
 
+    //FormatDateToString
+    public static final String ZERO = "0";
+    public static final String DASH = "-";
 
+    //ListAdapter
+    public static final String COMMA = ",";
 
 
 }

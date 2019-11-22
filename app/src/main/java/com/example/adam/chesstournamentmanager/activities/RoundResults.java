@@ -59,7 +59,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
     }
 
-    private void initNavigationMenu(){
+    private void initNavigationMenu() {
 
         final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -96,7 +96,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
                     }
                 } else {
                     GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
-                    dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
+                    dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
                 }
                 return true;
             }
@@ -111,19 +111,19 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
     @Override
     public void onBackPressed() {
         GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
-        dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
+        dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
     }
 
     private void buildMenu() {
         MenuItem menuItem = myMenu.findItem(R.id.rounds_menu);
         SubMenu subMenu = menuItem.getSubMenu();
-        for (int i = 1; i <= currentRound; i++){
-            subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.round_count_text_view, i));
+        for (int i = 1; i <= currentRound; i++) {
+            subMenu.add(Menu.NONE, i, Menu.NONE, getString(R.string.round_count_text_view, i));
             buildColorMenu(i, R.style.subMenuRoundsStyle);
         }
     }
 
-    private void buildColorMenu(int rId, int rStyle){
+    private void buildColorMenu(int rId, int rStyle) {
         MenuItem rounds = myMenu.findItem(rId);
         SpannableString s = new SpannableString(rounds.getTitle());
         s.setSpan(new TextAppearanceSpan(this, rStyle), 0, s.length(), 0);
@@ -131,7 +131,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
     }
 
 
-    private void buildView(int currentRound){
+    private void buildView(int currentRound) {
         textView.setText(getString(R.string.round_count_text_view, currentRound));
 
         LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
@@ -141,7 +141,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.setMargins(10,5,10,5);
+        params.setMargins(10, 5, 10, 5);
         linearLayout.setLayoutParams(params);
         matchesRelativeLayout.addView(linearLayout);
 
@@ -157,7 +157,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
         List<Match> matches = allMatches.get(currentRound - 1);
 
-        for (int i = 0; i < matches.size(); i++){
+        for (int i = 0; i < matches.size(); i++) {
             LinearLayout l = new LinearLayout(this);
             l.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -184,7 +184,6 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
             l.addView(player2TextView);
 
 
-
             TextView resultTextView = new TextView(this);
             resultTextView.setText(getMatchResult(player1TextView, player2TextView, matches.get(i)));
             resultTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
@@ -199,8 +198,8 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
     }
 
-    private String getMatchResult(TextView p1, TextView p2, Match match){
-        switch (match.getMatchResult()){
+    private String getMatchResult(TextView p1, TextView p2, Match match) {
+        switch (match.getMatchResult()) {
             case WHITE_WON:
                 p1.setTextColor(Color.GREEN);
                 p2.setTextColor(Color.RED);
@@ -219,8 +218,8 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
-            Intent i = new Intent(getApplicationContext(), CreateTournament.class);
-            startActivity(i);
+        Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+        startActivity(i);
     }
 
     @Override

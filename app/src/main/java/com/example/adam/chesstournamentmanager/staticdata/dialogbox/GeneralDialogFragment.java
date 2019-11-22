@@ -22,7 +22,7 @@ public class GeneralDialogFragment extends BaseDialogFragment<OnDialogFragmentCl
         return frag;
     }
 
-    public static GeneralDialogFragment exitDialogBox(){
+    public static GeneralDialogFragment exitDialogBox() {
         return GeneralDialogFragment.newInstance(
                 Constans.WARNING_TITLE, Constans.EXIT_MESSAGE, Constans.POSITIVE_BUTTON);
     }
@@ -31,17 +31,17 @@ public class GeneralDialogFragment extends BaseDialogFragment<OnDialogFragmentCl
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.alertDialog);
-        builder .setTitle(getArguments().getString(Constans.TITLE))
+        builder.setTitle(getArguments().getString(Constans.TITLE))
                 .setMessage(getArguments().getString(Constans.MESSAGE))
                 .setPositiveButton(getArguments().getString(Constans.POSITIVE_BTN),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Positive button clicked
-                        getActivityInstance().onOkClicked(GeneralDialogFragment.this);
-                    }
-                }
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // Positive button clicked
+                                getActivityInstance().onOkClicked(GeneralDialogFragment.this);
+                            }
+                        }
 
-        );
+                );
 
         //build 'no' button
         if (getArguments().getString(Constans.TITLE).equals(getString(R.string.title_warning)) ||

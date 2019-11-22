@@ -16,27 +16,27 @@
             android:id="@+id/config_tournament_text_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="0.4"
             android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:textSize="30sp"
+            android:text="@string/config_tournament_text_view"
             android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            android:text="@string/config_tournament_text_view"/>
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/starting_list_text_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="0.6"
             android:gravity="center"
-            android:textSize="30sp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:text="@string/starting_list_text_view"
             android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            android:text="@string/starting_list_text_view"/>
+            android:textSize="30sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,20 +47,20 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.43"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
+            android:layout_weight="0.43"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/layout_set_round"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <Switch
@@ -89,9 +89,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="start|center"
-                    android:textSize="20sp"
+                    android:text="@string/players_count_text_view"
                     android:textColor="@color/colorAccent"
-                    android:text="@string/players_count_text_view" />
+                    android:textSize="20sp" />
 
 
                 <TextView
@@ -108,7 +108,6 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:id="@+id/layout_order_player"
                 android:layout_width="match_parent"
@@ -122,22 +121,22 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="20sp"
                     android:gravity="start|center"
+                    android:text="@string/pairing_type_text_view"
                     android:textColor="@color/colorAccent"
-                    android:text="@string/pairing_type_text_view" />
+                    android:textSize="20sp" />
 
                 <TextView
 
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:textSize="19sp"
-                    android:gravity="center|start"
-                    android:textColor="@color/colorPrimaryDark"
                     android:layout_marginStart="10dp"
-                    android:text="@string/auto_order_player" />
-<!--                <Switch
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:text="@string/auto_order_player"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="19sp" />
+                <!--                <Switch
                     android:id="@+id/order_place_switch"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -156,18 +155,15 @@
                 android:orientation="horizontal">
 
 
-
                 <TextView
                     android:id="@+id/method_text_view"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="20sp"
                     android:gravity="start|center"
+                    android:text="@string/method_text_view"
                     android:textColor="@color/colorAccent"
-                    android:text="@string/method_text_view" />
-
-
+                    android:textSize="20sp" />
 
 
                 <Spinner
@@ -175,33 +171,20 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
             </LinearLayout>
-<!--
-
-            &lt;!&ndash;to testing&ndash;&gt;
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
-                android:layout_marginBottom="76dp"
-                android:text="LOSUJ - do testu"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />-->
 
         </LinearLayout>
-
 
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.6"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
+            android:layout_weight="0.6"
             android:orientation="vertical">
 
 
@@ -221,14 +204,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/layout_border_button"
-                android:textColor="@color/colorAccent"
-                android:text="@string/start_tournament_button" />
+                android:text="@string/start_tournament_button"
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
 
 
-
     </LinearLayout>
-
 
 
 </LinearLayout>

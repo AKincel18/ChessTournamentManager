@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.R;
+import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ListAdapter extends ArrayAdapter<String> {
 
     }
 
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
 
         if (rowView == null) {
@@ -52,7 +53,7 @@ public class ListAdapter extends ArrayAdapter<String> {
             rowView.setTag(holder);
         }
 
-        String[] items = itemList.get(position).split(",");//itemList[position].split(",");
+        String[] items = itemList.get(position).split(Constans.COMMA);
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
         holder.noColumn.setText(items[0]);

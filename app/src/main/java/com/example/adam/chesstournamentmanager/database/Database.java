@@ -12,8 +12,8 @@ public abstract class Database extends RoomDatabase {
 
     private static Database instance;
 
-    public static Database getInstance(Context context){
-        if (instance == null){
+    public static Database getInstance(Context context) {
+        if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     Database.class, Constans.DATABASE_NAME)
                     .fallbackToDestructiveMigration()

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
@@ -85,8 +84,6 @@
                         android:textColor="@color/colorAccent" />
 
 
-
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -108,8 +105,6 @@
                         android:background="@drawable/layout_border_button"
                         android:text="@string/edit_player"
                         android:textColor="@color/colorAccent" />
-
-
 
 
                     <Button
@@ -230,7 +225,6 @@
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>

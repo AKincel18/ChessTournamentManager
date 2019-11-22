@@ -63,16 +63,14 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
         initSpinnerPlaceOrder();
         comparatorByStandardOrder();
 
-        int optimalCountOfRounds =(int)Math.ceil(Math.log(players.size()) / Math.log(2)); // ceil(log2(player's number)),  log2 = (Math.log(x) / Math.log(2));
+        int optimalCountOfRounds = (int) Math.ceil(Math.log(players.size()) / Math.log(2)); // ceil(log2(player's number)),  log2 = (Math.log(x) / Math.log(2));
         choiceRoundsSwitchImplementation(optimalCountOfRounds);
         startTournament(optimalCountOfRounds);
-        //losuj();
 
     }
 
 
-
-    private void initSpinnerPlaceOrder(){
+    private void initSpinnerPlaceOrder() {
         Spinner spinner = findViewById(R.id.place_order_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.place_order, R.layout.color_spinner_config_layout);
         adapter.setDropDownViewResource(R.layout.spinner_config_tournament);
@@ -81,7 +79,7 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    placeOrder = parent.getSelectedItemPosition() == 0;
+                placeOrder = parent.getSelectedItemPosition() == 0;
             }
 
             @Override
@@ -100,20 +98,21 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
         listView.setAdapter(adapter);
     }
 
-    private List<String> getPlayerList(){
+    private List<String> getPlayerList() {
         List<String> list = new ArrayList<>();
         int counter = 1;
         for (Player player : players) {
             String internationalRanking = (player.getInternationalRanking() == -1 ? getString(R.string.no_rank) : String.valueOf(player.getInternationalRanking()));
             String polishRanking = (player.getPolishRanking() == -1 ? getString(R.string.no_rank) : String.valueOf(player.getPolishRanking()));
-            String tmp = String.valueOf(counter) + ".," + player.toString() + "," + internationalRanking + "," + polishRanking;
+            String coma = getString(R.string.comma);
+            String tmp = String.valueOf(counter) + getString(R.string.dot) + coma + player.toString() + coma + internationalRanking + coma + polishRanking;
             list.add(tmp);
             counter++;
         }
         return list;
     }
 
-    private void comparatorByStandardOrder(){
+    private void comparatorByStandardOrder() {
         Collections.sort(players, new Comparator<Player>() {
             @Override
             public int compare(Player o1, Player o2) {
@@ -131,21 +130,6 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
         initListViewHeader();
     }
 
-
-/*    private void losuj(){
-        Button button = findViewById(R.id.button);
-        final EditText roundsNumber = findViewById(R.id.rounds_number_edit_text);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    SwissAlgorithm swissAlgorithm = SwissAlgorithm.initSwissAlgorithm(Integer.valueOf(roundsNumber.getText().toString()), Constans.ALPHABETICAL_ORDER, 0);
-                    swissAlgorithm.initTournamentPlayers(players);
-                    swissAlgorithm.drawFirstRound();
-
-            }
-        });
-    }*/
-
     private void startTournament(final int optimalCountOfRounds) {
         Button startTournament = findViewById(R.id.start_tournament_button);
         startTournament.setOnClickListener(new View.OnClickListener() {
@@ -153,36 +137,35 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), Tournament.class);
                 boolean startActivity = false;
-                if (switch1.isChecked()){
+                if (switch1.isChecked()) {
                     try {
                         int roundNumber = Integer.valueOf(editText.getText().toString());
-                        if (maxNumberCount() >= roundNumber && roundNumber != 0 ) {
+                        if (maxNumberCount() >= roundNumber && roundNumber != 0) {
                             startActivity = true;
                             i.putExtra(getString(R.string.rounds_number), roundNumber);
 
                         } else {
                             GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
                                     getString(R.string.wrong_rounds_title),
-                                    getString(R.string.wrong_rounds_message, players.size(), maxNumberCount(), roundNumber ),
+                                    getString(R.string.wrong_rounds_message, players.size(), maxNumberCount(), roundNumber),
                                     getString(R.string.exit_button));
-                                    dialog.show(getSupportFragmentManager(), getString(R.string.wrong_rounds_title));
-                            }
+                            dialog.show(getSupportFragmentManager(), getString(R.string.wrong_rounds_title));
+                        }
 
                     } catch (NumberFormatException e) {
-                            GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
-                                    getString(R.string.title_error),
-                                    getString(R.string.empty_rounds_number),
-                                    getString(R.string.exit_button));
-                                    dialog.show(getSupportFragmentManager(),getString(R.string.title_error));
+                        GeneralDialogFragment dialog = GeneralDialogFragment.newInstance(
+                                getString(R.string.title_error),
+                                getString(R.string.empty_rounds_number),
+                                getString(R.string.exit_button));
+                        dialog.show(getSupportFragmentManager(), getString(R.string.title_error));
                     }
 
-                }
-                else {
+                } else {
                     startActivity = true;
                     i.putExtra(getString(R.string.rounds_number), Integer.valueOf(optimalCountOfRounds));
                 }
 
-                if (startActivity){
+                if (startActivity) {
                     i.putExtra(getString(R.string.players), players);
                     i.putExtra(getString(R.string.place_order), placeOrder);
                     SwissAlgorithm.resetTournament();
@@ -195,14 +178,14 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
 
     }
 
-    private int maxNumberCount(){
+    private int maxNumberCount() {
         if (players.size() % 2 == 0)
             return players.size() - 1;
         else
             return players.size();
     }
 
-    private void choiceRoundsSwitchImplementation(int optimalCountOfRounds){
+    private void choiceRoundsSwitchImplementation(int optimalCountOfRounds) {
         final LinearLayout linearLayout = findViewById(R.id.layout_set_round);
         final TextView textView = new TextView(this);
         editText = new EditText(this);
@@ -216,8 +199,8 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
 
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1);
 
-        int startMargins = (int)(10 * Resources.getSystem().getDisplayMetrics().density + 0.5f);
-        params.setMargins(startMargins, 0 , 0,0);
+        int startMargins = (int) (10 * Resources.getSystem().getDisplayMetrics().density + 0.5f);
+        params.setMargins(startMargins, 0, 0, 0);
 
         textView.setGravity(Gravity.START | Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
@@ -229,12 +212,11 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
         switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     editText.setLayoutParams(params);
                     linearLayout.removeView(textView);
                     linearLayout.addView(editText);
-                }
-                else{
+                } else {
                     textView.setLayoutParams(params);
                     linearLayout.removeView(editText);
                     linearLayout.addView(textView);

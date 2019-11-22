@@ -57,7 +57,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
         int width = displayMetrics.widthPixels;
         int height = displayMetrics.heightPixels;
 
-        getWindow().setLayout((int) (width*.6), (int) (height*.66));
+        getWindow().setLayout((int) (width * .6), (int) (height * .66));
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = Gravity.CENTER;
@@ -69,7 +69,6 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         database = Database.getInstance(this);
-
 
 
         Intent i = getIntent();
@@ -92,7 +91,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
     }
 
 
-    private void pickDateListener(){
+    private void pickDateListener() {
         pickDateTextView = findViewById(R.id.pick_date_text_view);
 
         pickDateTextView.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +122,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
     }
 
 
-    private void setValues(Player player){
+    private void setValues(Player player) {
         EditText name = findViewById(R.id.name_edit_text);
         name.setText(player.getName());
 
@@ -149,14 +148,13 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
     }
 
 
-
-    public void confirmNewPlayer(){
+    public void confirmNewPlayer() {
 
         Button confirmPlayerButton = findViewById(R.id.confirm_new_player_button);
         confirmPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText name =  findViewById(R.id.name_edit_text);
+                final EditText name = findViewById(R.id.name_edit_text);
                 final EditText surname = findViewById(R.id.surname_edit_text);
                 final TextView date = findViewById(R.id.pick_date_text_view);
                 final EditText polishRanking = findViewById(R.id.polish_ranking_number);
@@ -168,8 +166,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
                 formatDate = new Date();
                 try {
                     formatDate = format.parse(date.getText().toString());
-                }
-                catch (ParseException exc) {
+                } catch (ParseException exc) {
                     GeneralDialogFragment generalDialogFragment =
                             GeneralDialogFragment.newInstance(getString(R.string.title_error), getString(R.string.message_error), getString(R.string.exit_button));
                     generalDialogFragment.show(getSupportFragmentManager(), getString(R.string.title_error));
@@ -184,16 +181,14 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
                         formatDate
                 );
 
-                try{
+                try {
                     player.setPolishRanking(Integer.valueOf(polishRanking.getText().toString()));
-                }
-                catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     player.setPolishRanking(-1);
-                    }
+                }
                 try {
                     player.setInternationalRanking(Integer.valueOf(internationalRanking.getText().toString()));
-                }
-                catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     player.setInternationalRanking(-1);
                 }
 
@@ -218,7 +213,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
     }
 
-    private void saveNewPlayer(final Player player){
+    private void saveNewPlayer(final Player player) {
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
@@ -232,11 +227,11 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
         allPlayers.add(player);
         i.putExtra(getString(R.string.available_players), allPlayers);
-        i.putExtra(getString(R.string.toast_message),getString(R.string.added_player));
+        i.putExtra(getString(R.string.toast_message), getString(R.string.added_player));
         startActivity(i);
     }
 
-    private void updatePlayer(final Player player){
+    private void updatePlayer(final Player player) {
 
         editPlayer.setName(player.getName());
         editPlayer.setSurname(player.getSurname());
@@ -257,12 +252,12 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
         allPlayers.add(editPlayer);
         i.putExtra(getString(R.string.available_players), allPlayers);
-        i.putExtra(getString(R.string.toast_message),getString(R.string.edited_player));
+        i.putExtra(getString(R.string.toast_message), getString(R.string.edited_player));
         startActivity(i);
 
     }
 
-    private void close(){
+    private void close() {
         Button closeButton = findViewById(R.id.close_button);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,11 +268,11 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         showDialogBox();
     }
 
-    private void showDialogBox(){
+    private void showDialogBox() {
         GeneralDialogFragment generalDialogFragment =
                 GeneralDialogFragment.newInstance(getString(R.string.title_warning), getString(R.string.information_warning), getString(R.string.positive_button_warning));
         generalDialogFragment.show(getSupportFragmentManager(), getString(R.string.title_warning));
@@ -289,10 +284,9 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
             Intent i = new Intent(this, CreateTournament.class);
             if (!addNewPlayer) {
                 allPlayers.add(editPlayer);
-                i.putExtra(getString(R.string.toast_message),getString(R.string.not_edit_player));
-            }
-            else {
-                i.putExtra(getString(R.string.toast_message),getString(R.string.not_added_player));
+                i.putExtra(getString(R.string.toast_message), getString(R.string.not_edit_player));
+            } else {
+                i.putExtra(getString(R.string.toast_message), getString(R.string.not_added_player));
             }
             i.putExtra(getString(R.string.available_players), allPlayers);
             startActivity(i);

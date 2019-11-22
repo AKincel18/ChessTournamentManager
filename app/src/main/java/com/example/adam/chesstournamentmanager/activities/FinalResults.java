@@ -47,8 +47,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
         if (SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
             textView.setText(getString(R.string.final_result));
-        }
-        else {
+        } else {
             textView.setText(getString(R.string.current_results, (currentRound - 1)));
         }
 
@@ -95,7 +94,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
                     }
                 } else {
                     GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
-                    dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
+                    dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
                 }
                 return true;
             }
@@ -110,19 +109,19 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
     @Override
     public void onBackPressed() {
         GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
-        dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
+        dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
     }
 
     private void buildMenu() {
         MenuItem menuItem = myMenu.findItem(R.id.rounds_menu);
         SubMenu subMenu = menuItem.getSubMenu();
-        for (int i = 1; i <= currentRound; i++){
-            subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.round_count_text_view, i));
+        for (int i = 1; i <= currentRound; i++) {
+            subMenu.add(Menu.NONE, i, Menu.NONE, getString(R.string.round_count_text_view, i));
             buildColorMenu(i, R.style.subMenuRoundsStyle);
         }
     }
 
-    private void buildColorMenu(int rId, int rStyle){
+    private void buildColorMenu(int rId, int rStyle) {
         MenuItem rounds = myMenu.findItem(rId);
         SpannableString s = new SpannableString(rounds.getTitle());
         s.setSpan(new TextAppearanceSpan(this, rStyle), 0, s.length(), 0);
@@ -130,10 +129,9 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
     }
 
 
-
-    private void buildHeader(){
-        LinearLayout.LayoutParams paramsBuchholzHeader = new LinearLayout.LayoutParams(250 ,ViewGroup.LayoutParams.MATCH_PARENT);
-        paramsBuchholzHeader.setMargins(0,0,0,5);
+    private void buildHeader() {
+        LinearLayout.LayoutParams paramsBuchholzHeader = new LinearLayout.LayoutParams(250, ViewGroup.LayoutParams.MATCH_PARENT);
+        paramsBuchholzHeader.setMargins(0, 0, 0, 5);
 
         TextView buchholzHeaderTextView = new TextView(this);
         buchholzHeaderTextView.setTextColor(getColor(R.color.colorAccent));
@@ -158,7 +156,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.setMargins(10,5,10,5);
+        params.setMargins(10, 5, 10, 5);
         linearLayout.setLayoutParams(params);
         matchesRelativeLayout.addView(linearLayout);
 
@@ -179,7 +177,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
         List<TournamentPlayer> playerList = SwissAlgorithm.getINSTANCE().getPlayers();
 
 
-        for (int i=0; i< playerList.size(); i++){
+        for (int i = 0; i < playerList.size(); i++) {
             LinearLayout l = new LinearLayout(this);
             l.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -198,7 +196,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
             playerTextView.setText(playerList.get(i).toString());
             playerTextView.setLayoutParams(paramsPlayerTextView);
 
-            if (i == 0){
+            if (i == 0) {
                 playerTextView.setTextColor(getColor(R.color.colorGolden));
                 playerTextView.setTypeface(null, Typeface.BOLD);
             }
@@ -220,7 +218,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
             pointTextView.setGravity(Gravity.START);
             pointTextView.setLayoutParams(paramsPointsTextView);
 
-            pointTextView.setText(String.format(new Locale(getString(R.string.locale)),getString(R.string.format_float), playerList.get(i).getPoints()));
+            pointTextView.setText(String.format(new Locale(getString(R.string.locale)), getString(R.string.format_float), playerList.get(i).getPoints()));
             l.addView(pointTextView);
 
 
@@ -234,7 +232,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
                 buchholzPointsTextView.setLayoutParams(paramsPointsTextView);
 
                 if (SwissAlgorithm.getINSTANCE().getPlaceOrder()) {
-                    buchholzPointsTextView.setText(String.format(new Locale(getString(R.string.locale)),getString(R.string.format_float), playerList.get(i).getBuchholzPoints()));
+                    buchholzPointsTextView.setText(String.format(new Locale(getString(R.string.locale)), getString(R.string.format_float), playerList.get(i).getBuchholzPoints()));
                 } else {
                     buchholzPointsTextView.setText(String.format(new Locale(getString(R.string.locale)), getString(R.string.format_float), playerList.get(i).getMedianBuchholzMethod()));
                 }
@@ -245,14 +243,13 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
             linearLayout.addView(l);
 
 
-
         }
     }
 
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
-            Intent i = new Intent(getApplicationContext(), CreateTournament.class);
-            startActivity(i);
+        Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+        startActivity(i);
     }
 
     @Override

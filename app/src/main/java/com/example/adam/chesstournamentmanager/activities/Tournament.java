@@ -44,7 +44,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
 
     private TextView[] textViews;
 
-    private  Spinner[] spinners;
+    private Spinner[] spinners;
 
     private SwissAlgorithm swissAlgorithm;
 
@@ -67,8 +67,6 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         setContentView(R.layout.activity_tournament);
         nextRoundButton = findViewById(R.id.next_round_button);
         titleTextView = findViewById(R.id.round_count_text_view);
-
-
 
 
         swissAlgorithm = SwissAlgorithm.getINSTANCE();
@@ -101,10 +99,10 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
     @Override
     public void onBackPressed() {
         GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
-        dialog.show(getSupportFragmentManager(),  getString(R.string.title_warning));
+        dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
     }
 
-    private void initNavigationMenu(){
+    private void initNavigationMenu() {
 
         final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -120,7 +118,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         navigationView = findViewById(R.id.nav_view);
         myMenu = navigationView.getMenu();
 
-        buildColorMenu(R.id.rounds_menu,R.style.titleMenuStyle );
+        buildColorMenu(R.id.rounds_menu, R.style.titleMenuStyle);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -153,14 +151,14 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         });
     }
 
-    private void buildColorMenu(int rId, int rStyle){
+    private void buildColorMenu(int rId, int rStyle) {
         MenuItem rounds = myMenu.findItem(rId);
         SpannableString s = new SpannableString(rounds.getTitle());
         s.setSpan(new TextAppearanceSpan(this, rStyle), 0, s.length(), 0);
         rounds.setTitle(s);
     }
 
-    private void nextRoundButton(){
+    private void nextRoundButton() {
         nextRoundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,17 +170,15 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
                     if (swissAlgorithm.isFinishedTournament()) {
                         Intent i = new Intent(getApplicationContext(), FinalResults.class);
                         startActivity(i);
-                    }
-                    else {
+                    } else {
                         swissAlgorithm.drawNextRound();
                         titleTextView.setText(getString(R.string.round_count_text_view, swissAlgorithm.getCurrentRound()));
                         ScrollView scrollView = findViewById(R.id.scroll_view);
-                        scrollView.scrollTo(0,0);
+                        scrollView.scrollTo(0, 0);
                         refreshView(swissAlgorithm.getCurrentRound(), true);
                     }
 
-                }
-                else {
+                } else {
                     notAllResultsEnteredDialogBox();
                 }
 
@@ -190,28 +186,28 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         });
     }
 
-    private void notAllResultsEnteredDialogBox(){
+    private void notAllResultsEnteredDialogBox() {
         GeneralDialogFragment generalDialogFragment =
                 GeneralDialogFragment.newInstance(getString(R.string.title_error), getString(R.string.no_result_message_error), getString(R.string.exit_button));
         generalDialogFragment.show(getSupportFragmentManager(), getString(R.string.title_error));
     }
 
-    private void buildMenu(){
+    private void buildMenu() {
         MenuItem menuItem = myMenu.findItem(R.id.rounds_menu);
         SubMenu subMenu = menuItem.getSubMenu();
         for (int i = 1; i <= swissAlgorithm.getRoundsNumber(); i++) {
-            subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.round_count_text_view, i));
+            subMenu.add(Menu.NONE, i, Menu.NONE, getString(R.string.round_count_text_view, i));
             buildColorMenu(i, R.style.subMenuRoundsStyle);
         }
         navigationView.invalidate();
 
     }
 
-    private List<MatchResult> getResult(){
+    private List<MatchResult> getResult() {
         int matchCount = swissAlgorithm.isEven() ? matches.size() : matches.size() - 1;
 
         List<MatchResult> results = new ArrayList<>();
-        for (int i=0; i < matchCount; i++){
+        for (int i = 0; i < matchCount; i++) {
             MatchResult m = getMatchResultFromSpinner(i);
             if (m != null)
                 results.add(m);
@@ -224,17 +220,16 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         return results;
     }
 
-    private void refreshView(int goToRound, boolean nextRound){
+    private void refreshView(int goToRound, boolean nextRound) {
         changeTextButton();
-        matches = swissAlgorithm.getMatches().get(goToRound -1);
-        if (nextRound){
+        matches = swissAlgorithm.getMatches().get(goToRound - 1);
+        if (nextRound) {
             int count = 0;
-            for (int i =0; i<matches.size() * 2; i+=2) {
+            for (int i = 0; i < matches.size() * 2; i += 2) {
                 if (count == matches.size() - 1 && !swissAlgorithm.isEven()) {
                     textViews[i].setTextColor(Color.GREEN);
                     textViews[i + 1].setTextColor(Color.RED);
-                }
-                else {
+                } else {
                     textViews[i].setTextColor(getColor(R.color.colorPrimaryDark));
                     textViews[i + 1].setTextColor(getColor(R.color.colorPrimaryDark));
                 }
@@ -244,8 +239,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
                 initSpinner(spinners[count]);
                 count++;
             }
-        }
-        else {
+        } else {
             Intent intent = new Intent(getApplicationContext(), RoundResults.class);
             intent.putExtra(getString(R.string.go_to_round), goToRound);
             startActivity(intent);
@@ -253,11 +247,8 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
     }
 
 
-
-
-
-    private MatchResult getMatchResultFromSpinner(int pos){
-        switch (spinners[pos].getSelectedItemPosition()){
+    private MatchResult getMatchResultFromSpinner(int pos) {
+        switch (spinners[pos].getSelectedItemPosition()) {
             case 0:
                 return MatchResult.WHITE_WON;
             case 1:
@@ -268,13 +259,13 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         return null; //not selected result
     }
 
-    private void initSpinnersAndTextViews(){
+    private void initSpinnersAndTextViews() {
 
         textViews = new TextView[matches.size() * 2];
         spinners = new Spinner[matches.size()];
 
         //matches
-        for (int i =0;i<matches.size() * 2; i++){
+        for (int i = 0; i < matches.size() * 2; i++) {
             TextView textView = new TextView(this);
             textView.setId(i);
             textView.setTextColor(getColor(R.color.colorPrimaryDark));
@@ -282,7 +273,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         }
 
         //spinners
-        for (int i = 0; i<matches.size(); i++){
+        for (int i = 0; i < matches.size(); i++) {
             Spinner spinner = new Spinner(this);
             spinner.setId(i);
             spinners[i] = spinner;
@@ -291,13 +282,13 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
     }
 
 
-    private void changeTextButton(){
-        if (SwissAlgorithm.getINSTANCE().getCurrentRound() == SwissAlgorithm.getINSTANCE().getRoundsNumber()){
+    private void changeTextButton() {
+        if (SwissAlgorithm.getINSTANCE().getCurrentRound() == SwissAlgorithm.getINSTANCE().getRoundsNumber()) {
             nextRoundButton.setText(getString(R.string.show_results_button));
         }
     }
 
-    private void buildRoundsView(){
+    private void buildRoundsView() {
 
         changeTextButton();
 
@@ -307,7 +298,6 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         titleTextView.setText(getString(R.string.round_count_text_view, swissAlgorithm.getCurrentRound()));
 
 
-
         LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
 
         //title
@@ -315,7 +305,6 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         titleTextView.setTypeface(titleTextView.getTypeface(), Typeface.BOLD);
         titleTextView.setText(getString(R.string.round_count_text_view, swissAlgorithm.getCurrentRound()));
         titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-
 
 
         LinearLayout.LayoutParams paramsLeftTextSize = new LinearLayout.LayoutParams(0, 50);
@@ -331,16 +320,15 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         paramsRightTextSize.setMargins(0, 5, 0, 5);
 
 
-
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.setMargins(10,5,10,5);
+        params.setMargins(10, 5, 10, 5);
         linearLayout.setLayoutParams(params);
         matchesRelativeLayout.addView(linearLayout);
 
         int matchNumber = 0;
-        for (int i =0; i<matches.size() * 2;i+=2){
+        for (int i = 0; i < matches.size() * 2; i += 2) {
             LinearLayout l = new LinearLayout(this);
             l.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -350,7 +338,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
             textViews[i].setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
             l.addView(textViews[i]);
 
-            if (matchNumber == matches.size() - 1 && !swissAlgorithm.isEven()){
+            if (matchNumber == matches.size() - 1 && !swissAlgorithm.isEven()) {
 
                 textViews[i].setTextColor(Color.GREEN);
                 TextView textView = new TextView(this);
@@ -366,8 +354,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
                 textView.setTextColor(getColor(R.color.colorPrimaryDark));
                 textViews[i + 1].setTextColor(Color.RED);
                 l.addView(textView);
-            }
-            else {
+            } else {
                 initSpinner(spinners[matchNumber]);
                 spinners[matchNumber].setLayoutParams(paramsSpinner);
                 spinners[matchNumber].setGravity(Gravity.CENTER);
@@ -403,9 +390,9 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (parent.getSelectedItem() != getString(R.string.set_results))
-                            spinners[spinner.getId()].setSelection( parent.getSelectedItemPosition() );
-                        colorWinner(spinner.getId());
+                if (parent.getSelectedItem() != getString(R.string.set_results))
+                    spinners[spinner.getId()].setSelection(parent.getSelectedItemPosition());
+                colorWinner(spinner.getId());
 
 
             }
@@ -417,8 +404,8 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         });
     }
 
-    private void colorWinner(int matchNumber){
-        switch (spinners[matchNumber].getSelectedItemPosition()){
+    private void colorWinner(int matchNumber) {
+        switch (spinners[matchNumber].getSelectedItemPosition()) {
             case 0: //WHITE_WON
                 textViews[matchNumber * 2].setTextColor(Color.GREEN);
                 textViews[matchNumber * 2 + 1].setTextColor(Color.RED);
@@ -434,6 +421,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
 
         }
     }
+
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
         if (dialog.getTag().equals(getString(R.string.title_warning))) {

@@ -28,7 +28,8 @@ import com.example.adam.chesstournamentmanager.model.Player;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
 
-import static com.example.adam.chesstournamentmanager.staticdata.FormatDateToString.getFormatDate;
+import static com.example.adam.chesstournamentmanager.staticdata.FormatDateToString.parseDateFromDatabase;
+import static com.example.adam.chesstournamentmanager.staticdata.FormatDateToString.parseDateFromDatePicker;
 
 public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentClickListener {
 
@@ -53,7 +54,6 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
         int width = displayMetrics.widthPixels;
         int height = displayMetrics.heightPixels;
 
@@ -81,6 +81,8 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
 
         if (!addNewPlayer) { //edit player popup
             setValues(editPlayer);
+            TextView textView = findViewById(R.id.add_edit_text_view);
+            textView.setText(getString(R.string.edit_player));
         }
 
         confirmNewPlayer();
@@ -114,7 +116,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
         dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String date = dayOfMonth + "-" + (month + 1) + "-" + year; //begin value in month = 0
+                String date = parseDateFromDatePicker(year, month, dayOfMonth);
                 pickDateTextView.setText(date);
             }
         };
@@ -129,13 +131,21 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
         surname.setText(player.getSurname());
 
         TextView date = findViewById(R.id.pick_date_text_view);
-        date.setText(getFormatDate(player.getDateOfBirth()));
+        date.setText(parseDateFromDatabase(player.getDateOfBirth()));
 
         EditText polishRank = findViewById(R.id.polish_ranking_number);
-        polishRank.setText(player.getPolishRanking() != -1 ? String.valueOf(player.getPolishRanking()) : getString(R.string.no_rank));
+        if (player.getPolishRanking() != -1) {
+            polishRank.setText(String.valueOf(player.getPolishRanking()));
+        } else {
+            polishRank.setHint(getString(R.string.no_rank));
+        }
 
         EditText internationalRank = findViewById(R.id.international_ranking_number);
-        internationalRank.setText(player.getInternationalRanking() != -1 ? String.valueOf(player.getInternationalRanking()) : getString(R.string.no_rank));
+        if (player.getInternationalRanking() != -1) {
+            internationalRank.setText(String.valueOf(player.getInternationalRanking()));
+        } else {
+            internationalRank.setHint(getString(R.string.no_rank));
+        }
     }
 
 

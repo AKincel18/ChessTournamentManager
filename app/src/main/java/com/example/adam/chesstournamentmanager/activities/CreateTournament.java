@@ -14,9 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Executors;
 
 import com.example.adam.chesstournamentmanager.R;
@@ -25,7 +23,7 @@ import com.example.adam.chesstournamentmanager.model.Player;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
 
-import static com.example.adam.chesstournamentmanager.staticdata.FormatDateToString.getFormatDate;
+import static com.example.adam.chesstournamentmanager.staticdata.FormatDateToString.parseDateFromDatabase;
 
 public class CreateTournament extends AppCompatActivity implements OnDialogFragmentClickListener {
 
@@ -223,7 +221,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
                 if (selectedAvailablePlayers.size() == 1) {
                     Player p = selectedAvailablePlayers.get(0);
                     name.setText(p.toString());
-                    date.setText(getFormatDate(p.getDateOfBirth()));
+                    date.setText(parseDateFromDatabase(p.getDateOfBirth()));
                     polishRank.setText(p.getPolishRanking() != -1 ? String.valueOf(p.getPolishRanking()) : getString(R.string.no_rank));
                     internationalRank.setText(p.getInternationalRanking() != -1 ? String.valueOf(p.getInternationalRanking()) : getString(R.string.no_rank));
                     dialog.show();
@@ -245,7 +243,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
                 getString(R.string.remove_player_warning,
                 player.getName(),
                 player.getSurname(),
-                getFormatDate(player.getDateOfBirth()),
+                parseDateFromDatabase(player.getDateOfBirth()),
                 polishRanking,
                 internationalRanking), getString(R.string.positive_button_warning));
     }

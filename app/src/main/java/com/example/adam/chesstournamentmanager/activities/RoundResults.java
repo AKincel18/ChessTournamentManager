@@ -9,6 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.TextAppearanceSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -74,21 +76,21 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
         myMenu = navigationView.getMenu();
 
-
+        buildColorMenu(R.id.rounds_menu, R.style.titleMenuStyle);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() != R.id.exit_menu) {
-                    if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
+                int id = item.getItemId();
+                if (id != R.id.exit_menu) {
+                    if (id == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
                         Intent i = new Intent(getApplicationContext(), Tournament.class);
                         startActivity(i);
-                    } else if (item.getItemId() <= currentRound) {
-
+                    } else if (id <= currentRound) {
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         LinearLayout matchesRelativeLayout = findViewById(R.id.linear_layout_matches);
                         matchesRelativeLayout.removeAllViews();
-                        buildView(item.getItemId());
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                    } else if (item.getItemId() == R.id.results_menu) {
+                        buildView(id);
+                    } else if (id == R.id.results_menu) {
                         Intent i = new Intent(getApplicationContext(), FinalResults.class);
                         startActivity(i);
                     }
@@ -117,8 +119,17 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
         SubMenu subMenu = menuItem.getSubMenu();
         for (int i = 1; i <= currentRound; i++){
             subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.round_count_text_view, i));
+            buildColorMenu(i, R.style.subMenuRoundsStyle);
         }
     }
+
+    private void buildColorMenu(int rId, int rStyle){
+        MenuItem rounds = myMenu.findItem(rId);
+        SpannableString s = new SpannableString(rounds.getTitle());
+        s.setSpan(new TextAppearanceSpan(this, rStyle), 0, s.length(), 0);
+        rounds.setTitle(s);
+    }
+
 
     private void buildView(int currentRound){
         textView.setText(getString(R.string.round_count_text_view, currentRound));
@@ -134,8 +145,8 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
         linearLayout.setLayoutParams(params);
         matchesRelativeLayout.addView(linearLayout);
 
-        LinearLayout.LayoutParams paramsLp = new LinearLayout.LayoutParams(0, 50, 0.05f);
-        paramsLp.setMargins(0, 5, 5, 5);
+        LinearLayout.LayoutParams paramsNo = new LinearLayout.LayoutParams(0, 50, 0.05f);
+        paramsNo.setMargins(0, 5, 5, 5);
 
 
         LinearLayout.LayoutParams paramsPlayer1 = new LinearLayout.LayoutParams(0, 50, 0.35f);
@@ -150,13 +161,13 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
             LinearLayout l = new LinearLayout(this);
             l.setOrientation(LinearLayout.HORIZONTAL);
 
-            TextView lpTextView = new TextView(this);
-            lpTextView.setText(getString(R.string.lp, (i + 1)));
-            lpTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
-            lpTextView.setGravity(Gravity.START);
-            lpTextView.setTextColor(getColor(R.color.colorPrimaryDark));
-            lpTextView.setLayoutParams(paramsLp);
-            l.addView(lpTextView);
+            TextView noTextView = new TextView(this);
+            noTextView.setText(getString(R.string.no, (i + 1)));
+            noTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
+            noTextView.setGravity(Gravity.START);
+            noTextView.setTextColor(getColor(R.color.colorPrimaryDark));
+            noTextView.setLayoutParams(paramsNo);
+            l.addView(noTextView);
 
             TextView player1TextView = new TextView(this);
             player1TextView.setText(matches.get(i).getPlayer1().toString());

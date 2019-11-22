@@ -5,17 +5,19 @@ import java.util.Date;
 
 public class FormatDateToString {
 
-    public static String getFormatDate(Date date){
+    public static String parseDateFromDatabase(Date date){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        int month;
-        if ((month = calendar.get(Calendar.MONTH)) < 10) {
-            month++;
-        }
-        String monthString = String.valueOf(month);
-        String year = String.valueOf(calendar.get(Calendar.YEAR));
-
-        return day + '-' + monthString + '-' + year;
+        return parseDateFromDatePicker((calendar.get(Calendar.YEAR)),
+                                (calendar.get(Calendar.MONTH)),
+                                (calendar.get(Calendar.DAY_OF_MONTH)));
     }
+
+    public static String parseDateFromDatePicker(int year, int month, int day) {
+        month++; //begin month value is 0
+        String monthString = (month >= 10) ? String.valueOf(month) : "0" + month;
+        String dayString = (day >= 10) ? String.valueOf(day) : "0" + day;
+        return dayString + "-" + monthString + "-" + year;
+    }
+
 }

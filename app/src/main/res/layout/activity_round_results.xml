@@ -39,12 +39,12 @@
         android:layout_marginBottom="10dp">
 
         <TextView
-            android:id="@+id/lp_text_view"
+            android:id="@+id/no_text_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.05"
             android:gravity="start"
-            android:text="@string/lp_text_view"
+            android:text="@string/no_text_view"
             android:layout_marginBottom="5dp"
             android:textColor="@color/colorAccent"
             android:layout_marginStart="10dp"
@@ -100,7 +100,7 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:itemTextAppearance="@style/NavDrawerTextStyle"
+        app:itemTextAppearance="@style/titleMenuStyle"
         app:menu="@menu/menu_tournament">
 
     </android.support.design.widget.NavigationView>

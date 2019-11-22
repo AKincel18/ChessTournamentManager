@@ -5,10 +5,13 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.TextAppearanceSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -103,7 +106,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
 
     private void initNavigationMenu(){
 
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
 
@@ -117,32 +120,44 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         navigationView = findViewById(R.id.nav_view);
         myMenu = navigationView.getMenu();
 
+        buildColorMenu(R.id.rounds_menu,R.style.titleMenuStyle );
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() != R.id.exit_menu) {
-                    if (item.getItemId() != R.id.rounds_menu) {
-                        if (item.getItemId() == R.id.results_menu) {
-                            if (swissAlgorithm.getCurrentRound() != 1) {
-                                Intent i = new Intent(getApplicationContext(), FinalResults.class);
-                                startActivity(i);
-                            } else {
-                                Toast.makeText(getApplicationContext(), getString(R.string.not_finished_first_round), Toast.LENGTH_LONG).show();
-                            }
-                        } else if (item.getItemId() >= 1 && item.getItemId() < swissAlgorithm.getCurrentRound()) {
-                            refreshView(item.getItemId(), false);
-                        } else if (item.getItemId() >= 1 && item.getItemId() > swissAlgorithm.getCurrentRound()) {
+                int id = item.getItemId();
+                if (id != R.id.exit_menu) { //exit
+                    if (id == R.id.results_menu) { //results
+                        if (swissAlgorithm.getCurrentRound() != 1) {
+                            Intent i = new Intent(getApplicationContext(), FinalResults.class);
+                            startActivity(i);
+                        } else {
+                            Toast.makeText(getApplicationContext(), getString(R.string.not_finished_first_round), Toast.LENGTH_LONG).show();
+                        }
+                    } else if (id >= 1) { //item rounds = (1, roundsNumber)
+                        if (id < swissAlgorithm.getCurrentRound()) { //previous round
+                            refreshView(id, false);
+                        } else if (id > swissAlgorithm.getCurrentRound()) { //next round
                             Toast.makeText(getApplicationContext(), getString(R.string.previous_rounds_not_finished), Toast.LENGTH_LONG).show();
+                        } else if (id == swissAlgorithm.getCurrentRound()) { //current round
+                            drawerLayout.closeDrawer(GravityCompat.START);
                         }
                     }
+
                 } else {
                     GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
                     dialog.show(getSupportFragmentManager(), getString(R.string.title_warning));
-
                 }
+
                 return true;
             }
         });
+    }
+
+    private void buildColorMenu(int rId, int rStyle){
+        MenuItem rounds = myMenu.findItem(rId);
+        SpannableString s = new SpannableString(rounds.getTitle());
+        s.setSpan(new TextAppearanceSpan(this, rStyle), 0, s.length(), 0);
+        rounds.setTitle(s);
     }
 
     private void nextRoundButton(){
@@ -186,6 +201,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         SubMenu subMenu = menuItem.getSubMenu();
         for (int i = 1; i <= swissAlgorithm.getRoundsNumber(); i++) {
             subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.round_count_text_view, i));
+            buildColorMenu(i, R.style.subMenuRoundsStyle);
         }
         navigationView.invalidate();
 

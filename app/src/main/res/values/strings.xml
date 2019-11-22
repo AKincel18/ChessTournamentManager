@@ -86,8 +86,8 @@
     <string name="not_finished_first_round">Nie skończono pierwszej rundy</string>
 
     <!--RoundResults-->
-    <string name="lp_text_view">Lp.</string>
-    <string name="lp">%1$d. </string>
+    <string name="no_text_view">Lp.</string>
+    <string name="no">%1$d. </string>F
 
     <!--FinalResults-->
     <string name="position_text_view">Pozycja</string>

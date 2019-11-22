@@ -13,6 +13,7 @@
         android:layout_height="60dp">
 
         <TextView
+            android:id="@+id/add_edit_text_view"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginStart="270dp"
@@ -161,7 +162,7 @@
             android:layout_marginBottom="8dp"
             android:importantForAutofill="no"
             android:textSize="25sp"
-            android:textColorHint="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimary"
             android:inputType="numberDecimal"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -199,7 +200,7 @@
             android:importantForAutofill="no"
             android:textSize="25sp"
             android:inputType="numberDecimal"
-            android:textColorHint="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimary"
             android:textColor="@color/colorPrimaryDark"/>
 
     </LinearLayout>

@@ -12,7 +12,6 @@ import com.example.adam.chesstournamentmanager.staticdata.Constans;
 
 public class GeneralDialogFragment extends BaseDialogFragment<OnDialogFragmentClickListener> {
 
-    // Create an instance of the Dialog with the input
     public static GeneralDialogFragment newInstance(String title, String message, String positiveBtn) {
         GeneralDialogFragment frag = new GeneralDialogFragment();
         Bundle args = new Bundle();
@@ -28,7 +27,6 @@ public class GeneralDialogFragment extends BaseDialogFragment<OnDialogFragmentCl
                 Constans.WARNING_TITLE, Constans.EXIT_MESSAGE, Constans.POSITIVE_BUTTON);
     }
 
-    // Create a Dialog using default AlertDialog builder , if not inflate custom view in onCreateView
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -45,6 +43,7 @@ public class GeneralDialogFragment extends BaseDialogFragment<OnDialogFragmentCl
 
         );
 
+        //build 'no' button
         if (getArguments().getString(Constans.TITLE).equals(getString(R.string.title_warning)) ||
                 getArguments().getString(Constans.TITLE).equals(getString(R.string.remove_player_title_DB)))
             builder.setNegativeButton(getString(R.string.negative_button_warning),

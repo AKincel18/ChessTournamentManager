@@ -9,6 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.TextAppearanceSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -59,7 +61,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
     private void initNavigationView() {
 
 
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
 
@@ -74,19 +76,22 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         myMenu = navigationView.getMenu();
-
+        buildColorMenu(R.id.rounds_menu, R.style.titleMenuStyle);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() != R.id.exit_menu) {
-                    if (item.getItemId() == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
+                int id = item.getItemId();
+                if (id != R.id.exit_menu) {
+                    if (id == currentRound && !SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
                         Intent i = new Intent(getApplicationContext(), Tournament.class);
                         startActivity(i);
-                    } else if (item.getItemId() <= currentRound) {
+                    } else if (id <= currentRound) {
                         Intent i = new Intent(getApplicationContext(), RoundResults.class);
-                        i.putExtra(getString(R.string.go_to_round), item.getItemId());
+                        i.putExtra(getString(R.string.go_to_round), id);
                         startActivity(i);
+                    } else if (id == R.id.results_menu) {
+                        drawerLayout.closeDrawer(Gravity.START);
                     }
                 } else {
                     GeneralDialogFragment dialog = GeneralDialogFragment.exitDialogBox();
@@ -113,7 +118,15 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
         SubMenu subMenu = menuItem.getSubMenu();
         for (int i = 1; i <= currentRound; i++){
             subMenu.add(Menu.NONE,i, Menu.NONE,getString(R.string.round_count_text_view, i));
+            buildColorMenu(i, R.style.subMenuRoundsStyle);
         }
+    }
+
+    private void buildColorMenu(int rId, int rStyle){
+        MenuItem rounds = myMenu.findItem(rId);
+        SpannableString s = new SpannableString(rounds.getTitle());
+        s.setSpan(new TextAppearanceSpan(this, rStyle), 0, s.length(), 0);
+        rounds.setTitle(s);
     }
 
 
@@ -174,7 +187,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
             positionTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
             positionTextView.setTextColor(getColor(R.color.colorPrimaryDark));
             positionTextView.setGravity(Gravity.START);
-            positionTextView.setText(getString(R.string.lp, (i + 1)));
+            positionTextView.setText(getString(R.string.no, (i + 1)));
             positionTextView.setLayoutParams(paramsPosition);
             l.addView(positionTextView);
 

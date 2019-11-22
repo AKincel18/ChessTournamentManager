@@ -94,7 +94,7 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:itemTextAppearance="@style/NavDrawerTextStyle"
+        app:itemTextAppearance="@style/titleMenuStyle"
         app:menu="@menu/menu_tournament">
 
     </android.support.design.widget.NavigationView>

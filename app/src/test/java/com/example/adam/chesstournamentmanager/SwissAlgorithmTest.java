@@ -27,7 +27,9 @@ public class SwissAlgorithmTest {
 
     private List<TournamentPlayer> tournamentPlayers;
 
-    private int maxNumber = 100;
+    private int maxNumber = 20;
+
+    private int minNumber = 10;
 
 
     @Before
@@ -44,7 +46,7 @@ public class SwissAlgorithmTest {
 
     private List<Player> initPlayers(int... numberPlayer) {
         List<Player> players = new ArrayList<>();
-        int randomNumberPlayers = numberPlayer.length == 0 ? new Random().nextInt(maxNumber) + 2 : numberPlayer[0];
+        int randomNumberPlayers = numberPlayer.length == 0 ? new Random().nextInt(maxNumber) + minNumber : numberPlayer[0];
         for (int i = 1; i <= randomNumberPlayers; i++) {
             Player player = new Player(String.valueOf(i), "", new Random().nextInt(10000) + 1, new Random().nextInt(10000) + 1, new Date());
             players.add(player);
@@ -130,7 +132,7 @@ public class SwissAlgorithmTest {
         List<Player> players = initPlayers();
         int maxRound = maxNumberCount(players.size());
 
-        roundsNumber = new Random().nextInt(maxRound) + 1;
+        roundsNumber = new Random().nextInt(maxRound) + minNumber;
         boolean placeOrder = new Random().nextBoolean();
 
         SwissAlgorithm.initSwissAlgorithm(roundsNumber, placeOrder);
@@ -139,7 +141,7 @@ public class SwissAlgorithmTest {
     }
 
     private void initTestMaxRoundsNumber() {
-        int playersNumber = new Random().nextInt(maxNumber) + 1;
+        int playersNumber = new Random().nextInt(maxNumber) + minNumber;
         roundsNumber = maxNumberCount(playersNumber);
 
         boolean placeOrder = new Random().nextBoolean();
@@ -156,9 +158,9 @@ public class SwissAlgorithmTest {
 
         initTestRandom();
 
-        System.out.println("repeatableOpponentRandom()");
-        System.out.println("players number =  " + tournamentPlayers.size());
-        System.out.println("rounds number  =  " + roundsNumber);
+        System.out.println(Constans.repeatableOpponentRandom);
+        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
         tournament();
 
         for (TournamentPlayer player : tournamentPlayers) {
@@ -167,15 +169,14 @@ public class SwissAlgorithmTest {
     }
 
 
-    //max possible rounds number for given players
     @Test
     public void repeatableOpponentMaxRoundsNumber() {
 
         initTestMaxRoundsNumber();
 
-        System.out.println("repeatableOpponentMaxRoundsNumber()");
-        System.out.println("players number =  " + tournamentPlayers.size());
-        System.out.println("rounds number  =  " + roundsNumber);
+        System.out.println(Constans.repeatableOpponentMaxRoundsNumber);
+        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
 
 
         tournament();
@@ -193,10 +194,9 @@ public class SwissAlgorithmTest {
 
         initTestRandom();
 
-        System.out.println("checkByeRandom()");
-        System.out.println("players number =  " + tournamentPlayers.size());
-        System.out.println("rounds number  =  " + roundsNumber);
-
+        System.out.println(Constans.checkByeRandom);
+        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
         tournament();
 
 
@@ -210,9 +210,9 @@ public class SwissAlgorithmTest {
 
         initTestMaxRoundsNumber();
 
-        System.out.println("checkByeMaxRoundsNumber()");
-        System.out.println("players number =  " + tournamentPlayers.size());
-        System.out.println("rounds number  =  " + roundsNumber);
+        System.out.println(Constans.checkByeMaxRoundsNumber);
+        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
 
         tournament();
 
@@ -226,9 +226,9 @@ public class SwissAlgorithmTest {
 
         initTestRandom();
 
-        System.out.println("correctFinalOrderRandom()");
-        System.out.println("players number =  " + tournamentPlayers.size());
-        System.out.println("rounds number  =  " + roundsNumber);
+        System.out.println(Constans.correctFinalOrderRandom);
+        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
 
         tournament();
 
@@ -247,9 +247,9 @@ public class SwissAlgorithmTest {
 
         initTestMaxRoundsNumber();
 
-        System.out.println("correctFinalOrderMaxRoundNumber()");
-        System.out.println("players number =  " + tournamentPlayers.size());
-        System.out.println("rounds number  =  " + roundsNumber);
+        System.out.println(Constans.correctFinalOrderMaxRoundNumber);
+        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
 
         tournament();
 

@@ -25,5 +25,15 @@ public class Constans {
     //ListAdapter
     public static final String COMMA = ",";
 
+    //test
+    public static final String PLAYERS_NUMBER = "Player's number = ";
+    public static final String ROUNDS_NUMBER = "Rounds's number = ";
+    public static final String repeatableOpponentRandom = "repeatableOpponentRandom()";
+    public static final String repeatableOpponentMaxRoundsNumber = "repeatableOpponentMaxRoundsNumber()";
+    public static final String checkByeRandom = "checkByeRandom()";
+    public static final String checkByeMaxRoundsNumber = "checkByeMaxRoundsNumber()";
+    public static final String correctFinalOrderRandom = "correctFinalOrderRandom()";
+    public static final String correctFinalOrderMaxRoundNumber = "correctFinalOrderMaxRoundNumber()";
+
 
 }

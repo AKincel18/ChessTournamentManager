@@ -2,6 +2,7 @@ package com.example.adam.chesstournamentmanager.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -201,16 +202,20 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
     private String getMatchResult(TextView p1, TextView p2, Match match) {
         switch (match.getMatchResult()) {
             case WHITE_WON:
-                p1.setTextColor(Color.GREEN);
                 p2.setTextColor(Color.RED);
+                p1.setTextColor(getColor(R.color.winnerColor));
+                p1.setTypeface(null, Typeface.BOLD);
                 return getString(R.string.white_won_result);
             case DRAW:
-                p1.setTextColor(Color.BLUE);
-                p2.setTextColor(Color.BLUE);
+                p1.setTypeface(null, Typeface.ITALIC);
+                p2.setTypeface(null, Typeface.ITALIC);
+                p1.setTextColor(getColor(R.color.colorPrimaryDark));
+                p2.setTextColor(getColor(R.color.colorPrimaryDark));
                 return getString(R.string.draw_result);
             case BLACK_WON:
                 p1.setTextColor(Color.RED);
-                p2.setTextColor(Color.GREEN);
+                p2.setTypeface(null, Typeface.BOLD);
+                p2.setTextColor(getColor(R.color.winnerColor));
                 return getString(R.string.black_won_result);
         }
         return null;

@@ -132,7 +132,7 @@ public class SwissAlgorithmTest {
         List<Player> players = initPlayers();
         int maxRound = maxNumberCount(players.size());
 
-        roundsNumber = new Random().nextInt(maxRound) + minNumber;
+        roundsNumber = new Random().nextInt(maxRound) + 1;
         boolean placeOrder = new Random().nextBoolean();
 
         SwissAlgorithm.initSwissAlgorithm(roundsNumber, placeOrder);

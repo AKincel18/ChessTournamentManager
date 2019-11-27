@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.adam.chesstournamentmanager.R;
-import com.example.adam.chesstournamentmanager.staticdata.Constans;
+import com.example.adam.chesstournamentmanager.staticdata.Constants;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class ListAdapter extends ArrayAdapter<String> {
             rowView.setTag(holder);
         }
 
-        String[] items = itemList.get(position).split(Constans.COMMA);
+        String[] items = itemList.get(position).split(Constants.COMMA);
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
         holder.noColumn.setText(items[0]);

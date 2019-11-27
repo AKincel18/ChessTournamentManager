@@ -15,9 +15,9 @@ public class FormatDateToString {
 
     public static String parseDateFromDatePicker(int year, int month, int day) {
         month++; //begin month value is 0
-        String monthString = (month >= 10) ? String.valueOf(month) : Constans.ZERO + month;
-        String dayString = (day >= 10) ? String.valueOf(day) : Constans.ZERO + day;
-        return dayString + Constans.DASH + monthString + Constans.DASH + year;
+        String monthString = (month >= 10) ? String.valueOf(month) : Constants.ZERO + month;
+        String dayString = (day >= 10) ? String.valueOf(day) : Constants.ZERO + day;
+        return dayString + Constants.DASH + monthString + Constants.DASH + year;
     }
 
 }

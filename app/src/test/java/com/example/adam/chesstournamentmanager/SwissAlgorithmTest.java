@@ -3,7 +3,7 @@ package com.example.adam.chesstournamentmanager;
 import com.example.adam.chesstournamentmanager.matches.MatchResult;
 import com.example.adam.chesstournamentmanager.model.Player;
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
-import com.example.adam.chesstournamentmanager.staticdata.Constans;
+import com.example.adam.chesstournamentmanager.staticdata.Constants;
 import com.example.adam.chesstournamentmanager.swissalgorithm.SwissAlgorithm;
 
 import org.junit.After;
@@ -118,7 +118,7 @@ public class SwissAlgorithmTest {
     private boolean isByeOneTime(TournamentPlayer player) {
         int count = 0;
         for (TournamentPlayer opponent : player.getPrevOpponents()) {
-            if (opponent.getName().equals(Constans.BYE)) {
+            if (opponent.getName().equals(Constants.BYE)) {
                 count++;
                 if (count > 1) {
                     return false;
@@ -158,9 +158,9 @@ public class SwissAlgorithmTest {
 
         initTestRandom();
 
-        System.out.println(Constans.repeatableOpponentRandom);
-        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
-        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
+        System.out.println(Constants.repeatableOpponentRandom);
+        System.out.println(Constants.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constants.ROUNDS_NUMBER + roundsNumber);
         tournament();
 
         for (TournamentPlayer player : tournamentPlayers) {
@@ -174,9 +174,9 @@ public class SwissAlgorithmTest {
 
         initTestMaxRoundsNumber();
 
-        System.out.println(Constans.repeatableOpponentMaxRoundsNumber);
-        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
-        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
+        System.out.println(Constants.repeatableOpponentMaxRoundsNumber);
+        System.out.println(Constants.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constants.ROUNDS_NUMBER + roundsNumber);
 
 
         tournament();
@@ -194,9 +194,9 @@ public class SwissAlgorithmTest {
 
         initTestRandom();
 
-        System.out.println(Constans.checkByeRandom);
-        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
-        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
+        System.out.println(Constants.checkByeRandom);
+        System.out.println(Constants.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constants.ROUNDS_NUMBER + roundsNumber);
         tournament();
 
 
@@ -210,9 +210,9 @@ public class SwissAlgorithmTest {
 
         initTestMaxRoundsNumber();
 
-        System.out.println(Constans.checkByeMaxRoundsNumber);
-        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
-        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
+        System.out.println(Constants.checkByeMaxRoundsNumber);
+        System.out.println(Constants.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constants.ROUNDS_NUMBER + roundsNumber);
 
         tournament();
 
@@ -226,9 +226,9 @@ public class SwissAlgorithmTest {
 
         initTestRandom();
 
-        System.out.println(Constans.correctFinalOrderRandom);
-        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
-        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
+        System.out.println(Constants.correctFinalOrderRandom);
+        System.out.println(Constants.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constants.ROUNDS_NUMBER + roundsNumber);
 
         tournament();
 
@@ -247,9 +247,9 @@ public class SwissAlgorithmTest {
 
         initTestMaxRoundsNumber();
 
-        System.out.println(Constans.correctFinalOrderMaxRoundNumber);
-        System.out.println(Constans.PLAYERS_NUMBER + tournamentPlayers.size());
-        System.out.println(Constans.ROUNDS_NUMBER + roundsNumber);
+        System.out.println(Constants.correctFinalOrderMaxRoundNumber);
+        System.out.println(Constants.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constants.ROUNDS_NUMBER + roundsNumber);
 
         tournament();
 

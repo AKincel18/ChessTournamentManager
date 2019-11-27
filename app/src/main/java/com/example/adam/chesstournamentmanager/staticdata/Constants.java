@@ -1,6 +1,6 @@
 package com.example.adam.chesstournamentmanager.staticdata;
 
-public class Constans {
+public class Constants {
 
     //database
     public static final String DATABASE_NAME = "ChessTournamentManager.db";

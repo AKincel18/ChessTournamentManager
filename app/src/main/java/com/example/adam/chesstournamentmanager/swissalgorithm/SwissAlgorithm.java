@@ -8,7 +8,7 @@ import com.example.adam.chesstournamentmanager.matches.MatchResult;
 import com.example.adam.chesstournamentmanager.model.Colors;
 import com.example.adam.chesstournamentmanager.model.Player;
 import com.example.adam.chesstournamentmanager.model.TournamentPlayer;
-import com.example.adam.chesstournamentmanager.staticdata.Constans;
+import com.example.adam.chesstournamentmanager.staticdata.Constants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -300,8 +300,8 @@ public class SwissAlgorithm implements Serializable {
     private void addMatchVersusBye(TournamentPlayer player) {
 
         TournamentPlayer bye = new TournamentPlayer();
-        bye.setName(Constans.BYE);
-        bye.setSurname(Constans.EMPTY);
+        bye.setName(Constants.BYE);
+        bye.setSurname(Constants.EMPTY);
         matchesTmp.add(new Match(currentRound, player, bye));//matches.get(currentRound - 1).add(new Match(currentRound, player, bye)); //matches.add(new Match(currentRound, player, bye));
         player.setBye(true);
         player.setPrevOpponents(bye);

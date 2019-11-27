@@ -5,7 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.example.adam.chesstournamentmanager.model.Player;
-import com.example.adam.chesstournamentmanager.staticdata.Constans;
+import com.example.adam.chesstournamentmanager.staticdata.Constants;
 
 @android.arch.persistence.room.Database(entities = Player.class, version = 5, exportSchema = false)
 public abstract class Database extends RoomDatabase {
@@ -15,7 +15,7 @@ public abstract class Database extends RoomDatabase {
     public static Database getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    Database.class, Constans.DATABASE_NAME)
+                    Database.class, Constants.DATABASE_NAME)
                     .fallbackToDestructiveMigration()
                     .build();
         }

@@ -202,7 +202,7 @@ public class SwissAlgorithm implements Serializable {
         }
 
         if (!even)
-            addMatchVersusBye(byePlayer);
+            addMatchVersusBye(byePlayer); //add the last one match
 
 
         matches.add(matchesTmp);

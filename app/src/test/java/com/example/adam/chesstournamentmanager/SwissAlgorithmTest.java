@@ -29,7 +29,7 @@ public class SwissAlgorithmTest {
 
     private int maxNumber = 20;
 
-    private int minNumber = 10;
+    private int minNumber = 30;
 
 
     @Before
@@ -115,7 +115,7 @@ public class SwissAlgorithmTest {
         }
     }
 
-    private boolean isByeOneTime(TournamentPlayer player) {
+    private boolean byeCheck(TournamentPlayer player) {
         int count = 0;
         for (TournamentPlayer opponent : player.getPrevOpponents()) {
             if (opponent.getName().equals(Constants.BYE)) {
@@ -201,7 +201,7 @@ public class SwissAlgorithmTest {
 
 
         for (TournamentPlayer player : tournamentPlayers) {
-            assertTrue(isByeOneTime(player));
+            assertTrue(byeCheck(player));
         }
     }
 
@@ -217,7 +217,7 @@ public class SwissAlgorithmTest {
         tournament();
 
         for (TournamentPlayer player : tournamentPlayers) {
-            assertTrue(isByeOneTime(player));
+            assertTrue(byeCheck(player));
         }
     }
 
@@ -266,6 +266,7 @@ public class SwissAlgorithmTest {
         SwissAlgorithm.resetTournament();
         roundsNumber = 0;
         tournamentPlayers.clear();
+        System.out.println();
     }
 
 

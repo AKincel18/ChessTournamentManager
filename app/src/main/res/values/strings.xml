@@ -1,6 +1,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Chess Tournament Manager</string>
-    <!--CreateTournament-->
+    <!--PlayersSelection-->
 
     <string name="available_players_text_view">Dostępni zawodnicy</string>
     <string name="chosen_players_text_view">Wybrani zawodnicy</string>

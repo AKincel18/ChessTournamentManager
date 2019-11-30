@@ -14,9 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Executors;
 
 import com.example.adam.chesstournamentmanager.R;
@@ -27,7 +25,7 @@ import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFrag
 
 import static com.example.adam.chesstournamentmanager.staticdata.FormatDateToString.parseDateFromDatabase;
 
-public class CreateTournament extends AppCompatActivity implements OnDialogFragmentClickListener {
+public class PlayersSelection extends AppCompatActivity implements OnDialogFragmentClickListener {
 
     private ArrayList<Player> selectedAvailablePlayers = new ArrayList<>();
     private ArrayList<Player> selectedChosenPlayers = new ArrayList<>();
@@ -45,7 +43,7 @@ public class CreateTournament extends AppCompatActivity implements OnDialogFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_tournament);
+        setContentView(R.layout.activity_players_selection);
         chosenPlayerListView = findViewById(R.id.chosen_players_list_view);
         allPlayersListView = findViewById(R.id.available_players_list_view);
 

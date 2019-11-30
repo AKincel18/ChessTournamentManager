@@ -36,7 +36,6 @@ import com.example.adam.chesstournamentmanager.staticdata.adapters.SpinnerAdapte
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -433,7 +432,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
         if (dialog.getTag().equals(getString(R.string.title_warning))) {
-            Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+            Intent i = new Intent(getApplicationContext(), PlayersSelection.class);
             startActivity(i);
         }
     }

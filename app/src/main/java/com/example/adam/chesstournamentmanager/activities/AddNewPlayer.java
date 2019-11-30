@@ -221,7 +221,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
             }
         });
 
-        Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+        Intent i = new Intent(getApplicationContext(), PlayersSelection.class);
         if (allPlayers == null)
             allPlayers = new ArrayList<>();
 
@@ -246,7 +246,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
             }
         });
 
-        Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+        Intent i = new Intent(getApplicationContext(), PlayersSelection.class);
         if (allPlayers == null)
             allPlayers = new ArrayList<>();
 
@@ -281,7 +281,7 @@ public class AddNewPlayer extends FragmentActivity implements OnDialogFragmentCl
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
         if (dialog.getArguments().getString(getString(R.string.title)).equals(getString(R.string.title_warning))) {
-            Intent i = new Intent(this, CreateTournament.class);
+            Intent i = new Intent(this, PlayersSelection.class);
             if (!addNewPlayer) {
                 allPlayers.add(editPlayer);
                 i.putExtra(getString(R.string.toast_message), getString(R.string.not_edit_player));

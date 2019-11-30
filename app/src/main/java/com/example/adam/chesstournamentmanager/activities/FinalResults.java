@@ -1,7 +1,6 @@
 package com.example.adam.chesstournamentmanager.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -248,7 +247,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
-        Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+        Intent i = new Intent(getApplicationContext(), PlayersSelection.class);
         startActivity(i);
     }
 

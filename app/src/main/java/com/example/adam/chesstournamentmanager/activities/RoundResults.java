@@ -223,7 +223,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
     @Override
     public void onOkClicked(GeneralDialogFragment dialog) {
-        Intent i = new Intent(getApplicationContext(), CreateTournament.class);
+        Intent i = new Intent(getApplicationContext(), PlayersSelection.class);
         startActivity(i);
     }
 

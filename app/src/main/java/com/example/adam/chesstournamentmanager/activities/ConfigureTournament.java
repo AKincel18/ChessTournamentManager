@@ -185,28 +185,23 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
             return players.size();
     }
 
-    private void choiceRoundsSwitchImplementation(int optimalCountOfRounds) {
+    private void choiceRoundsSwitchImplementation(final int optimalCountOfRounds) {
         final LinearLayout linearLayout = findViewById(R.id.layout_set_round);
-        final TextView textView = new TextView(this);
+        final TextView textView = findViewById(R.id.auto_count_of_rounds);//new TextView(this);
         editText = new EditText(this);
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         editText.setGravity(Gravity.START | Gravity.CENTER);
         editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         editText.setTextColor(getColor(R.color.colorPrimaryDark));
 
-
         textView.setText(getString(R.string.auto_count_of_rounds, optimalCountOfRounds));
+
+
 
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1);
 
         int startMargins = (int) (10 * Resources.getSystem().getDisplayMetrics().density + 0.5f);
         params.setMargins(startMargins, 0, 0, 0);
-
-        textView.setGravity(Gravity.START | Gravity.CENTER);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        textView.setTextColor(getColor(R.color.colorPrimaryDark));
-        textView.setLayoutParams(params);
-        linearLayout.addView(textView);
 
 
         switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -217,7 +212,6 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
                     linearLayout.removeView(textView);
                     linearLayout.addView(editText);
                 } else {
-                    textView.setLayoutParams(params);
                     linearLayout.removeView(editText);
                     linearLayout.addView(textView);
 

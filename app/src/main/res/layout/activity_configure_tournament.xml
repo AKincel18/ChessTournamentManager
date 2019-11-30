@@ -72,6 +72,15 @@
                     android:text="@string/count_of_number_switch"
                     android:textColor="@color/colorAccent"
                     android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/auto_count_of_rounds"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:text="@string/auto_count_of_rounds"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimaryDark"/>
 
 
             </LinearLayout>

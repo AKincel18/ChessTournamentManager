@@ -182,7 +182,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
             TextView positionTextView = new TextView(this);
             positionTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            positionTextView.setTextColor(getColor(R.color.colorPrimaryDark));
+            positionTextView.setTextColor(getColor(R.color.colorAccent));
             positionTextView.setGravity(Gravity.START);
             positionTextView.setText(getString(R.string.no, (i + 1)));
             positionTextView.setLayoutParams(paramsPosition);

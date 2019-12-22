@@ -25,7 +25,7 @@
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="@string/available_players_text_view"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorTextButton"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -67,9 +67,10 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="8dp"
                         android:layout_weight="1"
+                        android:textStyle="bold"
                         android:background="@drawable/layout_border_button"
                         android:text="@string/about_player"
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorTextButton" />
 
                     <Button
                         android:id="@+id/add_player_button"
@@ -80,8 +81,9 @@
                         android:layout_marginBottom="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/layout_border_button"
+                        android:textStyle="bold"
                         android:text="@string/add_player_button"
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorTextButton" />
 
 
                 </LinearLayout>
@@ -103,8 +105,9 @@
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/layout_border_button"
+                        android:textStyle="bold"
                         android:text="@string/edit_player"
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorTextButton" />
 
 
                     <Button
@@ -117,8 +120,9 @@
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/layout_border_button"
+                        android:textStyle="bold"
                         android:text="@string/remove_player"
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorTextButton" />
 
 
                 </LinearLayout>
@@ -143,8 +147,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="75dp"
                 android:background="@drawable/layout_border_button"
+                android:textStyle="bold"
                 android:text="@string/move_to_chosen_players_button"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorTextButton"
                 android:textSize="30sp" />
 
             <Button
@@ -156,8 +161,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/layout_border_button"
+                android:textStyle="bold"
                 android:text="@string/move_to_available_players_button"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorTextButton"
                 android:textSize="30sp" />
 
 
@@ -179,7 +185,7 @@
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="@string/chosen_players_text_view"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorTextButton"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -216,8 +222,9 @@
                     android:layout_marginEnd="60dp"
                     android:layout_marginBottom="30dp"
                     android:background="@drawable/layout_border_button"
+                    android:textStyle="bold"
                     android:text="@string/config_tournament_button"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="@color/colorTextButton" />
 
             </LinearLayout>
 

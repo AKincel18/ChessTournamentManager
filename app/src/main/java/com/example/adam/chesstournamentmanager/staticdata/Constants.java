@@ -26,8 +26,8 @@ public class Constants {
     public static final String COMMA = ",";
 
     //test
-    public static final String PLAYERS_NUMBER = "Player's number = ";
-    public static final String ROUNDS_NUMBER = "Rounds's number = ";
+    public static final String PLAYERS_NUMBER = "Number of players = ";
+    public static final String ROUNDS_NUMBER = "Number of rounds = ";
     public static final String repeatableOpponentRandom = "repeatableOpponentRandom()";
     public static final String repeatableOpponentMaxRoundsNumber = "repeatableOpponentMaxRoundsNumber()";
     public static final String checkByeRandom = "checkByeRandom()";

@@ -166,7 +166,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
             noTextView.setText(getString(R.string.no, (i + 1)));
             noTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
             noTextView.setGravity(Gravity.START);
-            noTextView.setTextColor(getColor(R.color.colorPrimaryDark));
+            noTextView.setTextColor(getColor(R.color.colorAccent));
             noTextView.setLayoutParams(paramsNo);
             l.addView(noTextView);
 

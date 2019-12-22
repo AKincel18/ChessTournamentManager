@@ -415,12 +415,17 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
                 textViews[matchNumber * 2].setTextColor(getColor(R.color.winnerColor));
                 textViews[matchNumber * 2].setTypeface(null, Typeface.BOLD);
                 textViews[matchNumber * 2 + 1].setTextColor(Color.RED);
+                textViews[matchNumber * 2 + 1].setTypeface(null, Typeface.NORMAL);
                 break;
             case 1: //DRAW
                 textViews[matchNumber * 2].setTypeface(null, Typeface.ITALIC);
                 textViews[matchNumber * 2 + 1].setTypeface(null, Typeface.ITALIC);
+                textViews[matchNumber * 2].setTextColor(getColor(R.color.colorPrimaryDark));
+                textViews[matchNumber * 2 + 1].setTextColor(getColor(R.color.colorPrimaryDark));
+
                 break;
             case 2: //BLACK_WON
+                textViews[matchNumber * 2 ].setTypeface(null, Typeface.NORMAL);
                 textViews[matchNumber * 2 ].setTextColor(Color.RED);
                 textViews[matchNumber * 2 + 1].setTextColor(getColor(R.color.winnerColor));
                 textViews[matchNumber * 2 + 1].setTypeface(null, Typeface.BOLD);

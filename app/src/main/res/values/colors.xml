@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFDEAD</color>
-    <color name="colorPrimaryDark">#EF7B18</color>
+    <color name="colorPrimary">#FFDAA1</color> <!--FFDEAD-->
+    <color name="colorPrimaryDark">#FF4f00</color> <!--EF7B18-->
     <color name="colorAccent">#A00000</color>
 
     <color name="colorBorderButton">#F4A460</color>

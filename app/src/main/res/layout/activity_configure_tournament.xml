@@ -112,7 +112,8 @@
                     android:gravity="center|start"
                     android:text="@string/count_of_players_text_view"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:layout_marginLeft="10dp" />
 
             </LinearLayout>
 
@@ -144,7 +145,8 @@
                     android:gravity="center|start"
                     android:text="@string/auto_order_player"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="19sp" />
+                    android:textSize="19sp"
+                    android:layout_marginLeft="10dp" />
                 <!--                <Switch
                     android:id="@+id/order_place_switch"
                     android:layout_width="0dp"
@@ -180,7 +182,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -202,20 +205,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="490dp"
                 android:layout_marginStart="50dp"
-                android:background="@drawable/layout_border_popup" />
+                android:background="@drawable/layout_border_popup"
+                android:layout_marginLeft="50dp" />
 
 
             <Button
                 android:id="@+id/start_tournament_button"
-                android:layout_width="300dp"
+                android:layout_width="648dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="400dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/layout_border_button"
-                android:textStyle="bold"
                 android:text="@string/start_tournament_button"
-                android:textColor="@color/colorTextButton" />
+                android:textColor="@color/colorTextButton"
+                android:textStyle="bold" />
         </LinearLayout>
 
 

@@ -27,9 +27,9 @@ public class SwissAlgorithmTest {
 
     private List<TournamentPlayer> tournamentPlayers;
 
-    private int maxNumber = 20;
+    private int maxNumber = 50;
 
-    private int minNumber = 30;
+    private int minNumber = 2;
 
 
     @Before
@@ -128,6 +128,18 @@ public class SwissAlgorithmTest {
         return true;
     }
 
+    private void initMinPlayersNumber(){
+
+        int playersNumber = 2;
+        roundsNumber = maxNumberCount(playersNumber);
+
+        boolean placeOrder = new Random().nextBoolean();
+        SwissAlgorithm.initSwissAlgorithm(roundsNumber, placeOrder); //place order is not important
+        List<Player> players = initPlayers(playersNumber);
+        SwissAlgorithm.getINSTANCE().initTournamentPlayers(players);
+        tournamentPlayers = SwissAlgorithm.getINSTANCE().getTournamentPlayers();
+    }
+
     private void initTestRandom() {
         List<Player> players = initPlayers();
         int maxRound = maxNumberCount(players.size());
@@ -151,6 +163,18 @@ public class SwissAlgorithmTest {
         tournamentPlayers = SwissAlgorithm.getINSTANCE().getTournamentPlayers();
     }
 
+    @Test
+    public void minimumPlayersNumber(){
+        initMinPlayersNumber();
+        System.out.println(Constants.minimumPlayersNumber);
+        System.out.println(Constants.PLAYERS_NUMBER + tournamentPlayers.size());
+        System.out.println(Constants.ROUNDS_NUMBER + roundsNumber);
+        tournament();
+
+        for (TournamentPlayer player : tournamentPlayers) {
+            assertFalse(isRepeatableOpponent(player));
+        }
+    }
 
     //random number players and rounds
     @Test
@@ -167,7 +191,6 @@ public class SwissAlgorithmTest {
             assertFalse(isRepeatableOpponent(player));
         }
     }
-
 
     @Test
     public void repeatableOpponentMaxRoundsNumber() {

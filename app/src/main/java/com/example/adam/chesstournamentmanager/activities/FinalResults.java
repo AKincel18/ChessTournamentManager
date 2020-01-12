@@ -2,6 +2,7 @@ package com.example.adam.chesstournamentmanager.activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -133,7 +134,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
         paramsBuchholzHeader.setMargins(0, 0, 0, 5);
 
         TextView buchholzHeaderTextView = new TextView(this);
-        buchholzHeaderTextView.setTextColor(getColor(R.color.colorAccent));
+        buchholzHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
         buchholzHeaderTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
         buchholzHeaderTextView.setGravity(Gravity.START);
         buchholzHeaderTextView.setLayoutParams(paramsBuchholzHeader);
@@ -181,30 +182,40 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
             l.setOrientation(LinearLayout.HORIZONTAL);
 
             TextView positionTextView = new TextView(this);
-            positionTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            positionTextView.setTextColor(getColor(R.color.colorAccent));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                positionTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
+            }
+            else {
+                positionTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+            }
+            positionTextView.setTextColor(getResources().getColor(R.color.colorAccent));
             positionTextView.setGravity(Gravity.START);
             positionTextView.setText(getString(R.string.no, (i + 1)));
             positionTextView.setLayoutParams(paramsPosition);
             l.addView(positionTextView);
 
             TextView playerTextView = new TextView(this);
-            playerTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            playerTextView.setTextColor(getColor(R.color.colorPrimaryDark));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                playerTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
+            }
+            else {
+                playerTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+            }
+            playerTextView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             playerTextView.setGravity(Gravity.START);
             playerTextView.setText(playerList.get(i).toString());
             playerTextView.setLayoutParams(paramsPlayerTextView);
 
             if (i == 0) {
-                playerTextView.setTextColor(getColor(R.color.colorGolden));
+                playerTextView.setTextColor(getResources().getColor(R.color.colorGolden));
                 playerTextView.setTypeface(null, Typeface.BOLD);
             }
             if (i == 1) {
-                playerTextView.setTextColor(getColor(R.color.colorSilver));
+                playerTextView.setTextColor(getResources().getColor(R.color.colorSilver));
                 playerTextView.setTypeface(null, Typeface.BOLD);
             }
             if (i == 2) {
-                playerTextView.setTextColor(getColor(R.color.colorBronze));
+                playerTextView.setTextColor(getResources().getColor(R.color.colorBronze));
                 playerTextView.setTypeface(null, Typeface.BOLD);
             }
 
@@ -212,8 +223,13 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
 
             TextView pointTextView = new TextView(this);
-            pointTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            pointTextView.setTextColor(getColor(R.color.colorPrimaryDark));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                pointTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
+            }
+            else {
+                pointTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+            }
+            pointTextView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             pointTextView.setGravity(Gravity.START);
             pointTextView.setLayoutParams(paramsPointsTextView);
 
@@ -225,9 +241,14 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
 
                 TextView buchholzPointsTextView = new TextView(this);
-                buchholzPointsTextView.setTextColor(getColor(R.color.colorPrimaryDark));
+                buchholzPointsTextView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 buchholzPointsTextView.setGravity(Gravity.START);
-                buchholzPointsTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    buchholzPointsTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
+                }
+                else {
+                    buchholzPointsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+                }
                 buchholzPointsTextView.setLayoutParams(paramsPointsTextView);
 
                 if (SwissAlgorithm.getINSTANCE().getPlaceOrder()) {

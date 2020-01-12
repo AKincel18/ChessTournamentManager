@@ -44,7 +44,8 @@
                 android:gravity="start|center_vertical"
                 android:text="@string/white_player_text_view"
                 android:textColor="@color/colorAccent"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:layout_marginLeft="10dp" />
 
             <TextView
                 android:id="@+id/results_text_view"
@@ -55,7 +56,8 @@
                 android:gravity="center"
                 android:text="@string/results_text_view"
                 android:textColor="@color/colorAccent"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:layout_marginRight="5dp" />
 
             <TextView
                 android:id="@+id/black_player_text_view"
@@ -66,7 +68,8 @@
                 android:gravity="end|center"
                 android:text="@string/black_player_text_view"
                 android:textColor="@color/colorAccent"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:layout_marginRight="10dp" />
 
         </LinearLayout>
 
@@ -80,11 +83,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/layout_border_button"
-            android:textStyle="bold"
             android:text="@string/next_round_button"
-            android:textColor="@color/colorTextButton" />
+            android:textColor="@color/colorTextButton"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

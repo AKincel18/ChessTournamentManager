@@ -192,7 +192,7 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         editText.setGravity(Gravity.START | Gravity.CENTER);
         editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        editText.setTextColor(getColor(R.color.colorPrimaryDark));
+        editText.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
         textView.setText(getString(R.string.auto_count_of_rounds, optimalCountOfRounds));
 

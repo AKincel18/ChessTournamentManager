@@ -3,6 +3,7 @@ package com.example.adam.chesstournamentmanager.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,6 +28,7 @@ import com.example.adam.chesstournamentmanager.swissalgorithm.SwissAlgorithm;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.GeneralDialogFragment;
 import com.example.adam.chesstournamentmanager.staticdata.dialogbox.OnDialogFragmentClickListener;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class RoundResults extends AppCompatActivity implements OnDialogFragmentClickListener {
@@ -164,22 +166,37 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
             TextView noTextView = new TextView(this);
             noTextView.setText(getString(R.string.no, (i + 1)));
-            noTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                noTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
+            }
+            else {
+                noTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+            }
             noTextView.setGravity(Gravity.START);
-            noTextView.setTextColor(getColor(R.color.colorAccent));
+            noTextView.setTextColor(getResources().getColor(R.color.colorAccent));
             noTextView.setLayoutParams(paramsNo);
             l.addView(noTextView);
 
             TextView player1TextView = new TextView(this);
             player1TextView.setText(matches.get(i).getPlayer1().toString());
-            player1TextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                player1TextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
+            }
+            else {
+                player1TextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+            }
             player1TextView.setGravity(Gravity.START);
             player1TextView.setLayoutParams(paramsPlayer1);
             l.addView(player1TextView);
 
             TextView player2TextView = new TextView(this);
             player2TextView.setText(matches.get(i).getPlayer2().toString());
-            player2TextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                player2TextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
+            }
+            else {
+                player2TextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+            }
             player2TextView.setGravity(Gravity.START);
             player2TextView.setLayoutParams(paramsPlayer1);
             l.addView(player2TextView);
@@ -187,9 +204,14 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
 
             TextView resultTextView = new TextView(this);
             resultTextView.setText(getMatchResult(player1TextView, player2TextView, matches.get(i)));
-            resultTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                resultTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
+            }
+            else {
+                resultTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+            }
             resultTextView.setGravity(Gravity.START);
-            resultTextView.setTextColor(getColor(R.color.colorPrimaryDark));
+            resultTextView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             resultTextView.setLayoutParams(paramsResult);
             l.addView(resultTextView);
 
@@ -203,19 +225,19 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
         switch (match.getMatchResult()) {
             case WHITE_WON:
                 p2.setTextColor(Color.RED);
-                p1.setTextColor(getColor(R.color.winnerColor));
+                p1.setTextColor(getResources().getColor(R.color.winnerColor));
                 p1.setTypeface(null, Typeface.BOLD);
                 return getString(R.string.white_won_result);
             case DRAW:
                 p1.setTypeface(null, Typeface.ITALIC);
                 p2.setTypeface(null, Typeface.ITALIC);
-                p1.setTextColor(getColor(R.color.colorPrimaryDark));
-                p2.setTextColor(getColor(R.color.colorPrimaryDark));
+                p1.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                p2.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 return getString(R.string.draw_result);
             case BLACK_WON:
                 p1.setTextColor(Color.RED);
                 p2.setTypeface(null, Typeface.BOLD);
-                p2.setTextColor(getColor(R.color.winnerColor));
+                p2.setTextColor(getResources().getColor(R.color.winnerColor));
                 return getString(R.string.black_won_result);
         }
         return null;

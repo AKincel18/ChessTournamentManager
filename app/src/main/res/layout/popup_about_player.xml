@@ -41,7 +41,8 @@
             android:gravity="center"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginRight="5dp" />
 
 
     </LinearLayout>
@@ -60,7 +61,8 @@
             android:layout_marginBottom="8dp"
             android:text="@string/date_of_birth_text_view"
             android:textColor="@color/colorAccent"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:layout_marginLeft="125dp" />
 
 
         <TextView
@@ -72,7 +74,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="8dp" />
 
     </LinearLayout>
 
@@ -90,7 +94,8 @@
             android:layout_marginBottom="8dp"
             android:text="@string/polish_ranking_text_view"
             android:textColor="@color/colorAccent"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:layout_marginLeft="125dp" />
 
 
         <TextView
@@ -102,7 +107,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="8dp" />
 
     </LinearLayout>
 
@@ -122,7 +129,8 @@
             android:layout_marginBottom="4dp"
             android:text="@string/international_ranking_text_view"
             android:textColor="@color/colorAccent"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:layout_marginLeft="125dp" />
 
 
         <TextView
@@ -134,7 +142,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="8dp" />
 
     </LinearLayout>
 

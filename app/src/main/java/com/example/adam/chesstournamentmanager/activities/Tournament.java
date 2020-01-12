@@ -3,6 +3,7 @@ package com.example.adam.chesstournamentmanager.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -227,14 +228,14 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
             int count = 0;
             for (int i = 0; i < matches.size() * 2; i += 2) {
                 if (count == matches.size() - 1 && !swissAlgorithm.isEven()) {
-                    textViews[i].setTextColor(getColor(R.color.winnerColor));
+                    textViews[i].setTextColor(getResources().getColor(R.color.winnerColor));
                     textViews[i].setTypeface(null, Typeface.BOLD);
                     textViews[i + 1].setTextColor(Color.RED);
                 } else {
                     textViews[i].setTypeface(null, Typeface.NORMAL);
                     textViews[i + 1].setTypeface(null, Typeface.NORMAL);
-                    textViews[i].setTextColor(getColor(R.color.colorPrimaryDark));
-                    textViews[i + 1].setTextColor(getColor(R.color.colorPrimaryDark));
+                    textViews[i].setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    textViews[i + 1].setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 }
 
                 textViews[i].setText(matches.get(count).getPlayer1().toString());
@@ -272,7 +273,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
             TextView textView = new TextView(this);
             textView.setId(i);
             textView.setTypeface(null, Typeface.NORMAL);
-            textView.setTextColor(getColor(R.color.colorPrimaryDark));
+            textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             textViews[i] = textView;
         }
 
@@ -339,12 +340,17 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
             textViews[i].setLayoutParams(paramsLeftTextSize);
             textViews[i].setGravity(Gravity.START);
             textViews[i].setText(matches.get(matchNumber).getPlayer1().toString());
-            textViews[i].setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                textViews[i].setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
+            }
+            else {
+                textViews[i].setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+            }
             l.addView(textViews[i]);
 
             if (matchNumber == matches.size() - 1 && !swissAlgorithm.isEven()) {
 
-                textViews[i].setTextColor(getColor(R.color.winnerColor));
+                textViews[i].setTextColor(getResources().getColor(R.color.winnerColor));
                 textViews[i].setTypeface(null, Typeface.BOLD);
                 TextView textView = new TextView(this);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
@@ -356,7 +362,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
                 textView.setLayoutParams(paramsBye);
                 textView.setText(getString(R.string.white_won_result));
                 textView.setGravity(Gravity.CENTER);
-                textView.setTextColor(getColor(R.color.colorPrimaryDark));
+                textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 textViews[i + 1].setTextColor(Color.RED);
                 l.addView(textView);
             } else {
@@ -369,7 +375,12 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
             textViews[i + 1].setGravity(Gravity.END);
             textViews[i + 1].setText(matches.get(matchNumber).getPlayer2().toString());
             textViews[i + 1].setLayoutParams(paramsRightTextSize);
-            textViews[i + 1].setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                textViews[i + 1].setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
+            }
+            else {
+                textViews[i + 1].setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+            }
 
             l.addView(textViews[i + 1]);
 
@@ -412,7 +423,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
     private void colorWinner(int matchNumber) {
         switch (spinners[matchNumber].getSelectedItemPosition()) {
             case 0: //WHITE_WON
-                textViews[matchNumber * 2].setTextColor(getColor(R.color.winnerColor));
+                textViews[matchNumber * 2].setTextColor(getResources().getColor(R.color.winnerColor));
                 textViews[matchNumber * 2].setTypeface(null, Typeface.BOLD);
                 textViews[matchNumber * 2 + 1].setTextColor(Color.RED);
                 textViews[matchNumber * 2 + 1].setTypeface(null, Typeface.NORMAL);
@@ -420,14 +431,14 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
             case 1: //DRAW
                 textViews[matchNumber * 2].setTypeface(null, Typeface.ITALIC);
                 textViews[matchNumber * 2 + 1].setTypeface(null, Typeface.ITALIC);
-                textViews[matchNumber * 2].setTextColor(getColor(R.color.colorPrimaryDark));
-                textViews[matchNumber * 2 + 1].setTextColor(getColor(R.color.colorPrimaryDark));
+                textViews[matchNumber * 2].setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                textViews[matchNumber * 2 + 1].setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
                 break;
             case 2: //BLACK_WON
                 textViews[matchNumber * 2 ].setTypeface(null, Typeface.NORMAL);
                 textViews[matchNumber * 2 ].setTextColor(Color.RED);
-                textViews[matchNumber * 2 + 1].setTextColor(getColor(R.color.winnerColor));
+                textViews[matchNumber * 2 + 1].setTextColor(getResources().getColor(R.color.winnerColor));
                 textViews[matchNumber * 2 + 1].setTypeface(null, Typeface.BOLD);
                 break;
 

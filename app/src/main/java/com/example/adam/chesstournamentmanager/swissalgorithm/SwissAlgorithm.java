@@ -31,7 +31,6 @@ public class SwissAlgorithm implements Serializable {
 
     private List<TournamentPlayer> tournamentPlayers;
 
-
     private List<List<Match>> matches = new ArrayList<>(); //rows -> number of rounds, columns -> matches
 
     private List<Match> matchesTmp = new ArrayList<>();
@@ -90,33 +89,8 @@ public class SwissAlgorithm implements Serializable {
             addMatchVersusBye(player1);
         }
 
-
         matches.add(matchesTmp);
         matchesTmp = new ArrayList<>();
-
-
-/*
-        //DEBUGGING
-
-        setResult(result());
-        writeMatches(0);
-
-
-        for (int i = 1; i< roundsNumber; i++){
-            //buchholzMethod();
-            //sortPlayerDuringTournament();
-            //groupsPlayers = prepareGroups();
-            writeGroups();
-            drawNextRound();
-            matches.add(matchesTmp);
-            matchesTmp = new ArrayList<>();
-            setResult(result());
-            writeMatches(i);
-        }
-        sortPlayerAfterTournament();
-        writeEndResults();*/
-
-
     }
 
 
@@ -142,6 +116,7 @@ public class SwissAlgorithm implements Serializable {
             boolean removeEmptyGroup = false;
             boolean backToHigherGroup = false;
             Iterator<TournamentPlayer> playerIterator = groupsPlayers.get(groupNumber).listIterator();
+
             while (playerIterator.hasNext()) {
                 TournamentPlayer player = playerIterator.next();
                 if (!player.hasOpponent(currentRound)) {
@@ -156,12 +131,11 @@ public class SwissAlgorithm implements Serializable {
 
                             groupNumber--;
                             groupsPlayers.get(groupNumber).add(0, player); //add player to higher group, on the first position
-
                             playerIterator.remove(); //remove player from current group
                             removeMatchesInGroup(groupNumber); //remove all matches from higher group
                             backToHigherGroup = true; //set flag
-
                             break;
+
                         } else {
 
                             //go to lower group
@@ -171,27 +145,21 @@ public class SwissAlgorithm implements Serializable {
 
                             removeMatchesInGroup(groupNumber + 1);
                             playerIterator.remove();
-                            //playerPos--;
 
 
                         }
 
                         //go into a higher group
-
-
                         //remove empty group
                         if (groupsPlayers.get(groupNumber).isEmpty()) {
                             List<TournamentPlayer> list = groupIterator.next();
                             groupIterator.remove();
-                            // player.setCountGroup(player.getCountGroup() - 1);
                             removeEmptyGroup = true;
                         }
                     }
                 }
-                //playerPos++;
             }
 
-            //playerPos = 0;
             if (removeEmptyGroup || backToHigherGroup) {
                 groupIterator = groupsPlayers.listIterator(groupNumber);
             } else {
@@ -247,14 +215,10 @@ public class SwissAlgorithm implements Serializable {
 
         List<TournamentPlayer> lastGroup = groupsPlayers.get(groupNumber);
 
-        //Iterator<Match> matchIterator = matches.get(currentRound - 1).listIterator(matches.get(currentRound - 1).size());//matches.listIterator(matches.size()); //from the end
         Iterator<Match> matchIterator = matchesTmp.listIterator(matchesTmp.size()); //from the end
-        //while (((ListIterator<Match>) matchIterator).hasPrevious()){
+
         while (((ListIterator<Match>) matchIterator).hasPrevious()) {
             Match match = ((ListIterator<Match>) matchIterator).previous();
-/*            if (match.getRound() != currentRound){
-                break;
-            }*/
             for (TournamentPlayer player : lastGroup) {
                 if (match.getPlayer1() == player || match.getPlayer2() == player) {
                     removeMatchFromPlayers(match.getPlayer1(), match.getPlayer2());
@@ -293,7 +257,6 @@ public class SwissAlgorithm implements Serializable {
             }
         }
         return false;
-
     }
 
 
@@ -302,7 +265,7 @@ public class SwissAlgorithm implements Serializable {
         TournamentPlayer bye = new TournamentPlayer();
         bye.setName(Constants.BYE);
         bye.setSurname(Constants.EMPTY);
-        matchesTmp.add(new Match(currentRound, player, bye));//matches.get(currentRound - 1).add(new Match(currentRound, player, bye)); //matches.add(new Match(currentRound, player, bye));
+        matchesTmp.add(new Match(currentRound, player, bye));
         player.setBye(true);
         player.setPrevOpponents(bye);
         player.setPrevColors(Colors.NO_COLOR);
@@ -310,11 +273,11 @@ public class SwissAlgorithm implements Serializable {
 
     private void addMatch(TournamentPlayer player1, TournamentPlayer player2) {
         if (selectColors(player1, player2)) {
-            matchesTmp.add(new Match(currentRound, player1, player2));//matches.get(currentRound - 1).add(new Match(currentRound, player1, player2));//matches.add(new Match(currentRound, player1, player2));
+            matchesTmp.add(new Match(currentRound, player1, player2));
             player1.setPrevColors(Colors.WHITE);
             player2.setPrevColors(Colors.BLACK);
         } else {
-            matchesTmp.add(new Match(currentRound, player2, player1));//matches.get(currentRound - 1).add(new Match(currentRound, player1, player2));//matches.add(new Match(currentRound, player2, player1));
+            matchesTmp.add(new Match(currentRound, player2, player1));
             player1.setPrevColors(Colors.BLACK);
             player2.setPrevColors(Colors.WHITE);
         }
@@ -331,7 +294,6 @@ public class SwissAlgorithm implements Serializable {
             if (!player.hadByeBefore()) { //no bye before
                 removePlayerFromDrawing(player);
                 removeEmptyGroup();
-                //Log.i("", "\t\t\t\t" + "BYE = " + player.toString());
                 return player;
             }
             i--;
@@ -364,7 +326,6 @@ public class SwissAlgorithm implements Serializable {
     private void addFirstMatchRound(TournamentPlayer player1, TournamentPlayer player2) {
 
         Random randomGenerator = new Random();
-
         if (randomGenerator.nextBoolean()) { //player1 = white
 
             matchesTmp.add(new Match(currentRound, player1, player2));
@@ -381,36 +342,6 @@ public class SwissAlgorithm implements Serializable {
 
         player1.setPrevOpponents(player2);
         player2.setPrevOpponents(player1);
-    }
-
-
-    private void writeEndResults() {
-        System.out.println(" ");
-        System.out.println(" ");
-        Log.i("", "\t\t\t\t RESULTS");
-
-        for (TournamentPlayer player : tournamentPlayers) {
-            Log.i("", "\t\t\t\t" + player.toString() + ", points = " + player.getPoints() + ", points BUCHHOLZ = " + player.getBuchholzPoints() +
-                    ", punkty SREDNI BUCHHOLZ = " + player.getMedianBuchholzMethod() +
-                    ", opponent = " + player.writeOpponent() +
-                    ", color = " + player.writeColors() + ", white= " + player.colorsCount().get(1) + ", black = " + player.colorsCount().get(0));
-        }
-        System.out.println(" ");
-        System.out.println(" ");
-    }
-
-    private void writeGroups() {
-        //String text="";
-        for (List<TournamentPlayer> list : groupsPlayers) {
-            Log.i("", "\t\t\t\tGRUPA = " + groupsPlayers.indexOf(list));
-            for (TournamentPlayer player : list) {
-                Log.i("", "\t\t\t\tZAWODNIK = " + player.toString() + ", punkty = " + player.getPoints() +
-                        ", punkty BUCHHOLZ = " + player.getBuchholzPoints() +
-                        ", punkty SREDNI BUCHHOLZ = " + player.getMedianBuchholzMethod() +
-                        ", previous opponents = " + player.writeOpponent());
-            }
-        }
-
     }
 
     private List<List<TournamentPlayer>> prepareGroups() {
@@ -448,49 +379,11 @@ public class SwissAlgorithm implements Serializable {
         } else {
             return !(player2.getLastColor().opposite() == Colors.WHITE);
         }
-
-
     }
 
-
-    private MatchResult drawResult() {
-        Random random = new Random();
-        int i = random.nextInt(3);
-        switch (i) {
-            case 0:
-                return MatchResult.WHITE_WON;
-            case 1:
-                return MatchResult.BLACK_WON;
-            case 2:
-                return MatchResult.DRAW;
-        }
-        return MatchResult.WHITE_WON;
-    }
-
-
-    private List<MatchResult> result() {
-
-        List<MatchResult> results = new ArrayList<>();
-
-        int matchNumber;
-        if (playersNumber % 2 == 0)
-            matchNumber = playersNumber / 2;
-        else
-            matchNumber = playersNumber / 2 + 1;
-
-        for (int i = 0; i < matchNumber; i++) {
-            if (i == matchNumber - 1 && (playersNumber / 2) % 2 == 1)
-                results.add(MatchResult.WHITE_WON);
-            else
-                results.add(drawResult());
-        }
-        return results;
-
-    }
 
     public void setResult(List<MatchResult> results) {
 
-        //int pos = (currentRound - 1) * results.size();
         List<Match> matchesInGroup = matches.get(currentRound - 1);
         int i = 0;
         for (MatchResult matchResult : results) {
@@ -521,14 +414,12 @@ public class SwissAlgorithm implements Serializable {
                 buchholzMethod();
             } else {
                 medianBuchholzMethod();
-
             }
 
             sortPlayerAfterTournament();
         } else {
             currentRound++;
         }
-
 
     }
 
@@ -568,30 +459,6 @@ public class SwissAlgorithm implements Serializable {
                 return c;
             }
         });
-    }
-
-
-    private void writeMatches(int round) {
-        System.out.println(" ");
-        System.out.println(" ");
-        Log.i(" ", "\t\t\t\tRUNDA = " + (this.currentRound - 1));
-/*        for (Match m : matches){
-            if (m.getRound() == this.currentRound - 1)
-                Log.i("","\t\t\t\t" + m.toString());
-        }*/
-
-        for (Match match : matches.get(round)) {
-            Log.i("", "\t\t\t\t" + match.toString());
-        }
-    }
-
-    private void writeTmpMatches() {
-        System.out.println(" ");
-        System.out.println(" ");
-
-        for (Match match : matchesTmp) {
-            Log.i("", "\t\t\t\t" + match.toString());
-        }
     }
 
 

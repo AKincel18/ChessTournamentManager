@@ -72,6 +72,7 @@
                     android:text="@string/count_of_number_switch"
                     android:textColor="@color/colorAccent"
                     android:textSize="20sp" />
+
                 <TextView
                     android:id="@+id/auto_count_of_rounds"
                     android:layout_width="0dp"
@@ -79,8 +80,8 @@
                     android:layout_weight="1"
                     android:gravity="start|center"
                     android:text="@string/auto_count_of_rounds"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
 
 
             </LinearLayout>
@@ -108,12 +109,12 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:gravity="center|start"
                     android:text="@string/count_of_players_text_view"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="25sp"
-                    android:layout_marginLeft="10dp" />
+                    android:textSize="25sp" />
 
             </LinearLayout>
 
@@ -141,21 +142,12 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:gravity="center|start"
                     android:text="@string/auto_order_player"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="19sp"
-                    android:layout_marginLeft="10dp" />
-                <!--                <Switch
-                    android:id="@+id/order_place_switch"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="start|center"
-                    android:text="@string/pairing_type_text_view"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />-->
+                    android:textSize="19sp" />
 
             </LinearLayout>
 
@@ -182,8 +174,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1" />
             </LinearLayout>
 
         </LinearLayout>
@@ -205,8 +197,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="490dp"
                 android:layout_marginStart="50dp"
-                android:background="@drawable/layout_border_popup"
-                android:layout_marginLeft="50dp" />
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/layout_border_popup" />
 
 
             <Button

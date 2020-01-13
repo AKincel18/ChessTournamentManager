@@ -55,7 +55,6 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
         textView = findViewById(R.id.previous_round_count_text_view);
         textView.setText(getString(R.string.round_count_text_view, currentView));
 
-
         initNavigationMenu();
         buildMenu();
         buildView(currentView);
@@ -68,10 +67,8 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
 
-
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -168,8 +165,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
             noTextView.setText(getString(R.string.no, (i + 1)));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 noTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
-            }
-            else {
+            } else {
                 noTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
             }
             noTextView.setGravity(Gravity.START);
@@ -181,8 +177,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
             player1TextView.setText(matches.get(i).getPlayer1().toString());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 player1TextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
-            }
-            else {
+            } else {
                 player1TextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
             }
             player1TextView.setGravity(Gravity.START);
@@ -193,8 +188,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
             player2TextView.setText(matches.get(i).getPlayer2().toString());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 player2TextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
-            }
-            else {
+            } else {
                 player2TextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
             }
             player2TextView.setGravity(Gravity.START);
@@ -206,8 +200,7 @@ public class RoundResults extends AppCompatActivity implements OnDialogFragmentC
             resultTextView.setText(getMatchResult(player1TextView, player2TextView, matches.get(i)));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 resultTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 1, TypedValue.COMPLEX_UNIT_SP);
-            }
-            else {
+            } else {
                 resultTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
             }
             resultTextView.setGravity(Gravity.START);

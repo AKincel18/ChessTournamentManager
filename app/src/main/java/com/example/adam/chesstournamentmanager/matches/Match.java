@@ -52,28 +52,11 @@ public class Match implements Serializable {
         this.matchResult = matchResult;
     }
 
-    public String writeMatch(int pos){
-        return pos + ". " + player1.getName() + " vs " + player2.getName();
-    }
-
-    public String writeResult(){
-        switch (matchResult){
-            case WHITE_WON:
-                return "1-0";
-            case DRAW:
-                return "1/2 - 1/2";
-            case BLACK_WON:
-                return "0-1";
-        }
-        return null;
-
-    }
-
     @Override
     public String toString() {
         return "Match{" +
                 "round=" + round +
-                ", "+ player1.getName() +
+                ", " + player1.getName() +
                 " vs " + player2.getName() +
                 ", matchResult=" + matchResult +
                 '}';

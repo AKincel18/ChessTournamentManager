@@ -66,7 +66,6 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
         int optimalCountOfRounds = (int) Math.ceil(Math.log(players.size()) / Math.log(2)); // ceil(log2(player's number)),  log2 = (Math.log(x) / Math.log(2));
         choiceRoundsSwitchImplementation(optimalCountOfRounds);
         startTournament(optimalCountOfRounds);
-
     }
 
 
@@ -187,7 +186,7 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
 
     private void choiceRoundsSwitchImplementation(final int optimalCountOfRounds) {
         final LinearLayout linearLayout = findViewById(R.id.layout_set_round);
-        final TextView textView = findViewById(R.id.auto_count_of_rounds);//new TextView(this);
+        final TextView textView = findViewById(R.id.auto_count_of_rounds);
         editText = new EditText(this);
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         editText.setGravity(Gravity.START | Gravity.CENTER);
@@ -195,7 +194,6 @@ public class ConfigureTournament extends AppCompatActivity implements OnDialogFr
         editText.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
         textView.setText(getString(R.string.auto_count_of_rounds, optimalCountOfRounds));
-
 
 
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1);

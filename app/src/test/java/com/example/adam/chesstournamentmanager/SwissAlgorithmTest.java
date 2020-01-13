@@ -27,10 +27,9 @@ public class SwissAlgorithmTest {
 
     private List<TournamentPlayer> tournamentPlayers;
 
-    private int maxNumber = 50;
+    private int maxNumber = 50; //set max number of rounds
 
-    private int minNumber = 2;
-
+    private int minNumber = 2; //set min number of rounds
 
     @Before
     public void setUp() {
@@ -128,7 +127,7 @@ public class SwissAlgorithmTest {
         return true;
     }
 
-    private void initMinPlayersNumber(){
+    private void initMinPlayersNumber() {
 
         int playersNumber = 2;
         roundsNumber = maxNumberCount(playersNumber);
@@ -164,7 +163,7 @@ public class SwissAlgorithmTest {
     }
 
     @Test
-    public void minimumPlayersNumber(){
+    public void minimumPlayersNumber() {
         initMinPlayersNumber();
         System.out.println(Constants.minimumPlayersNumber);
         System.out.println(Constants.PLAYERS_NUMBER + tournamentPlayers.size());
@@ -261,12 +260,10 @@ public class SwissAlgorithmTest {
             }
         }
 
-
     }
 
     @Test
     public void correctFinalOrderMaxRoundNumber() {
-
 
         initTestMaxRoundsNumber();
 

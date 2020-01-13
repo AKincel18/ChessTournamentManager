@@ -36,5 +36,4 @@ public class Constants {
     public static final String correctFinalOrderMaxRoundNumber = "correctFinalOrderMaxRoundNumber()";
     public static final String minimumPlayersNumber = "minimumPlayersNumber()";
 
-
 }

@@ -45,6 +45,7 @@ public class ListAdapter extends ArrayAdapter<String> {
         if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rowView = inflater.inflate(rLayout, parent, false);
+
             ViewHolder holder = new ViewHolder();
             holder.noColumn = rowView.findViewById(R.id.lp_row_layout);
             holder.nameColumn = rowView.findViewById(R.id.name_player_row_layout);

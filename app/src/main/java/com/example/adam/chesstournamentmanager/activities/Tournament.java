@@ -69,7 +69,6 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         nextRoundButton = findViewById(R.id.next_round_button);
         titleTextView = findViewById(R.id.round_count_text_view);
 
-
         swissAlgorithm = SwissAlgorithm.getINSTANCE();
 
         if (swissAlgorithm == null) {
@@ -109,12 +108,10 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
 
-
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         navigationView = findViewById(R.id.nav_view);
         myMenu = navigationView.getMenu();
@@ -342,8 +339,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
             textViews[i].setText(matches.get(matchNumber).getPlayer1().toString());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 textViews[i].setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            }
-            else {
+            } else {
                 textViews[i].setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
             }
             l.addView(textViews[i]);
@@ -377,8 +373,7 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
             textViews[i + 1].setLayoutParams(paramsRightTextSize);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 textViews[i + 1].setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            }
-            else {
+            } else {
                 textViews[i + 1].setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
             }
 
@@ -436,8 +431,8 @@ public class Tournament extends AppCompatActivity implements OnDialogFragmentCli
 
                 break;
             case 2: //BLACK_WON
-                textViews[matchNumber * 2 ].setTypeface(null, Typeface.NORMAL);
-                textViews[matchNumber * 2 ].setTextColor(Color.RED);
+                textViews[matchNumber * 2].setTypeface(null, Typeface.NORMAL);
+                textViews[matchNumber * 2].setTextColor(Color.RED);
                 textViews[matchNumber * 2 + 1].setTextColor(getResources().getColor(R.color.winnerColor));
                 textViews[matchNumber * 2 + 1].setTypeface(null, Typeface.BOLD);
                 break;

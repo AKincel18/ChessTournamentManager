@@ -1,7 +1,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Chess Tournament Manager</string>
-    <!--PlayersSelection-->
 
+    <!--PlayersSelection-->
     <string name="available_players_text_view">Dostępni zawodnicy</string>
     <string name="chosen_players_text_view">Wybrani zawodnicy</string>
     <string name="add_player_button">Dodaj zawodnika</string>
@@ -14,7 +14,7 @@
     <string name="checked_text_view">Checked Text View</string>
     <string name="select_all_checkbox">Zaznacz wszystko</string>
 
-    <!--Toast-->
+    <!--Toasts-->
     <string name="nothing_selected">Nie zaznaczono zawodnika</string>
     <string name="added_player">Dodano zawodnika</string>
     <string name="removed_player">Usunięto zawodnika</string>
@@ -37,7 +37,6 @@
     <string name="locale">pl</string>
     <string name="empty_string"></string>
     <string name="required_fields">Imię oraz nazwisko nie może pozostać puste.</string>
-
 
     <!--ConfigureTournament-->
     <string name="pairing_type_text_view">Uszeregowanie zawodników</string>

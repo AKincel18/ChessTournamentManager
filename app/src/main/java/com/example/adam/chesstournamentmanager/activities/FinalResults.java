@@ -59,18 +59,14 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
     private void initNavigationView() {
 
-
         final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
 
-
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 
@@ -184,8 +180,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
             TextView positionTextView = new TextView(this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 positionTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            }
-            else {
+            } else {
                 positionTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
             }
             positionTextView.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -197,8 +192,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
             TextView playerTextView = new TextView(this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 playerTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            }
-            else {
+            } else {
                 playerTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
             }
             playerTextView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -225,8 +219,7 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
             TextView pointTextView = new TextView(this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 pointTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-            }
-            else {
+            } else {
                 pointTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
             }
             pointTextView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -239,14 +232,12 @@ public class FinalResults extends AppCompatActivity implements OnDialogFragmentC
 
             if (SwissAlgorithm.getINSTANCE().isFinishedTournament()) {
 
-
                 TextView buchholzPointsTextView = new TextView(this);
                 buchholzPointsTextView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 buchholzPointsTextView.setGravity(Gravity.START);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     buchholzPointsTextView.setAutoSizeTextTypeUniformWithConfiguration(1, 30, 2, TypedValue.COMPLEX_UNIT_SP);
-                }
-                else {
+                } else {
                     buchholzPointsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
                 }
                 buchholzPointsTextView.setLayoutParams(paramsPointsTextView);

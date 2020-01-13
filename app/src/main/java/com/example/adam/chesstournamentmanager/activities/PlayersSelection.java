@@ -71,18 +71,17 @@ public class PlayersSelection extends AppCompatActivity implements OnDialogFragm
         removePlayer();
         editPlayer();
 
+        //checkboxes
         selectedAll(R.id.select_all_checkbox, allPlayersListView, selectedAvailablePlayers);
         selectedAll(R.id.select_all_checkbox2, chosenPlayerListView, selectedChosenPlayers);
 
         initListView(chosenPlayerListView, chosenPlayers, selectedChosenPlayers);
 
         dialog = new Dialog(this);
-
     }
 
 
     private void fetchPlayers() {
-
         chosenPlayers.clear();
         availablePlayers.clear();
         Executors.newSingleThreadExecutor().execute(new Runnable() {

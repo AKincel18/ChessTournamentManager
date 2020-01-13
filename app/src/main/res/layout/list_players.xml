@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_marginStart="10dp"
+    android:layout_marginLeft="10dp"
     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
     android:gravity="center_vertical"
     android:text="@string/checked_text_view"
     android:textColor="@color/colorAccent"
-    android:textSize="20sp"
-    android:layout_marginLeft="10dp" />
+    android:textSize="20sp" />

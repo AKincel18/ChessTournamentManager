@@ -12,13 +12,13 @@ import com.example.adam.chesstournamentmanager.staticdata.Constants;
 public class GeneralDialogFragment extends BaseDialogFragment<OnDialogFragmentClickListener> {
 
     public static GeneralDialogFragment newInstance(String title, String message, String positiveBtn) {
-        GeneralDialogFragment frag = new GeneralDialogFragment();
+        GeneralDialogFragment fragment = new GeneralDialogFragment();
         Bundle args = new Bundle();
         args.putString(Constants.TITLE, title);
         args.putString(Constants.MESSAGE, message);
         args.putString(Constants.POSITIVE_BTN, positiveBtn);
-        frag.setArguments(args);
-        return frag;
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public static GeneralDialogFragment exitDialogBox() {

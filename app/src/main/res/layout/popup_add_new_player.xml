@@ -15,29 +15,29 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginStart="270dp"
+            android:layout_marginLeft="270dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginBottom="5dp"
             android:text="@string/add_player_button"
             android:textColor="@color/colorAccent"
-            android:textSize="30sp"
-            android:layout_marginLeft="270dp"
-            android:layout_marginRight="8dp" />
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/close_button"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginStart="80dp"
+            android:layout_marginLeft="80dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/layout_border_button"
-            android:textStyle="bold"
             android:text="@string/close_button"
             android:textColor="@color/colorAccent"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="8dp" />
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -50,12 +50,12 @@
             android:layout_width="200dp"
             android:layout_height="45dp"
             android:layout_marginStart="160dp"
+            android:layout_marginLeft="160dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/name_text_view"
             android:textColor="@color/colorAccent"
-            android:textSize="25sp"
-            android:layout_marginLeft="160dp" />
+            android:textSize="25sp" />
 
 
         <EditText
@@ -63,14 +63,14 @@
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_marginStart="100dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:inputType="textPersonName"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="25sp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="8dp" />
+            android:textSize="25sp" />
 
     </LinearLayout>
 
@@ -85,12 +85,12 @@
             android:layout_width="200dp"
             android:layout_height="45dp"
             android:layout_marginStart="160dp"
+            android:layout_marginLeft="160dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/surname_text_view"
             android:textColor="@color/colorAccent"
-            android:textSize="25sp"
-            android:layout_marginLeft="160dp" />
+            android:textSize="25sp" />
 
 
         <EditText
@@ -98,14 +98,13 @@
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_marginStart="100dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="25sp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="8dp"
-            />
+            android:textSize="25sp" />
 
     </LinearLayout>
 
@@ -120,12 +119,12 @@
             android:layout_width="200dp"
             android:layout_height="45dp"
             android:layout_marginStart="160dp"
+            android:layout_marginLeft="160dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/date_of_birth_text_view"
             android:textColor="@color/colorAccent"
-            android:textSize="25sp"
-            android:layout_marginLeft="160dp" />
+            android:textSize="25sp" />
 
 
         <TextView
@@ -133,14 +132,14 @@
             android:layout_width="200dp"
             android:layout_height="45dp"
             android:layout_marginStart="100dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/pick_date_text_view"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="25sp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="8dp" />
+            android:textSize="25sp" />
 
     </LinearLayout>
 
@@ -154,12 +153,12 @@
             android:layout_width="200dp"
             android:layout_height="45dp"
             android:layout_marginStart="160dp"
+            android:layout_marginLeft="160dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/polish_ranking_text_view"
             android:textColor="@color/colorAccent"
-            android:textSize="25sp"
-            android:layout_marginLeft="160dp" />
+            android:textSize="25sp" />
 
 
         <EditText
@@ -167,15 +166,15 @@
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_marginStart="100dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:inputType="numberDecimal"
             android:textColor="@color/colorPrimaryDark"
             android:textColorHint="@color/colorPrimary"
-            android:textSize="25sp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="8dp" />
+            android:textSize="25sp" />
 
     </LinearLayout>
 
@@ -190,12 +189,12 @@
             android:layout_width="200dp"
             android:layout_height="70dp"
             android:layout_marginStart="160dp"
+            android:layout_marginLeft="160dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:text="@string/international_ranking_text_view"
             android:textColor="@color/colorAccent"
-            android:textSize="25sp"
-            android:layout_marginLeft="160dp" />
+            android:textSize="25sp" />
 
 
         <EditText
@@ -203,15 +202,15 @@
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_marginStart="100dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:inputType="numberDecimal"
             android:textColor="@color/colorPrimaryDark"
             android:textColorHint="@color/colorPrimary"
-            android:textSize="25sp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="8dp" />
+            android:textSize="25sp" />
 
     </LinearLayout>
 
@@ -228,9 +227,9 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/layout_border_button"
             android:gravity="center"
-            android:textStyle="bold"
             android:text="@string/confirm_new_player_button"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold" />
     </LinearLayout>
 
 

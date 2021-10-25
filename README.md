@@ -5,6 +5,8 @@ Programming language: Java.
 
 GUI language: Polish.
 
+Project written in Kotlin, with analogous assumptions with the knockout system can be found here: [*link*](https://github.com/AKincel18/ChessTournamentManagerKotlin)
+
 ### **Functional requirements:**
 - adding any number of players to the tournament
 - possibility of introducing any number of rounds
